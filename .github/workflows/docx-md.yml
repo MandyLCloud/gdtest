@@ -1,0 +1,100 @@
+name: Convert DOCX to Markdown
+on:
+  push:
+    paths:
+      - '**.docx'  # Trigger on any DOCX file changes
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pypandoc
+      
+      - name: Convert DOCX to Markdown
+        run: |
+          # Define the lookup table as associative array
+          declare -A lookup_table
+          lookup_table=(
+            ["urs_ref"]="urs_a1"
+            ["ps_refp"]="ps_i1"
+            ["pdd_tem"]="pdd_i2"
+            ["pdd_refp"]="pdd_i1"
+            ["sm_ref"]="sm_i1"
+            ["sip_tem"]="sip_i1"
+            ["copm_tem"]="copm_i1"
+            ["drp_ref"]="drp_i1"
+            ["dm_tem"]="dm_i1"
+            ["aom_tem"]="aom_i1"
+            ["pm_tem"]="pm_i1"
+            ["uatp_tem"]="uatp_i1"
+            ["uatp_refp"]="uatp_i2"
+            ["stp_refp"]="stp_i1"
+            ["por_tem"]="por_i1"
+            ["hp_tem"]="hp_i1"
+          )
+          
+          # Get list of changed DOCX files
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep '\.docx$' || true)
+          
+          if [ -n "$CHANGED_FILES" ]; then
+            while IFS= read -r file; do
+              # Get the base filename without extension and path
+              filename=$(basename "$file" .docx)
+              
+              # Get the directory path
+              dirpath=$(dirname "$file")
+              
+              # Check if the filename exists in lookup table
+              if [ "${lookup_table[$filename]+isset}" ]; then
+                # Use the mapped name from lookup table
+                output_name="${lookup_table[$filename]}"
+              else
+                # If not in lookup table, use original name
+                output_name="$filename"
+              fi
+              
+              # Create full output path
+              output_file="$dirpath/$output_name.md"
+              
+              # Create directory if it doesn't exist
+              mkdir -p "$(dirname "$output_file")"
+              
+              echo "Converting $file to $output_file"
+              pandoc -f docx -t markdown_github "$file" -o "$output_file"
+              
+              # Add converted file to git
+              git add "$output_file"
+            done <<< "$CHANGED_FILES"
+          fi
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if git status | grep -q "Changes to be committed"; then
+            git commit -m "Convert DOCX to Markdown"
+            git push
+          else
+            echo "No changes to commit"
+          fi
