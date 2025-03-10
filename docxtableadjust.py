@@ -1,3 +1,5 @@
+# run: python docxadjust.py testtable.docx --auto-detect
+
 import docx
 from docx.shared import Inches, Mm, Pt
 import sys
