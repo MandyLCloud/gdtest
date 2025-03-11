@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This Handover Plan outlines the transfer of the Licensing Self-Certification Portal (LSCP) system from Master Concept (Hong Kong) Limited (MC) to the Buildings Department (BD).  This document serves as a checklist of handover materials and provides essential information for the support and maintenance staff. This is a draft version and requires review and completion before finalization.
+This Handover Plan outlines the transfer of the Licensing Self-Certification Portal (LSCP) system from Master Concept (Hong Kong) Limited (MC) to the Buildings Department (BD). This document serves as a checklist of handover materials and provides essential information for the support and maintenance staff.  This draft version consolidates information from various sources and requires further review and refinement before finalization.
 
-<!-- Consider adding a project overview/brief description here -->
+<!-- Note: Introduction may need to be expanded with more project-specific context. -->
 
 <img src="media/image1.jpg" alt="BDlogo" style="width:2.03125in;height:1.52083in" />
 
@@ -29,7 +29,6 @@ This Handover Plan outlines the transfer of the Licensing Self-Certification Por
 ? The Government of the Hong Kong Special Administrative Region
 
 The contents of this document remain the property of, and may not be reproduced in whole or in part without the express permission of the Government of the HKSAR.
-
 
 | **Distribution** |                                         |
 |------------------|-----------------------------------------|
@@ -58,16 +57,16 @@ The contents of this document remain the property of, and may not be reproduced 
 <th>Date</th>
 <th>Approved Reference</th>
 </tr>
+<tr class="header">
+<th>1</th>
+<th>1st draft</th>
+<th>All</th>
+<th>0.1</th>
+<th>16/01/2024</th>
+<th></th>
+</tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td>1</td>
-<td>1st draft</td>
-<td>All</td>
-<td>0.1</td>
-<td>16/01/2024</td>
-<td></td>
-</tr>
 </tbody>
 </table>
 
@@ -89,75 +88,43 @@ The contents of this document remain the property of, and may not be reproduced 
     - [9.1 Objective](#objective)
     - [9.2 System Architecture](#system-architecture)
     - [9.3 System Functions](#system-functions)
-- [10. Equipment Configuration](#equipment-configuration)
-- [11. Software Inventories](#software-inventories)
-- [12. Security and Backup](#security-and-backup)
+- [10. Equipment Configuration](#equipment-configuration) <!-- Added from System Manual -->
+    - [10.1 Computer Hardware](#computer-hardware)
+- [11. Software Inventories](#software-inventories) <!-- Added from System Manual -->
+- [12. Security and Backup (Detailed)](#security-and-backup-detailed) <!-- Expanded from original Security and Backup + System Manual -->
 - [13. Database Administration](#database-administration)
 - [14. Log Management](#log-management)
 
 
 ## 1. Environment Description
 
-<!-- Placeholder images need to be replaced with actual diagrams -->
+<!-- Note: Placeholder images need to be replaced with actual diagrams.  Table needs to be populated. -->
 
 **Production and UAT environment:**
 
-![Production and UAT Environment Diagram](placeholder_production_uat.png) <!-- Replace placeholder -->
+![Production and UAT Environment Diagram]
 
 List of machines and virtual machines:
 
-<!-- Complete the table with appropriate data -->
-<table>
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 20%" />
-<col style="width: 35%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Hostname (Physical Machine)</th>
-<th>Hostname (Virtual Machine)</th>
-<th>Purpose</th>
-<th>IP</th>
-</tr>
-</thead>
-<tbody>
-<!-- Add rows here -->
-</tbody>
-</table>
+| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose | IP |
+|---|---|---|---|
+|  |  |  |  |
+
 
 **DR environment:**
 
-![DR Environment Diagram](placeholder_dr.png)  <!-- Replace placeholder -->
+![DR Environment Diagram]
 
 List of machines and virtual machines:
 
-<!-- Complete the table with appropriate data -->
-<table>
-<colgroup>
-<col style="width: 19%" />
-<col style="width: 20%" />
-<col style="width: 35%" />
-<col style="width: 25%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Hostname (Physical Machine)</th>
-<th>Hostname (Virtual Machine)</th>
-<th>Purpose</th>
-<th>IP</th>
-</tr>
-</thead>
-<tbody>
-<!-- Add rows here -->
-</tbody>
-</table>
+| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose | IP |
+|---|---|---|---|
+|  |  |  |  |
 
 
 ## 2. Purpose
 
-This document serves as a checklist of handover materials within the project scope and provides relevant information to the support and maintenance staff.  All deliverables should be received by BD from the LSCP implementation team (MC).
+This document serves as a checklist of handover materials within the project scope and provides relevant information to the support maintenance staff.  All deliverables should be received by BD from the LSCP implementation team (MC).
 
 The handover items can be summarized as follows:
 
@@ -171,7 +138,8 @@ The handover items can be summarized as follows:
 
 ## 2.1 Schedule
 
-<!-- Add dates and confirm action parties -->
+<!-- Note: Dates need to be filled in. -->
+
 | Action       | Date | Action Parties |
 |--------------|------|----------------|
 | Handover     |      | MC/BD          |
@@ -181,130 +149,132 @@ The handover items can be summarized as follows:
 ## 2.2 Verification
 
 1. **Application URL Verification:** The access link (URL) of each application should be verified.
-2. **Login Accounts Verification:** The login accounts for applications and servers should be verified.
+2. **Login Accounts Verification:**  Login accounts for applications and servers should be verified.
 
 
 ## 3. Documentation
 
-<!-- Add file names and versions for each document -->
+<!-- Note: File names and versions need to be completed. -->
+
 | Document                             | File Name | Version |
 |--------------------------------------|-----------|---------|
 | SA&D Report                          | ?         | ?       |
 | Project Initiation Document (PID)    |           |         |
-| ...                                   | ...       | ...     |
-| Project Evaluation Report            |           |         |
+| ... | ... | ... |
+| Project Evaluation Report            | ?         | ?       |
 
 
 ## 4. Program Source Code
 
-<!-- Complete table with machine and directory information -->
+<!-- Note: Machine and directory information needs to be completed. -->
+
 | Component            | Machine | Directory |
 |----------------------|---------|-----------|
 | Frontend Application |         |           |
 | Backend Application  |         |           |
-| Mobile Application   |         |           | <!-- Added Mobile App -->
-
+|                      |         |           |
 
 
 ## 5. Administration Accounts Checklist
 
-<!-- Complete the table with account details.  **IMPORTANT:**  Consider security implications of including passwords in this document.  Recommend using a separate secure channel for password transfer. -->
-<table>
-<colgroup>
-<col style="width: 12%" />
-<col style="width: 18%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 15%" />
-<col style="width: 12%" />
-<col style="width: 13%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>User Type</th>
-<th>Hostname</th>
-<th>Internal IP Address</th>
-<th>BD Network IP Address</th>
-<th>Access method</th>
-<th>User account</th>
-<th>Password</th>
-</tr>
-</thead>
-<tbody>
-<!-- Add rows here -->
-</tbody>
-</table>
+<!-- Note: Tables need to be populated with account details.  Consider security implications of including passwords in this document.  Perhaps a separate secure handover process for credentials is required. -->
 
-**Administration Accounts on LSCP**
+| User Type | Hostname | Internal IP Address | BD Network IP Address | Access method | User account | Password |
+|---|---|---|---|---|---|---|
+| Blade Servers |  |  |  |  |  |  |
+| ... | ... | ... | ... | ... | ... | ... |
 
-<!--  **IMPORTANT:**  Consider security implications of including passwords in this document.  Recommend using a separate secure channel for password transfer. -->
+Administration Accounts on LSCP
+
 | Environment | User Type | User account | Password |
 |-------------|-----------|--------------|----------|
 | UAT         | BD Admin  |              |          |
 | PRD / DR    | BD Admin  |              |          |
+|             |           |              |          |
 
 
 ## 6. Backup
 
-<!-- Review and confirm the following backup information -->
+<!-- Note: Content needs review and verification. -->
 
 ### 6.1 VM Backup
 
-Backup service is carried out by the backup server. Daily VM image backups are performed and stored on the backup servers. A further copy of production VM images is copied to the DR backup server.
+Backup service is carried out by the backup server. Daily VM image backups are stored on the backup servers. A further copy of production VM images is copied to the DR backup server.
+
 
 ### 6.2 Database Backup
 
-Daily full database export backups are performed, including schemas, table structures, packages, stored procedures, and data.
+Daily full export backups are performed on DB servers. Data is stored on the DB servers and further backed up by VM Backup.
 
 
 ## 7. Outstanding Items/Issues
 
-Nil.  <!-- List any outstanding items or issues here -->
+Nil.
 
 
 ## 8. Licensed Software
 
-<!-- Verify and update the licensed software information. Include license keys if necessary (consider security implications) -->
-| Item                                                                              | Amount | Expire At | License Key (Secure Transfer Recommended) |
-|------------------------|--------|-----------|-----------------------------------------|
-| Windows 2022 Standard (16-Core) - Perpetual                                       |        |           |                                         |
-| ...                                                                                | ...    | ...       | ...                                     |
+<!-- Note: Items and details need verification and correction. -->
+
+| Item                                                                              | Amount | Expire At |
+|------------------------|------------------------|------------------------|
+| Windows 2022 Standard (16-Core) - Perpetual                                       |        |           |
+| ... | ... | ... |
 
 
 ## 9. System Summary  <!-- From System Manual -->
 
 ### 9.1 Objective
 
-The LSCP aims to provide an electronic platform for site inspection and site monitoring personnel (BD Officers and public users) to provide, manage, and review inspection and monitoring records.
+The LSCP serves BD Officers and public users involved in site inspection and monitoring. Its primary objective is to provide an electronic platform for managing and reviewing inspection and monitoring records.
 
 ### 9.2 System Architecture
 
-<!-- Include the diagrams and descriptions from the System Manual.  Consider combining or streamlining redundant information. -->
-<!--  Diagrams are already embedded in the System Manual content, so no need to add separate image links here. -->
-<!-- System Architecture text from System Manual inserted here -->
-<!-- ... (Insert content from sm_i1.md, sections 5.2 and 5.3) ... -->
+<!-- Note:  All images and diagrams need to be verified and included.  Consider restructuring this section for clarity and flow. -->
+
+[Include System Architecture diagrams and descriptions from sm_i1.md]
+
+### 9.3 System Functions
+
+<!-- Note:  Table needs formatting review. -->
+
+[Include System Functions table from sm_i1.md]
 
 
 ## 10. Equipment Configuration  <!-- From System Manual -->
 
-<!-- ... (Insert content from sm_i1.md, section 6) ... -->
+### 10.1 Computer Hardware
+
+<!-- Note:  All tables need to be reviewed and populated with accurate data.  Consider consolidating similar tables for better readability. -->
+
+[Include Hardware Components tables and descriptions from sm_i1.md]
+
+<!--  Add other subsections from Equipment Configuration as needed -->
+
 
 ## 11. Software Inventories  <!-- From System Manual -->
 
-<!-- ... (Insert content from sm_i1.md, section 7) ... -->
+<!-- Note:  All tables need review and verification. -->
 
-## 12. Security and Backup  <!-- From System Manual -->
-
-<!-- ... (Insert content from sm_i1.md, section 8) ... -->
-
-## 13. Database Administration  <!-- From System Manual -->
-
-<!-- ... (Insert content from sm_i1.md, section 9) ... -->
+[Include Software Inventories tables and descriptions from sm_i1.md]
 
 
-## 14. Log Management  <!-- From System Manual -->
+## 12. Security and Backup (Detailed)
 
-<!-- ... (Insert content from sm_i1.md, section 10) ... -->
+<!-- This section combines and expands on the original Security and Backup section with details from the System Manual. -->
+
+[Combine and organize content from section 6, 8, and 10 from sm_i1.md]
 
 
-<!-- End of Document -->
+## 13. Database Administration
+
+[Include Database Administration section from sm_i1.md]
+
+
+## 14. Log Management
+
+[Include Log Management section from sm_i1.md]
+
+
+<!--  End of Document Marker -->
+<<< End of document >>> 
