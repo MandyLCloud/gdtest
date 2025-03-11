@@ -3,45 +3,72 @@
 
 # Handover Plan: Combined System Development Services for Licensing Self-Certification Portal (LSCP)
 
-## Introduction
+**Version: 0.1**
 
-This Handover Plan outlines the process for transitioning the Licensing Self-Certification Portal (LSCP) from the development team, Master Concept (Hong Kong) Limited (MC), to the Buildings Department (BD) for ongoing maintenance and support.  This document serves as a checklist of handover materials and provides essential information for the support staff.  This is Stage 1 of the document generation.
+**January 2025**
 
-## Handover Plan Purpose and Scope
+? The Government of the Hong Kong Special Administrative Region
 
-This plan aims to ensure a smooth and efficient handover of the LSCP system, including all necessary documentation, source code, administration accounts, backups, hardware, and software licenses. The scope encompasses all components of the LSCP deployed in the Production, UAT, and DR environments, including both on-premise (WKGO) and GCIS infrastructure.
+The contents of this document remain the property of, and may not be reproduced in whole or in part without the express permission of the Government of the HKSAR.
 
-## System Overview
+## 1. Introduction
 
-The LSCP facilitates site inspection and site monitoring record management for BD officers and public users.  The system architecture comprises a multi-tiered structure, with frontend web and mobile applications, backend application servers, database servers, and supporting infrastructure components like reverse proxies, load balancers, and firewalls.  The system is deployed across both on-premise and GCIS environments, with distinct configurations for Production, UAT, and DR.  Key system functionalities include user authentication (including iAM Smart integration), TCP assignments, form submissions, site project management, and data interfaces with external systems like MWMS and BCIS.
+This Handover Plan outlines the process for transitioning the Licensing Self-Certification Portal (LSCP) from the development team, Master Concept (Hong Kong) Limited (MC), to the Buildings Department (BD) for ongoing maintenance and support. This document serves as a checklist of handover materials and provides essential information for the support staff.  This is Stage 1 of the document generation.
 
-## Roles and Responsibilities
+## 2. Purpose and Scope
 
-| Role                    | Responsibility                                                                                                                                |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| Master Concept (MC)     | Deliver all handover materials as outlined in this plan, including documentation, source code, accounts, backups, and licensing information. |
-| Buildings Department (BD) | Verify the completeness and accuracy of the handover materials, ensuring the system is operational and ready for ongoing support.              |
-| BD Support Staff        | Assume responsibility for the maintenance, support, and ongoing operation of the LSCP system after the handover is complete.                |
+This Handover Plan aims to ensure a smooth and efficient transfer of the LSCP to the BD.  The scope includes all deliverables within the project scope, specifically:
+
+* Documentation
+* Program Source Code (Backend Application, Frontend Web App, Frontend Mobile App)
+* Administration Accounts
+* System Backup
+* Hardware
+* Software Packages and Licenses
+
+## 3. System Overview
+
+The LSCP is a platform for site inspection and site monitoring personnel to provide, manage, and review inspection and monitoring records. The system architecture is distributed across on-premise infrastructure at West Kowloon Government Offices (WKGO) and the Government Cloud Infrastructure Services (GCIS).  It caters to both internal BD users and external public users. Key features include:
+
+* **User Authentication:** Supports password-based authentication, iAM Smart integration, and Departmental Portal integration.
+* **TCP Management:** Facilitates assignment and management of Technical Competent Persons (TCPs).
+* **Site Project Management:** Enables creation, editing, and viewing of site project details and supervision plans.
+* **Form and Scheme Management:** Allows listing and management of inspection forms and site-monitoring schemes.
+* **Data Integration:** Interfaces with MWMS and BCIS for data synchronization.
+
+For detailed system information, refer to the System Manual.
+
+## 4. Roles and Responsibilities
+
+| Role                    | Responsibility                                                                      |
+|-------------------------|-----------------------------------------------------------------------------------|
+| Master Concept (MC)      | Deliver all handover materials as outlined in this plan.                           |
+| Buildings Department (BD) | Verify the handover materials and assume responsibility for system maintenance. |
+| BD Support Staff        | Perform ongoing maintenance and support of the LSCP.                               |
+
+## 5. Knowledge Transfer Requirements
+
+MC will provide the following knowledge transfer activities to BD support staff:
+
+* **Documentation Review:**  A walkthrough of all key documents, including system architecture, installation procedures, and troubleshooting guides.
+* **System Training:** Hands-on training on system administration, user management, backup and recovery procedures, and incident response.
+* **Q&A Sessions:** Dedicated sessions to address any questions or concerns from the BD support team.
+
+## 6. Project Closure Criteria
+
+The project will be considered closed when the following criteria are met:
+
+* All handover materials are delivered and verified by BD.
+* Knowledge transfer activities are completed to the satisfaction of BD support staff.
+* BD support staff successfully demonstrate the ability to operate and maintain the LSCP independently.
+* A formal handover sign-off is completed by both MC and BD.
 
 
-## Knowledge Transfer Requirements
+**Distribution:**
 
-To ensure the BD support staff are adequately prepared to maintain the LSCP, the following knowledge transfer activities are required:
-
-* **Documentation Review:** Thorough review of all provided documentation, including system manuals, operation manuals, and DR plans.
-* **System Training:** Hands-on training sessions covering system administration, troubleshooting, and common operational procedures.
-* **Code Walkthrough:**  Explanation of the application architecture, code structure, and key functionalities for both frontend and backend components.
-* **Handover Meetings:**  Regular meetings between MC and BD to discuss outstanding issues, clarify requirements, and track progress.
-
-## Project Closure Criteria
-
-The handover will be considered complete when the following criteria are met:
-
-* **All handover materials delivered and verified:** BD confirms receipt and accuracy of all documentation, source code, accounts, backups, etc.
-* **Knowledge transfer complete:** BD support staff demonstrate sufficient understanding of the system and its operation.
-* **System stability confirmed:**  The LSCP system operates as expected in all environments (Production, UAT, and DR) for a defined period.
-* **Outstanding issues resolved:** All identified issues and bugs are addressed and closed.
-* **Formal sign-off:**  Both MC and BD officially sign-off on the handover, acknowledging the successful completion of the transition.
-
+| Copy No. | Holder                                  |
+|----------|-----------------------------------------|
+| 1        | Buildings Department (BD)               |
+| 2        | Master Concept (Hong Kong) Limited (MC) |
 
 ```
