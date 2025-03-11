@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This Handover Plan outlines the transfer of the Licensing Self-Certification Portal (LSCP) system from Master Concept (Hong Kong) Limited (MC) to the Buildings Department (BD). This document serves as a checklist of handover materials and provides essential information for the support and maintenance staff.  This draft version consolidates information from various sources and requires review and refinement before finalization.
+This Handover Plan outlines the transfer of the Licensing Self-Certification Portal (LSCP) system from Master Concept (Hong Kong) Limited (MC) to the Buildings Department (BD).  This document serves as a checklist of handover materials and provides essential information for the support and maintenance staff. This is a draft version and requires review and completion before finalization.
 
-<!-- Note: The introduction might need to be expanded with more context about the project. -->
+<!-- Consider adding a project overview/brief description here -->
 
 <img src="media/image1.jpg" alt="BDlogo" style="width:2.03125in;height:1.52083in" />
 
@@ -29,6 +29,7 @@ This Handover Plan outlines the transfer of the Licensing Self-Certification Por
 ? The Government of the Hong Kong Special Administrative Region
 
 The contents of this document remain the property of, and may not be reproduced in whole or in part without the express permission of the Government of the HKSAR.
+
 
 | **Distribution** |                                         |
 |------------------|-----------------------------------------|
@@ -57,55 +58,55 @@ The contents of this document remain the property of, and may not be reproduced 
 <th>Date</th>
 <th>Approved Reference</th>
 </tr>
-<tr class="header">
-<th>1</th>
-<th>1st draft</th>
-<th>All</th>
-<th>0.1</th>
-<th>16/01/2024</th>
-<th></th>
-</tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td>1</td>
+<td>1st draft</td>
+<td>All</td>
+<td>0.1</td>
+<td>16/01/2024</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 
 ## Table of Contents
 
-* [1. Environment Description](#environment-description)
-* [2. Purpose](#purpose)
-    * [2.1 Schedule](#schedule)
-    * [2.2 Verification](#verification)
-* [3. Documentation](#documentation)
-* [4. Program Source Code](#program-source-code)
-* [5. Administration Accounts Checklist](#administration-accounts-checklist)
-* [6. Backup](#backup)
-    * [6.1 VM Backup](#vm-backup)
-    * [6.2 Database Backup](#database-backup)
-* [7. Outstanding Items/Issues](#outstanding-itemsissues)
-* [8. Licensed Software](#licensed-software)
-* [9. System Summary](#system-summary) <!-- Added from sm_i1.md -->
-    * [9.1 Objective](#objective)
-    * [9.2 System Architecture](#system-architecture)
-    * [9.3 System Functions](#system-functions)
-* [10. Equipment Configuration](#equipment-configuration)
-* [11. Software Inventories](#software-inventories)
-* [12. Security and Backup](#security-and-backup)
-* [13. Database Administration](#database-administration)
-* [14. Log Management](#log-management)
+- [1. Environment Description](#environment-description)
+- [2. Purpose](#purpose)
+    - [2.1 Schedule](#schedule)
+    - [2.2 Verification](#verification)
+- [3. Documentation](#documentation)
+- [4. Program Source Code](#program-source-code)
+- [5. Administration Accounts Checklist](#administration-accounts-checklist)
+- [6. Backup](#backup)
+    - [6.1 VM Backup](#vm-backup)
+    - [6.2 Database Backup](#database-backup)
+- [7. Outstanding Items/Issues](#outstanding-itemsissues)
+- [8. Licensed Software](#licensed-software)
+- [9. System Summary](#system-summary) <!-- Added from System Manual -->
+    - [9.1 Objective](#objective)
+    - [9.2 System Architecture](#system-architecture)
+    - [9.3 System Functions](#system-functions)
+- [10. Equipment Configuration](#equipment-configuration)
+- [11. Software Inventories](#software-inventories)
+- [12. Security and Backup](#security-and-backup)
+- [13. Database Administration](#database-administration)
+- [14. Log Management](#log-management)
 
 
 ## 1. Environment Description
 
-<!-- Note: Placeholder images need to be replaced with actual diagrams.  Table data needs to be populated. -->
+<!-- Placeholder images need to be replaced with actual diagrams -->
 
 **Production and UAT environment:**
 
-\[an image here - Replace with actual diagram]
+![Production and UAT Environment Diagram](placeholder_production_uat.png) <!-- Replace placeholder -->
 
-**List of machines and virtual machines:**
+List of machines and virtual machines:
 
-<!-- The following table needs to be populated with the correct data from both hp_i1.md and sm_i1.md -->
+<!-- Complete the table with appropriate data -->
 <table>
 <colgroup>
 <col style="width: 19%" />
@@ -122,17 +123,17 @@ The contents of this document remain the property of, and may not be reproduced 
 </tr>
 </thead>
 <tbody>
+<!-- Add rows here -->
 </tbody>
 </table>
-
 
 **DR environment:**
 
-\[image here - Replace with actual diagram]
+![DR Environment Diagram](placeholder_dr.png)  <!-- Replace placeholder -->
 
-**List of machines and virtual machines:**
+List of machines and virtual machines:
 
-<!-- The following table needs to be populated with the correct data from both hp_i1.md and sm_i1.md -->
+<!-- Complete the table with appropriate data -->
 <table>
 <colgroup>
 <col style="width: 19%" />
@@ -149,20 +150,28 @@ The contents of this document remain the property of, and may not be reproduced 
 </tr>
 </thead>
 <tbody>
+<!-- Add rows here -->
 </tbody>
 </table>
-
 
 
 ## 2. Purpose
 
-This document is a checklist of handover materials within project scope and provides relevant information to the support maintenance staff. All deliverables should be received by BD from the LSCP implementation team.  The handover encompasses documentation, program source code (backend application, frontend web app, frontend mobile app), administration accounts, system backups, hardware, and software packages with licenses.
+This document serves as a checklist of handover materials within the project scope and provides relevant information to the support and maintenance staff.  All deliverables should be received by BD from the LSCP implementation team (MC).
+
+The handover items can be summarized as follows:
+
+1. Documentation
+2. Program Source Code (Backend Application, Frontend Web App, Frontend Mobile App)
+3. Administration Accounts
+4. System Backup
+5. Hardware
+6. Software Packages and Licenses
 
 
 ## 2.1 Schedule
 
-<!-- Note: Dates need to be filled in. -->
-
+<!-- Add dates and confirm action parties -->
 | Action       | Date | Action Parties |
 |--------------|------|----------------|
 | Handover     |      | MC/BD          |
@@ -171,62 +180,35 @@ This document is a checklist of handover materials within project scope and prov
 
 ## 2.2 Verification
 
-1. **Application URL verification:** Access links (URLs) will be verified.
-2. **Login accounts verification:** Login accounts for applications and servers will be verified.
+1. **Application URL Verification:** The access link (URL) of each application should be verified.
+2. **Login Accounts Verification:** The login accounts for applications and servers should be verified.
 
 
 ## 3. Documentation
 
-<!-- Note: File names and versions need to be completed. Consider adding locations where these documents can be found. -->
-
+<!-- Add file names and versions for each document -->
 | Document                             | File Name | Version |
 |--------------------------------------|-----------|---------|
 | SA&D Report                          | ?         | ?       |
 | Project Initiation Document (PID)    |           |         |
-| Physical Data Design                 |           |         |
-| Process Data Interface               |           |         |
-| Data Catalogue                       |           |         |
-| Program Specifications               |           |         |
-| Performance Optimization Report      |           |         |
-| System Test Plan, Spec and Results   |           |         |
-| Unit Test Cases and Results          |           |         |
-| Load Test Plan and Result            |           |         |
-| Training Plan                        |           |         |
-| User Manual                          |           |         |
-| System Installation Plan Report      |           |         |
-| DR Plan                              |           |         |
-| DR Drill Test result Report          |           |         |
-| WCAG                                 |           |         |
-| UAT Plan and Results                 |           |         |
-| Application Operation manual         |           |         |
-| Computer Operation Procedures Manual | ?         | ?       |
-| Data Manual                          | ?         | ?       |
-| System Maintenance Plan              | ?         | ?       |
-| User Procedures Manual               | ?         | ?       |
-| Security Incident Handling Procedure | ?         | ?       |
-| Handover Plan                        | ?         | ?       |
-| System Manual                        | ?         | ?       |
-| Program Manual                       | ?         | ?       |
-| Project Evaluation Report            | ?         | ?       |
-
+| ...                                   | ...       | ...     |
+| Project Evaluation Report            |           |         |
 
 
 ## 4. Program Source Code
 
-<!-- Note: Machine, directory information needs to be completed.  Consider specifying the version control system used (e.g., Git) and repository location. -->
-
+<!-- Complete table with machine and directory information -->
 | Component            | Machine | Directory |
 |----------------------|---------|-----------|
 | Frontend Application |         |           |
 | Backend Application  |         |           |
+| Mobile Application   |         |           | <!-- Added Mobile App -->
+
 
 
 ## 5. Administration Accounts Checklist
 
-<!-- Note: Table needs to be populated with account details.  Consider security implications of including passwords in this document.  Best practice is to handle passwords separately and securely. -->
-
-**Administration Accounts on different areas:**
-
+<!-- Complete the table with account details.  **IMPORTANT:**  Consider security implications of including passwords in this document.  Recommend using a separate secure channel for password transfer. -->
 <table>
 <colgroup>
 <col style="width: 12%" />
@@ -249,11 +231,13 @@ This document is a checklist of handover materials within project scope and prov
 </tr>
 </thead>
 <tbody>
+<!-- Add rows here -->
 </tbody>
 </table>
 
-**Administration Accounts on LSCP:**
+**Administration Accounts on LSCP**
 
+<!--  **IMPORTANT:**  Consider security implications of including passwords in this document.  Recommend using a separate secure channel for password transfer. -->
 | Environment | User Type | User account | Password |
 |-------------|-----------|--------------|----------|
 | UAT         | BD Admin  |              |          |
@@ -262,38 +246,32 @@ This document is a checklist of handover materials within project scope and prov
 
 ## 6. Backup
 
+<!-- Review and confirm the following backup information -->
 
-## 6.1 VM Backup
+### 6.1 VM Backup
 
-Backup service is carried out by backup server. Daily VM image backup is carried out and stored in the backup servers. A further copy of production VM images is copied to DR?s backup server.
+Backup service is carried out by the backup server. Daily VM image backups are performed and stored on the backup servers. A further copy of production VM images is copied to the DR backup server.
 
+### 6.2 Database Backup
 
-## 6.2 Database Backup
-
-Daily full export backup is done on DB servers. Data is stored on the DB servers and further backed up by VM Backup.
+Daily full database export backups are performed, including schemas, table structures, packages, stored procedures, and data.
 
 
 ## 7. Outstanding Items/Issues
 
-Nil.
+Nil.  <!-- List any outstanding items or issues here -->
 
 
 ## 8. Licensed Software
 
-<!-- Note:  Information needs to be verified and completed. -->
-
-| Item                                                                              | Amount | Expire At |
-|------------------------|------------------------|------------------------|
-| Windows 2022 Standard (16-Core) - Perpetual                                       |        |           |
-| SQL 2019 Standard (2-Core) - Perpetual                                            |        |           |
-| Veeam Availability Suite Universal License (10-Instance) with 3 year prod support |        |           |
-| Symantec SEP License (3 years)                                                    |        |           |
-| Kiwi Log Servers (with 3 year support & subscription)                             |        |           |
-| vSphere Standard (basic Support with 3years SNS)                                  |        |           |
-| vCenter Standard (basic Support with 3years SNS)                                  |        |           |
+<!-- Verify and update the licensed software information. Include license keys if necessary (consider security implications) -->
+| Item                                                                              | Amount | Expire At | License Key (Secure Transfer Recommended) |
+|------------------------|--------|-----------|-----------------------------------------|
+| Windows 2022 Standard (16-Core) - Perpetual                                       |        |           |                                         |
+| ...                                                                                | ...    | ...       | ...                                     |
 
 
-## 9. System Summary  <!-- From sm_i1.md -->
+## 9. System Summary  <!-- From System Manual -->
 
 ### 9.1 Objective
 
@@ -301,40 +279,32 @@ The LSCP aims to provide an electronic platform for site inspection and site mon
 
 ### 9.2 System Architecture
 
-<!-- Note: All image placeholders from sm_i1.md need to be replaced with the actual images/diagrams.  Descriptions should be reviewed for clarity and consistency. -->
-
-[Include System Architecture diagrams and descriptions from sm_i1.md here]
-
-
-### 9.3 System Functions
-
-[Include System Functions table from sm_i1.md here]
+<!-- Include the diagrams and descriptions from the System Manual.  Consider combining or streamlining redundant information. -->
+<!--  Diagrams are already embedded in the System Manual content, so no need to add separate image links here. -->
+<!-- System Architecture text from System Manual inserted here -->
+<!-- ... (Insert content from sm_i1.md, sections 5.2 and 5.3) ... -->
 
 
-## 10. Equipment Configuration
+## 10. Equipment Configuration  <!-- From System Manual -->
 
-[Include Equipment Configuration details from sm_i1.md here]
+<!-- ... (Insert content from sm_i1.md, section 6) ... -->
 
+## 11. Software Inventories  <!-- From System Manual -->
 
-## 11. Software Inventories
+<!-- ... (Insert content from sm_i1.md, section 7) ... -->
 
-[Include Software Inventories details from sm_i1.md here]
+## 12. Security and Backup  <!-- From System Manual -->
 
+<!-- ... (Insert content from sm_i1.md, section 8) ... -->
 
-## 12. Security and Backup
+## 13. Database Administration  <!-- From System Manual -->
 
-[Include Security and Backup details from sm_i1.md here]
-
-
-## 13. Database Administration
-
-[Include Database Administration details from sm_i1.md here]
+<!-- ... (Insert content from sm_i1.md, section 9) ... -->
 
 
-## 14. Log Management
+## 14. Log Management  <!-- From System Manual -->
 
-[Include Log Management details from sm_i1.md here]
+<!-- ... (Insert content from sm_i1.md, section 10) ... -->
 
 
-<!-- End of Document Marker -->
-<<< End of document >>> 
+<!-- End of Document -->
