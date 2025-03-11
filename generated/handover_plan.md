@@ -1,136 +1,66 @@
-# Handover Plan
+# Handover Plan for Licensing Self-Certification Portal (LSCP)
 
-## Introduction
+This Handover Plan outlines the process for transitioning the Licensing Self-Certification Portal (LSCP) from the development team, Master Concept (Hong Kong) Limited (MC), to the Buildings Department (BD) for ongoing maintenance and support. This plan ensures a smooth transition and equips BD with the necessary information and resources to effectively manage the LSCP.
 
-This Handover Plan outlines the transfer of the Licensing Self-Certification Portal (LSCP) system from Master Concept (Hong Kong) Limited (MC) to the Buildings Department (BD) of the Government of the Hong Kong Special Administrative Region (HKSARG). This document serves as a comprehensive checklist of handover materials and provides essential information for the support and maintenance staff.  All deliverables listed herein should be received by BD from the LSCP implementation team.
+## 1. Introduction
 
-## 1. System Overview
+The LSCP project has reached the stage where the system is ready to be handed over from the development team (MC) to the Buildings Department (BD). This document serves as the official Handover Plan, detailing the procedures, timelines, and deliverables required for a successful transition. This handover encompasses documentation, source code, administrative accounts, system backups, hardware, and software licenses.
 
-The LSCP aims to provide an electronic platform for site inspection and site monitoring personnel to submit, manage, and review inspection and monitoring records.  Users include BD officers and public users involved in these activities.
+## 2. Handover Purpose and Scope
 
-### 1.1 System Architecture
+### 2.1 Purpose
 
-The LSCP is deployed across two data centers: On-premise (WKGO) and Government Cloud Infrastructure Services (GCIS).
+This Handover Plan aims to:
 
-**On-Premise (WKGO):** Located behind an internal firewall with NAT separating three subnets (Production, UAT, and DEV) for internal access only. A reverse proxy server with load balancing enhances security and distributes incoming requests.
+* Provide a comprehensive checklist of handover materials within the project scope.
+* Equip the BD support and maintenance staff with the necessary information to maintain the LSCP.
+* Ensure all deliverables are received by BD from MC.
+* Facilitate a smooth and efficient transition of the LSCP from development to support.
 
-**GCIS:** Divided into three subnets: Internet DMZ (iDMZ), Trusted Zone, and Gnet DMZ (gDMZ). Both iDMZ and gDMZ utilize a reverse proxy server, and a Web Application Firewall (WAF) further secures iDMZ access.
+### 2.2 Scope
 
-External users access the system via the internet through the LSCP Web Application, interacting with Application Servers via the reverse proxy. Internal users access the BDSCS application from the BD intranet, connecting to BD Web Servers in the Trusted Zone through the Departmental Portal (OSDP).  Database Servers, Log Servers, File Servers, a vCenter Server, and Backup Servers reside in the Trusted Zone.
+This Handover Plan covers the following key areas:
 
-**Disaster Recovery Environment:** Mirrors the production environment architecture and is located at AIA.
+* **Documentation:** All relevant project documentation, including technical specifications, user manuals, administration guides, deployment guides, troubleshooting guides, and test results.
+* **Program Source Code:** Complete and documented source code for the backend application, frontend web application, and frontend mobile application, including version control repository access.
+* **Administration Accounts:** A complete list of administrative accounts for managing different areas of the LSCP, including usernames, passwords, and associated privileges.
+* **System Backup:** Procedures and schedules for backing up the LSCP system and data, including restoration procedures and data retention policies.
+* **Hardware:** Details of the physical and virtual hardware infrastructure supporting the LSCP, including server specifications, network diagrams, and access credentials.
+* **Software Licenses:** Information on all licensed software used in the LSCP, including license keys, expiry dates, and support contact information.
 
-**(Detailed diagrams and explanations from the System Manual are included in Appendix A.)**
+## 3. System Overview
 
-### 1.2 System Functions
+The LSCP is a web-based platform designed to streamline site inspection and site monitoring processes. It allows BD officers and public users involved in site inspection and monitoring to provide, manage, and review inspection and monitoring records. The system architecture consists of a combination of on-premise infrastructure at West Kowloon Government Offices (WKGO) and cloud-based infrastructure on the Government Cloud Infrastructure Services (GCIS). The system leverages technologies such as React, ExpressJS, NodeJS, and Microsoft SQL Server. Key integrations include iAM Smart for authentication and connections to MWMS and BCIS for data exchange. The system supports various web browsers and offers features like user account management, TCP assignment, form submission, and reporting.
 
-A detailed list of system functions and their corresponding IDs is provided in **Appendix B**.
+## 4. Roles and Responsibilities
 
-## 2. Environment Description
+| Role                     | Responsibility                                                                                                                                                                                                                                                        |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Master Concept (MC)      | Deliver all agreed-upon handover materials to BD. Provide training and support to BD staff during the transition period. Address any outstanding issues or bugs identified during the handover process. Provide contact information for post-handover support. |
+| Buildings Department (BD) | Review and verify all handover materials received from MC. Provide feedback to MC on any discrepancies or missing information. Assume responsibility for the ongoing maintenance and support of the LSCP after the handover is complete.                       |
 
-### 2.1 Production and UAT Environment
+## 5. Knowledge Transfer Requirements
 
-**(Image from hp_i1.md)**
+To ensure a smooth transition, the following knowledge transfer activities are required:
 
-**List of machines and virtual machines:** (To be populated by MC)
+* **Documentation Review:** BD staff will review all provided documentation.
+* **System Training:** MC will provide comprehensive training to BD staff on system administration, maintenance, troubleshooting, and incident response.  Training materials will be provided.
+* **Hands-on Sessions:** BD staff will participate in hands-on sessions with the system under the guidance of MC.
+* **Q&A Sessions:** Dedicated Q&A sessions will be conducted to address any queries from BD staff.
 
-| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose | IP |
-|---|---|---|---|
-| ... | ... | ... | ... |
+## 6. Handover Timeline
 
-### 2.2 DR Environment
+[Insert agreed-upon handover timeline with key dates and milestones for each deliverable and activity.]
 
-**(Image from hp_i1.md)**
+## 7. Project Closure Criteria
 
-**List of machines and virtual machines:** (To be populated by MC)
+The LSCP handover will be considered complete when the following criteria are met:
 
-| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose | IP |
-|---|---|---|---|
-| ... | ... | ... | ... |
+* All handover materials listed in this plan have been delivered and accepted by BD.
+* BD staff have successfully completed the knowledge transfer activities and demonstrated their ability to operate and maintain the system through a practical assessment.
+* All outstanding issues and bugs have been resolved or documented with agreed-upon mitigation plans.
+* BD has formally signed off on the handover, acknowledging their acceptance of the system.
 
+## 8. Communication Plan
 
-## 3. Handover Schedule and Verification
-
-### 3.1 Schedule
-
-| Action | Date | Action Parties |
-|---|---|---|
-| Handover | (To be determined) | MC/BD |
-| Verification | (To be determined) | BD |
-
-### 3.2 Verification
-
-* **Application URL Verification:** Access links (URLs) will be verified through access checks.
-* **Login Accounts Verification:** Login accounts for applications and servers will be verified through login attempts.
-
-## 4. Deliverables
-
-### 4.1 Documentation
-
-**(Table from hp_i1.md with populated file names and versions)**
-
-### 4.2 Program Source Code
-
-| Component | Machine | Directory |
-|---|---|---|
-| Frontend Application | (To be determined) | (To be determined) |
-| Backend Application | (To be determined) | (To be determined) |
-
-
-### 4.3 Administration Accounts Checklist
-
-**(Table from hp_i1.md with populated account details)**
-
-**Administration Accounts on LSCP:** (Table from hp_i1.md with populated account details)
-
-### 4.4 Backup
-
-* **VM Backup:** Daily VM image backups are performed and stored on backup servers. Production VM images are copied to the DR backup server.
-* **Database Backup:** Daily full database backups are performed.
-
-**(Detailed backup procedures and schedules are included in Appendix C.)**
-
-### 4.5 Hardware
-
-**(Detailed hardware specifications and configurations are included in Appendix D.)**
-
-### 4.6 Licensed Software
-
-**(Table from hp_i1.md with corrected and populated license details)**
-
-## 5. Outstanding Items/Issues
-
-None.
-
-## Appendix A: System Architecture Diagrams and Explanations
-
-**(Content from System Manual section 5.2)**
-
-## Appendix B: System Functions
-
-**(Content from System Manual section 5.3)**
-
-## Appendix C: Backup and Recovery Procedures
-
-**(Content from System Manual sections 8.2, 8.5, 8.6, and 9.2)**
-
-## Appendix D: Hardware and Software Inventory
-
-**(Content from System Manual sections 6 and 7)**
-
-## Appendix E: Log Management
-
-**(Content from System Manual section 10)**
-
-
----
-
-**Document History**
-
-**(Combined and updated Amendment History table from both input files)**
-
-**Distribution:**
-
-**(Combined Distribution table from both input files)**
-
-? The Government of the Hong Kong Special Administrative Region. The contents of this document remain the property of, and may not be reproduced in whole or in part without the express permission of, the Government of the HKSAR.
+[Insert communication plan detailing how communication will be managed during and after the handover process, including contact persons and escalation procedures.]
