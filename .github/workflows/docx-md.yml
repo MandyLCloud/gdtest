@@ -36,7 +36,7 @@ jobs:
           declare -A lookup_table
           lookup_table=(
             ["urs"]="urs_a1"
-            ["sm"]="sm_i1"
+            ["System Manual"]="sm_i1"
             ["ced"]="ced_a1"
             ["ps_refp"]="ps_i1"
             ["pdd_tem"]="pdd_i2"
