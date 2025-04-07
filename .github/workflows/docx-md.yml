@@ -5,6 +5,9 @@ on:
       - '**.docx'  # Trigger on any DOCX file changes
   workflow_dispatch:  # Allow manual trigger
 
+permissions:
+  contents: write
+  
 jobs:
   convert:
     runs-on: ubuntu-latest
