@@ -35,11 +35,12 @@ jobs:
           # Define the lookup table as associative array
           declare -A lookup_table
           lookup_table=(
-            ["urs_ref"]="urs_a1"
+            ["urs"]="urs_a1"
+            ["sm"]="sm_i1"
+            ["ced"]="ced_a1"
             ["ps_refp"]="ps_i1"
             ["pdd_tem"]="pdd_i2"
             ["pdd_refp"]="pdd_i1"
-            ["sm_ref"]="sm_i1"
             ["sip_tem"]="sip_i1"
             ["copm_tem"]="copm_i1"
             ["drp_ref"]="drp_i1"
