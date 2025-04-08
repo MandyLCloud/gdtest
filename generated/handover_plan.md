@@ -23,7 +23,10 @@ alt="BDlogo" />
 ? The Government of the Hong Kong Special Administrative Region
 
 The contents of this document remain the property of, and may not be
-reproduced in whole or in part without the express permission of the Government of the HKSAR.
+reproduced in whole
+
+or in part without the express permission of the Government of the
+HKSAR.
 
 | **Distribution** |                                         |
 |------------------|-----------------------------------------|
@@ -79,19 +82,32 @@ reproduced in whole or in part without the express permission of the Government 
 
 **TABLE OF CONTENTS**
 
-[1. Environment Description](#environment-description)
-[2. Purpose](#purpose)
-    [2.1 Schedule](#schedule)
-    [2.2 Verification](#verification)
-[3. Documentation](#documentation)
-[4. Program Source Code](#program-source-code)
-[5. Administration Accounts Checklist](#administration-accounts-checklist)
-[6. Backup](#backup)
-    [6.1 VM Backup](#vm-backup)
-    [6.2 Database Backup](#database-backup)
-[7. Outstanding Items/Issues](#outstanding-itemsissues)
-[8. Licensed Software](#licensed-software)
-[9. Log Management](#log-management)
+[1. Environment Description 4](#environment-description)
+
+[2. Purpose 6](#purpose)
+
+> [2.1 Schedule 6](#schedule)
+>
+> [2.2 Verification 6](#verification)
+
+[3. Documentation 7](#documentation)
+
+[4. Program Source Code 9](#program-source-code)
+
+[5. Administration Accounts Checklist
+10](#administration-accounts-checklist)
+
+[6. Backup 11](#backup)
+
+> [6.1 VM Backup 11](#vm-backup)
+>
+> [6.2 Database Backup 11](#database-backup)
+
+[7. Outstanding Items/Issues 12](#outstanding-itemsissues)
+
+[8. Licensed Software 13](#licensed-software)
+
+[9. Log Management 14](#log-management)
 
 # 1. Environment Description
 
@@ -99,101 +115,585 @@ Production and UAT environment:
 
 \[an image here]
 
-Refer to the System Manual - Section 5.2 System Architecture and Section 6 Equipment Configuration for detailed environment diagrams and configurations.
+The system is holding on two datacenters: On-premise (WKGO) and
+Government Cloud Infrastructure Services (GCIS).
+
+The On-premise system is behind an internal firewall that uses NAT to
+separate into 3 subnets. There are Production, UAT and DEV for internal
+users only.
+
+A reverse proxy server with load balancing function is used for
+increased security and share the incoming requests to the frontend web
+servers.
+
+The system on GCIS is divided into 3 subnets: Internet DMZ (iDMZ),
+Trusted Zone and Gnet DMZ (gDMZ).
+
+Both iDMZ and gDMZ contain a reverse proxy server and a Web Application
+Firewall (WAF) also deployed in front of the iDMZ for increased security
+access.
+
+External users (i.e. public users) access the system from the internet
+through the internet using LSCP Web Application, which interacts with
+the Application Server through the reverse proxy server. The Application
+Server hosts the static web interface files.
+
+To perform system logic, the External Application Servers will pass
+requests to the Web Servers in the Trusted Zone. The web application,
+written in reactjs, will interact with the external web server that is
+written in nodeJS that in turns perform CRUD on the Database Servers,
+which host Microsoft SQL Servers, and the in-built file storage to
+perform logic computing, and return result to the External Web Servers
+then to the internet.
+
+In addition to external users, internal users who would access the
+internal BDSCS application from BD intranet, would connect to the BD Web
+Servers in the Trusted Zone, through the Departmental Portal (OSDP). The
+BD Web Servers perform the same function as the External Web Servers and
+perform user authentication functions when interfaced with the
+Departmental Portal.
+
+Finally, there are some more servers in the Trusted Zone to support
+internal BDSCS application, which includes:
+
+-   Log Server to store the system and application log from other
+    servers
+-   File Server to store the temporary and permanent files
+-   Database Server that hosts Microsoft SQL server to store all the
+    system and user information
+-   vCenter Server to manage the VM Hypervisors on each of the physical
+    servers
+-   Backup Server to keep snapshots of the database
+
+Below are further details of each of the system components in the BDSCS:
+
+<u>External Application Server</u>
+
+The external application servers serve the static web contents in form
+of HTML, CSS, and JavaScript to the internet, through Microsoft's
+Internet Information Services (IIS), and also proxy the backend APIs
+(GraphQL format) to the web application servers as being in the DMZ.
+
+The website hosted on the external web servers is written in JavaScript
+under the React framework. After compiling the JavaScript project, the
+result files are stored in the external web servers and served by IIS,
+with rewrite rules to proxy the backend APIs.
+
+<u>External Web Server</u>
+
+The external web server, in this context, refers to a server that hosts
+and runs the backend API responsible for processing business logic and
+performing database operations. In the case of IIS (Internet Information
+Services) and expressJS, IIS serves as the web server software, while
+ExpressJS represents the framework used for developing the backend
+APIs.
+
+The backend API, developed using ExpressJS, encompasses the code that
+handles various tasks, including interacting with databases, executing
+business logic, and processing requests from clients. It acts as the
+intermediary between the frontend (such as a mobile or web application)
+and the underlying data storage.
+
+When a client application makes a request to the backend API, IIS
+receives the request and passes it to the appropriate ExpressJS code for
+processing. The backend API then performs the necessary operations,
+which may involve querying the database, executing business rules, or
+performing calculations. Once the processing is complete, the backend
+API generates a response that is sent back to the client application
+(External Application Server in this case) through IIS.
+
+<u>BD Web Servers</u>
+
+The BDSCS backend portal was developed for internal BD users and BD ITU.
+It is using the same technology stack as Extra Application Server but
+just deployed to different zones to ensure security and connectivity for
+internal BD users only
+
+<u>Database Management Servers</u>
+
+Both the internal and external BDSCS applications are built on the
+Microsoft SQL Server database engine.
+
+**System Architecture Diagrams:**
+
+**Production Environment:**
+
+<img src="media/image2.png" style="width:6.62605in;height:5.91667in" />
+
+<img src="media/image3.png" style="width:6.62605in;height:5.81944in" />
+
+**Disaster Recovery Environment:**
+
+<img src="media/image5.png" style="width:6.62605in;height:6.44444in" />
 
 **List of machines and virtual machines:**
 
-**WKGO - Production Environment**
+**Production Environment (WKGO):**
 
-Please refer to System Manual - Section 6.1.2 Guest Servers Components - Production guest servers for detailed information.
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th rowspan="2">prd-scs-admin-server-01</th>
+<td>prd-scs-vcenter-01</td>
+<td>vCenter</td>
+<td>192.168.10.24 / 10.5.161.210</td>
+</tr>
+<tr class="header">
+<td>prd-scs-log-01</td>
+<td>Kiwi Log Server</td>
+<td>192.168.10.11 / 10.5.161.223</td>
+</tr>
+<tr class="odd">
+<th rowspan="3">prd-scs-admin-server-02</th>
+<td>prd-scs-backup-01</td>
+<td>Veeam Backup Server</td>
+<td>192.168.10.25 / 10.5.161.211</td>
+</tr>
+<tr class="header">
+<td>prd-scs-esetnod32</td>
+<td>NOD32 Anti-Virus Server</td>
+<td>192.168.10.34 / 10.5.161.215</td>
+</tr>
+<tr class="odd">
+<td>dev-scs-proxy</td>
+<td>Reverse Proxy Server (DEV)</td>
+<td>192.168.14.14 / 10.5.161.225</td>
+</tr>
+<tr class="header">
+<th rowspan="7">prd-scs-admin-server-01 &<br> prd-scs-admin-server-02</th>
+<td>prd-scs-admin-api-01, prd-scs-admin-api-02</td>
+<td>API Server (PRD)</td>
+<td>192.168.12.11, 192.168.12.16</td>
+</tr>
+<tr class="odd">
+<td>prd-scs-admin-frontend-01, prd-scs-admin-frontend-02</td>
+<td>Frontend Server (PRD)</td>
+<td>192.168.12.12, 192.168.12.17</td>
+</tr>
+<tr class="header">
+<td>prd-scs-admin-backend-01, prd-scs-admin-backend-02</td>
+<td>Backend Server (PRD)</td>
+<td>192.168.12.13, 192.168.12.18</td>
+</tr>
+<tr class="odd">
+<td>prd-scs-db-01, prd-scs-db-02</td>
+<td>Database Server (PRD)</td>
+<td>192.168.12.14, 192.168.12.19</td>
+</tr>
+<tr class="header">
+<td>prd-scs-filer</td>
+<td>File Server (PRD)</td>
+<td>192.168.12.20</td>
+</tr>
+<tr class="odd">
+<td>prd-scs-proxy</td>
+<td>Reverse Proxy Server (PRD)</td>
+<td>192.168.12.15 / 10.5.161.226</td>
+</tr>
+<tr class="header">
+<td>uat-scs-proxy</td>
+<td>Reverse Proxy Server (UAT)</td>
+<td>192.168.13.14 / 10.5.161.224</td>
+</tr>
+</tbody>
+</table>
 
-| **Role**             | **Host Name**        | **vCPU** | **RAM (GB)** | **Disk (GB)** | **IP Addresses**                  | **Data Center** | **Host Server / Zone**   |
-|----------------------|----------------------|----------|--------------|---------------|-----------------------------------|-----------------|--------------------------|
-| vCenter              | prd-scs-vcenter-01   | 16       | 39           | 1.33TB        | 192.168.10.24 / 10.5.161.210      | WKGO            | prd-scs-admin-server-01  |
-| Veeam Backup Server  | prd-scs-backup-01    | 8        | 24           | 300 + 1TB     | 192.168.10.25 / 10.5.161.211      | WKGO            | prd-scs-admin-server-02  |
-| Kiwi Log Server      | prd-scs-log-01       | 4        | 16           | 300 + 500     | 192.168.10.11 / 10.5.161.223      | WKGO            | prd-scs-admin-server-01  |
-| NOD32 Anti-Virus Server | prd-scs-esetnod32    | 4        | 16           | 300           | 192.168.10.34 / 10.5.161.215      | WKGO            | prd-scs-admin-server-02  |
-| API Server           | prd-scs-admin-api-01 | 2        | 4            | 100           | 192.168.12.11                       | WKGO            | prd-scs-admin-server-01  |
-| Frontend Server      | prd-scs-admin-frontend-01 | 2        | 4            | 100           | 192.168.12.12                       | WKGO            | prd-scs-admin-server-01  |
-| Backend Server       | prd-scs-admin-backend-01 | 2        | 4            | 100           | 192.168.12.13                       | WKGO            | prd-scs-admin-server-01  |
-| Database Server      | prd-scs-db-01        | 8        | 16           | 100 + 500     | 192.168.12.14                       | WKGO            | prd-scs-admin-server-01  |
-| File Server          | prd-scs-filer        | 2        | 4            | 100 + 1TB     | 192.168.12.20                       | WKGO            | prd-scs-admin-server-01  |
-| Reverse Proxy Server | prd-scs-proxy        | 2        | 4            | 100           | 192.168.12.15 / 10.5.161.226      | WKGO            | prd-scs-admin-server-01  |
-| API Server           | prd-scs-admin-api-02 | 2        | 4            | 100           | 192.168.12.16                       | WKGO            | prd-scs-admin-server-02  |
-| Frontend Server      | prd-scs-admin-frontend-02 | 2        | 4            | 100           | 192.168.12.17                       | WKGO            | prd-scs-admin-server-02  |
-| Backend Server       | prd-scs-admin-backend-02 | 2        | 4            | 100           | 192.168.12.18                       | WKGO            | prd-scs-admin-server-02  |
-| Database Server      | prd-scs-db-02        | 8        | 16           | 100 + 500     | 192.168.12.19                       | WKGO            | prd-scs-admin-server-02  |
-| Reverse Proxy Server | scspwi               | 2        | 8            | 100           | 192.168.0.6 / 45.119.92.84        | GCIS P1         | iDMZ                     |
-| Reverse Proxy Server | scspwg               | 2        | 8            | 100           | 192.168.4.6 / 10.160.11.211       | GCIS P1         | gDMZ                     |
-| Apps Server          | scspad               | 4        | 16           | 100 + 500     | 192.168.8.6                         | GCIS P1         | Trust Zone               |
-| Database Server      | scspdb               | 4        | 16           | 100 + 200     | 192.168.8.7                         | GCIS P1         | Trust Zone               |
-| Veeam Backup Server  | scspbk2              | 4        | 16           | 100 + 1TB     | 192.168.8.9                         | GCIS P1         | Trust Zone               |
-| Kiwi Log Server      | scsplog              | 2        | 8            | 100 + 100     | 192.168.8.10                        | GCIS P1         | Trust Zone               |
+**Production Environment (GCIS P1):**
 
-**WKGO - UAT Environment**
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scspwi</td>
+<td>Reverse Proxy Server (Internet DMZ)</td>
+<td>192.168.0.6 / 45.119.92.84</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scspwg</td>
+<td>Reverse Proxy Server (GNET DMZ)</td>
+<td>192.168.4.6 / 10.160.11.211</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scspad</td>
+<td>Apps Server (Trust Zone)</td>
+<td>192.168.8.6</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scspdb</td>
+<td>Database Server (Trust Zone)</td>
+<td>192.168.8.7</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scspbk2</td>
+<td>Veeam Backup Server (Trust Zone)</td>
+<td>192.168.8.9</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scsplog</td>
+<td>Kiwi Log Server (Trust Zone)</td>
+<td>192.168.8.10</td>
+</tr>
+</tbody>
+</table>
 
-Please refer to System Manual - Section 6.1.2 Guest Servers Components - UAT guest servers for detailed information.
+**UAT Environment (WKGO):**
 
-| **Role**             | **Host Name**        | **vCPU** | **RAM (GB)** | **Disk (GB)** | **IP Addresses**                  | **Data Center** | **Host Server / Zone**   |
-|----------------------|----------------------|----------|--------------|---------------|-----------------------------------|-----------------|--------------------------|
-| API Server           | uat-scs-admin-api-01 | 2        | 4            | 100           | 192.168.13.10                       | WKGO            | prd-scs-admin-server-01  |
-| Frontend Server      | uat-scs-admin-frontend-01 | 2        | 4            | 100           | 192.168.13.11                       | WKGO            | prd-scs-admin-server-01  |
-| Backend Server       | uat-scs-admin-backend-01 | 2        | 4            | 100           | 192.168.13.12                       | WKGO            | prd-scs-admin-server-01  |
-| Database Server      | uat-scs-db-01        | 2        | 4            | 100           | 192.168.13.13                       | WKGO            | prd-scs-admin-server-01  |
-| File Server          | uat-scs-filer        | 2        | 4            | 100 + 200     | 192.168.13.15                       | WKGO            | prd-scs-admin-server-01  |
-| Reverse Proxy Server | uat-scs-proxy        | 2        | 4            | 100           | 192.168.13.14 / 10.5.161.224      | WKGO            | prd-scs-admin-server-01  |
-| Reverse Proxy Server | scsuwi               | 2        | 8            | 100           | 192.168.0.7 / 45.119.94.99        | GCIS T1         | iDMZ                     |
-| Reverse Proxy Server | scsuwg               | 2        | 8            | 100           | 192.168.4.7 / 10.148.11.220       | GCIS T1         | gDMZ                     |
-| Apps Server          | scsuad               | 4        | 16           | 100 + 200     | 192.168.8.9                         | GCIS T1         | Trust Zone               |
-| Database Server      | scsudb               | 4        | 16           | 100 + 100     | 192.168.8.10                        | GCIS T1         | Trust Zone               |
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>prd-scs-admin-server-01</th>
+<td>uat-scs-admin-api-01</td>
+<td>API Server (UAT)</td>
+<td>192.168.13.10</td>
+</tr>
+<tr class="header">
+<th>prd-scs-admin-server-01</th>
+<td>uat-scs-admin-frontend-01</td>
+<td>Frontend Server (UAT)</td>
+<td>192.168.13.11</td>
+</tr>
+<tr class="odd">
+<th>prd-scs-admin-server-01</th>
+<td>uat-scs-admin-backend-01</td>
+<td>Backend Server (UAT)</td>
+<td>192.168.13.12</td>
+</tr>
+<tr class="header">
+<th>prd-scs-admin-server-01</th>
+<td>uat-scs-db-01</td>
+<td>Database Server (UAT)</td>
+<td>192.168.13.13</td>
+</tr>
+<tr class="odd">
+<th>prd-scs-admin-server-01</th>
+<td>uat-scs-filer</td>
+<td>File Server (UAT)</td>
+<td>192.168.13.15</td>
+</tr>
+<tr class="header">
+<th>prd-scs-admin-server-01</th>
+<td>uat-scs-proxy</td>
+<td>Reverse Proxy Server (UAT)</td>
+<td>192.168.13.14 / 10.5.161.224</td>
+</tr>
+</tbody>
+</table>
 
-**WKGO - DEV Environment**
+**UAT Environment (GCIS T1):**
 
-Please refer to System Manual - Section 6.1.2 Guest Servers Components - DEV guest servers for detailed information.
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scsuwi</td>
+<td>Reverse Proxy Server (Internet DMZ)</td>
+<td>192.168.0.7 / 45.119.94.99</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scsuwg</td>
+<td>Reverse Proxy Server (GNET DMZ)</td>
+<td>192.168.4.7 / 10.148.11.220</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scsuad</td>
+<td>Apps Server (Trust Zone)</td>
+<td>192.168.8.9</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scsudb</td>
+<td>Database Server (Trust Zone)</td>
+<td>192.168.8.10</td>
+</tr>
+</tbody>
+</table>
 
-| **Role**             | **Host Name**        | **vCPU** | **RAM (GB)** | **Disk (GB)** | **IP Addresses**                  | **Data Center** | **Host Server / Zone**   |
-|----------------------|----------------------|----------|--------------|---------------|-----------------------------------|-----------------|--------------------------|
-| API Server           | dev-scs-admin-api-01 | 2        | 4            | 100           | 192.168.14.10                       | WKGO            | prd-scs-admin-server-02  |
-| Frontend Server      | dev-scs-admin-frontend-01 | 2        | 4            | 100           | 192.168.14.11                       | WKGO            | prd-scs-admin-server-02  |
-| Backend Server       | dev-scs-admin-backend-01 | 2        | 4            | 100           | 192.168.14.12                       | WKGO            | prd-scs-admin-server-02  |
-| Database Server      | dev-scs-db-01        | 2        | 4            | 100           | 192.168.14.13                       | WKGO            | prd-scs-admin-server-02  |
-| File Server          | dev-scs-filer        | 2        | 4            | 100 + 200     | 192.168.14.15                       | WKGO            | prd-scs-admin-server-02  |
-| Reverse Proxy Server | dev-scs-proxy        | 2        | 4            | 100           | 192.168.14.14 / 10.5.161.225      | WKGO            | prd-scs-admin-server-02  |
-| Reverse Proxy Server | scsdwi               | 2        | 8            | 100           | 192.168.0.6 / 45.119.94.100       | GCIS T1         | iDMZ                     |
-| Reverse Proxy Server | scsdwg               | 2        | 8            | 100           | 192.168.4.6 / 10.148.11.220       | GCIS T1         | gDMZ                     |
-| Apps Server          | scsdad               | 4        | 16           | 100 + 200     | 192.168.8.7                         | GCIS T1         | Trust Zone               |
-| Database Server      | scsddb               | 4        | 16           | 100 + 100     | 192.168.8.8                         | GCIS T1         | Trust Zone               |
+**DEV Environment (WKGO):**
 
-**DR environment:**
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>prd-scs-admin-server-02</th>
+<td>dev-scs-admin-api-01</td>
+<td>API Server (DEV)</td>
+<td>192.168.14.10</td>
+</tr>
+<tr class="header">
+<th>prd-scs-admin-server-02</th>
+<td>dev-scs-admin-frontend-01</td>
+<td>Frontend Server (DEV)</td>
+<td>192.168.14.11</td>
+</tr>
+<tr class="odd">
+<th>prd-scs-admin-server-02</th>
+<td>dev-scs-admin-backend-01</td>
+<td>Backend Server (DEV)</td>
+<td>192.168.14.12</td>
+</tr>
+<tr class="header">
+<th>prd-scs-admin-server-02</th>
+<td>dev-scs-db-01</td>
+<td>Database Server (DEV)</td>
+<td>192.168.14.13</td>
+</tr>
+<tr class="odd">
+<th>prd-scs-admin-server-02</th>
+<td>dev-scs-filer</td>
+<td>File Server (DEV)</td>
+<td>192.168.14.15</td>
+</tr>
+<tr class="header">
+<th>prd-scs-admin-server-02</th>
+<td>dev-scs-proxy</td>
+<td>Reverse Proxy Server (DEV)</td>
+<td>192.168.14.14 / 10.5.161.225</td>
+</tr>
+</tbody>
+</table>
+
+**DEV Environment (GCIS T1):**
+
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scsdwi</td>
+<td>Reverse Proxy Server (Internet DMZ)</td>
+<td>192.168.0.6 / 45.119.94.100</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scsdwg</td>
+<td>Reverse Proxy Server (GNET DMZ)</td>
+<td>192.168.4.6 / 10.148.11.220</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scsdad</td>
+<td>Apps Server (Trust Zone)</td>
+<td>192.168.8.7</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scsddb</td>
+<td>Database Server (Trust Zone)</td>
+<td>192.168.8.8</td>
+</tr>
+</tbody>
+</table>
+
+**DR Environment (AIA):**
 
 \[image here]
 
-Refer to the System Manual - Section 5.2 System Architecture and Section 6 Equipment Configuration for detailed environment diagrams and configurations.
-
 **List of machines and virtual machines:**
 
-**AIA - DR Environment**
-
-Please refer to System Manual - Section 6.1.2 Guest Servers Components - Disaster Recovery guest servers for detailed information.
-
-| **Role**             | **Host Name**        | **vCPU** | **RAM (GB)** | **Disk (GB)** | **IP Addresses**                  | **Data Center** | **Host Server / Zone**   |
-|----------------------|----------------------|----------|--------------|---------------|-----------------------------------|-----------------|--------------------------|
-| vCenter              | dr-scs-vcenter-01    | 16       | 39           | 1.33TB        | 192.168.20.18 / 10.5.174.225      | AIA             | dr-scs-admin-server-01   |
-| Veeam Backup Server  | dr-scs-backup-01     | 8        | 24           | 300 + 1TB     | 192.168.20.19 / 10.5.161.224      | AIA             | dr-scs-admin-server-01   |
-| Kiwi Log Server      | dr-scs-log-01        | 4        | 8            | 300 + 500     | 192.168.20.10                       | AIA             | dr-scs-admin-server-01   |
-| API Server           | dr-scs-admin-api-01  | 2        | 8            | 90            | 192.168.22.11                       | AIA             | dr-scs-admin-server-01   |
-| Frontend Server      | dr-scs-admin-frontend-01 | 2        | 8            | 90            | 192.168.22.12                       | AIA             | dr-scs-admin-server-01   |
-| Backend Server       | dr-scs-admin-backend-01 | 2        | 8            | 90            | 192.168.22.13                       | AIA             | dr-scs-admin-server-01   |
-| Database Server      | dr-scs-db-01         | 2        | 8            | 90 + 500      | 192.168.22.14                       | AIA             | dr-scs-admin-server-01   |
-| File Server          | dr-scs-filer         | 2        | 8            | 90 + 1TB      | 192.168.22.16                       | AIA             | dr-scs-admin-server-01   |
-| Reverse Proxy Server | dr-scs-proxy         | 2        | 4            | 90            | 192.168.22.15 / 10.5.174.228      | AIA             | dr-scs-admin-server-01   |
-| Reverse Proxy Server | scspwi               | 2        | 8            | 100           | 192.168.0.6 / 45.119.93.84        | GCIS P2         | iDMZ                     |
-| Reverse Proxy Server | scspwg               | 2        | 8            | 100           | 192.168.4.6 / 10.160.139.211      | GCIS P2         | gDMZ                     |
-| Apps Server          | scspad               | 4        | 16           | 100 + 500     | 192.168.8.6                         | GCIS P2         | Trust Zone               |
-| Database Server      | scspdb               | 4        | 16           | 100 + 200     | 192.168.8.7                         | GCIS P2         | Trust Zone               |
-| Veeam Backup Server  | scspbk2              | 4        | 16           | 100 + 1TB     | 192.168.8.9                         | GCIS P2         | Trust Zone               |
-| Kiwi Log Server      | scsplog              | 2        | 8            | 100 + 100     | 192.168.8.10                        | GCIS P2         | Trust Zone               |
-
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 20%" />
+<col style="width: 35%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>Hostname</p>
+<p>(Physical Machine)</p></th>
+<th><p>Hostname</p>
+<p>(Virtual Machine)</p></th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th rowspan="2">dr-scs-admin-server-01</th>
+<td>dr-scs-vcenter-01</td>
+<td>vCenter (DR)</td>
+<td>192.168.20.18 / 10.5.174.225</td>
+</tr>
+<tr class="header">
+<td>dr-scs-log-01</td>
+<td>Kiwi Log Server (DR)</td>
+<td>192.168.20.10</td>
+</tr>
+<tr class="odd">
+<th rowspan="7">dr-scs-admin-server-01</th>
+<td>dr-scs-backup-01</td>
+<td>Veeam Backup Server (DR)</td>
+<td>192.168.20.19 / 10.5.161.224</td>
+</tr>
+<tr class="header">
+<td>dr-scs-admin-api-01</td>
+<td>API Server (DR)</td>
+<td>192.168.22.11</td>
+</tr>
+<tr class="odd">
+<td>dr-scs-admin-frontend-01</td>
+<td>Frontend Server (DR)</td>
+<td>192.168.22.12</td>
+</tr>
+<tr class="header">
+<td>dr-scs-admin-backend-01</td>
+<td>Backend Server (DR)</td>
+<td>192.168.22.13</td>
+</tr>
+<tr class="odd">
+<td>dr-scs-db-01</td>
+<td>Database Server (DR)</td>
+<td>192.168.22.14</td>
+</tr>
+<tr class="header">
+<td>dr-scs-filer</td>
+<td>File Server (DR)</td>
+<td>192.168.22.16</td>
+</tr>
+<tr class="odd">
+<td>dr-scs-proxy</td>
+<td>Reverse Proxy Server (DR)</td>
+<td>192.168.22.15 / 10.5.174.228</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scspwi</td>
+<td>Reverse Proxy Server (Internet DMZ - DR)</td>
+<td>192.168.0.6 / 45.119.93.84</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scspwg</td>
+<td>Reverse Proxy Server (GNET DMZ - DR)</td>
+<td>192.168.4.6 / 10.160.139.211</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scspad</td>
+<td>Apps Server (Trust Zone - DR)</td>
+<td>192.168.8.6</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scspdb</td>
+<td>Database Server (Trust Zone - DR)</td>
+<td>192.168.8.7</td>
+</tr>
+<tr class="header">
+<th>GCIS Infrastructure</th>
+<td>scspbk2</td>
+<td>Veeam Backup Server (Trust Zone - DR)</td>
+<td>192.168.8.9</td>
+</tr>
+<tr class="odd">
+<th>GCIS Infrastructure</th>
+<td>scsplog</td>
+<td>Kiwi Log Server (Trust Zone - DR)</td>
+<td>192.168.8.10</td>
+</tr>
+</tbody>
+</table>
 
 # 2. Purpose
 
@@ -208,12 +708,18 @@ Licensing Self-Certification Portal (LSCP); to the Buildings Department
 The hand-over items of this project can be summarized into the following
 6 items:
 
-> 1. Documentation
-> 2. Program Source code (Backend Application, Frontend Web App, Fronted Mobile App)
-> 3. Administration Accounts
-> 4. System backup
-> 5. Hardware
-> 6. Software Packages and Licenses
+> 1\. Documentation
+>
+> 2\. Program Source code (Backend Application, Frontend Web App,
+> Fronted Mobile App)
+>
+> 3\. Administration Accounts
+>
+> 4\. System backup
+>
+> 5\. Hardware
+>
+> 6\. Software Packages and Licenses
 
 ## 2.1 Schedule
 
@@ -262,7 +768,7 @@ The hand-over items of this project can be summarized into the following
 | User Procedures Manual               | ?         | ?       |
 | Security Incident Handling Procedure | ?         | ?       |
 | Handover Plan                        | ?         | ?       |
-| System Manual                        | `sm_i1.md`  | 0.1     |
+| System Manual                        | ?         | ?       |
 | Program Manual                       | ?         | ?       |
 | Project Evaluation Report            | ?         | ?       |
 
@@ -273,8 +779,6 @@ The hand-over items of this project can be summarized into the following
 | Frontend Application |         |           |
 | Backend Application  |         |           |
 |                      |         |           |
-
-*Note: Please refer to Program Manual for detailed directory structure and repository information.*
 
 # 5. Administration Accounts Checklist
 
@@ -408,13 +912,9 @@ different areas.
 | PRD / DR    | BD Admin  |              |          |
 |             |           |              |          |
 
-*Note: Please refer to Security Management Plan and System Manual for default account details and password management procedures.*
-
 # 6. Backup
 
 <span class="mark">\[RY Note: Following content needs to check]</span>
-
-Refer to System Manual - Section 8.2 Backup and Section 8.6 Database Backup Strategy for detailed backup procedures and schedules.
 
 ## 6.1 VM Backup
 
@@ -423,12 +923,36 @@ Backup service is carried out by backup server.
 Daily VM image backup is carried out and store in the backup servers. A
 further copy of production VM images is copied to DR?s backuper server.
 
-Production, UAT and DEV environments on WKGO and DR on AIA will be
-backed up by the backup servers (prd-scs-backup-01 and dr-scs-backup-01).
+**Backup Strategy Details:**
 
-Production environments on GCIS P1 will be backed up by backup services
+Production, UAT and DEV environments on WKGO and DR on AIA will be
+backuped by the backup servers (prd-scs-backup-01 and dr-scs-backup-01).
+
+Daily VM image backup is carried out and stored in the backup storage,
+Weekly to tape and Daily Copy to AIA.
+
+Production and DR site included 8 backups, PROD VM Backup Job 3 Daily,
+PROD VM Backup to Tape Job 3 Weekly, PROD UAT VM Backup Job 1 Daily,
+PROD UAT VM Backup to Tape Job 1 Weekly, PROD DEV VM Backup Job 2 Daily,
+PROD DEV VM Backup to Tape Job 2 Weekly, DR VM Backup Job 4 Daily and
+PROD All jobs to DR Backup Copy Job 1 to AIA.
+
+All instances including system files, database backup and data file will
+be backuped by backup jobs as VM Image managed by Veeam.
+
+Database servers (in both PROD and DR) will perform a local database
+backup and store in local harddisk. It will be backed up by the backup
+server and copied to AIA.
+
+Production environments on GCIS P1 will be backuped by backup services
 that are provided by GCIS with offsite copy and replicated to DR GCIS
-P2. UAT and DEV environments on GCIS will be backup by backup services that
+P2.
+
+Production database server on GCIS P1 will perform a local database
+backup and store in local harddisk. It will be backed up by the Veeam
+backup server (scspbk2) for additional copy.
+
+UAT and DEV environments on GCIS will be backup by backup services that
 are provided by GCIS.
 
 ## 6.2 Database Backup
@@ -440,9 +964,30 @@ stored procedures and data.
 Daily full export backup is done on DB servers, data stored on the DB
 servers and further backed up by VM Backup.
 
-Daily full export backup is done on DB servers (uat-db-01,
-prd-db-01, prd-db-02, dr-db-01) at 18:45, data stored on the DB servers?
-directory: `D:\backup\\`.
+**SQL Database Backup:**
+
+Beside DB server VM backup, database full export backup will be carried out as well. This type
+of backup contains full database export database objects including
+schemas, table structures, packages, stored procedures and data at 18:45
+daily.
+
+The daily full export backup is done on DB servers (uat-db-01,
+prd-db-01, prd-db-02, dr-db-01), data stored on the DB servers?
+directory: D:\backup\\
+
+**Backup Schedule:**
+
+|                                         |                                                 |
+|-------------------------------------|-----------------------------------|
+| Name                                    | Schedule                                        |
+| PROD VM Backup Job 3 Daily              | Daily 12:01 AM (Full)                           |
+| PROD VM Backup to Tape Job 3 Weekly     | Every Sunday 09:00 AM (Full)                    |
+| PROD UAT VM Backup Job 1 Daily          | Daily 08:00 PM (Full)                           |
+| PROD UAT VM Backup to Tape Job 1 Weekly | Every Sunday 06:00 AM (Full)                    |
+| PROD DEV VM Backup Job 2 Daily          | Daily 10:00 PM (Full)                           |
+| PROD DEV VM Backup to Tape Job 2 Weekly | Every Sunday 03:00 AM (Full)                    |
+| PROD All jobs to DR Backup Copy Job 1   | After every PROD VM Backup Job 1, 2 and 3 Daily |
+| DR VM Backup Job 4 Daily                | Daily 08:00 PM (Full)                           |
 
 # 7. Outstanding Items/Issues
 
@@ -454,7 +999,7 @@ Nil.
 incorrect]</span>
 
 | Item                                                                              | Amount | Expire At |
-|-----------------------------------------------------------------------------------|--------|-----------|
+|------------------------|------------------------|------------------------|
 | Windows 2022 Standard (16-Core) - Perpetual                                       |        |           |
 | SQL 2019 Standard (2-Core) - Perpetual                                            |        |           |
 | Veeam Availability Suite Universal License (10-Instance) with 3 year prod support |        |           |
@@ -463,13 +1008,9 @@ incorrect]</span>
 | vSphere Standard (basic Support with 3years SNS)                                  |        |           |
 | vCenter Standard (basic Support with 3years SNS)                                  |        |           |
 
-*Note: Please refer to Software Inventory in System Manual - Section 7.2 Inventory of System Software and Software Package for a comprehensive list of software.*
-
 # 9. Log Management
 
-Refer to System Manual - Section 10. Log Management for detailed log management procedures and retention policy.
-
-1.  Following activities shall include in the log:
+1\. Following activities shall include in the log:
 
 > ? Attempts for log-in
 >
@@ -501,12 +1042,12 @@ Refer to System Manual - Section 10. Log Management for detailed log management 
 > ? Activation and de-activation of protection systems, such as
 > anti-malware systems and intrusion detection systems
 
-2.  Logs shall be retained for **180 days** and centralised and managed
+2\. Logs shall be retained for **180 days** and centralised and managed
 by Syslog server. Unauthorised access is restricted.
 
-3.  Logs will be reviewed regularly.
+3\. Logs will be reviewed regularly.
 
-4.  Logs shall not be used to profile the activity of a particular user
+4\. Logs shall not be used to profile the activity of a particular user
 unless it relates to a necessary audit activity supported by a
 Directorate rank officer.
 
