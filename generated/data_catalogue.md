@@ -35,7 +35,7 @@ Government of the HKSAR.
 | **Amendment History** |                      |                                      |                           |            |                    |
 |------------|------------|------------|------------|------------|------------|
 | Change Number         | Revision Description | Pages Affected on Respective Version | Revision / Version Number | Date       | Approval Reference |
-| 1                     | 1st draft            | All                                  | 0.1                       | 16/01/2025 |                    |
+| 1                     | 1st draft based on Database Schema | All                                  | 0.1                       | 16/01/2025 |                    |
 |                       |                      |                                      |                           |            |                    |
 |                       |                      |                                      |                           |            |                    |
 |                       |                      |                                      |                           |            |                    |
@@ -71,20 +71,29 @@ Government of the HKSAR.
 >
 > [4.1.7. cases 14](#cases)
 >
-> [4.1.8. oauthtokens 16](#oauthtokens)
+> [4.1.8. oauthtokens 17](#oauthtokens)
 >
-> [4.1.9. sysfilerefs 17](#sysfilerefs)
+> [4.1.9. sysfilerefs 18](#sysfilerefs)
 >
-> [4.1.10. attachments 18](#attachments)
+> [4.1.10. attachments 19](#attachments)
 >
-> [4.1.11. users 19](#users)
+> [4.1.11. users 20](#users)
 >
-> [4.1.12. adrblkfilerefs 20](#adrblkfilerefs)
+> [4.1.12. adrblkfilerefs 22](#adrblkfilerefs)
 
 # 1. Introduction
 
 This document provides a description of data catalogue of the Combined
 System Development Services of the LSCP of the Buildings Department.
+
+This data catalogue is based on the analysis of the 'bd' database, last updated on 2025/3/4 ??10:10:39.
+
+**Database Statistics:**
+- Database Name: bd
+- Database Size: 88.10 MB
+- Collections: 12
+- Total Documents: 1278983
+- Total Data Size: 371.24 MB
 
 # 2. Definitions
 
@@ -92,12 +101,16 @@ System Development Services of the LSCP of the Buildings Department.
 |-------|----------------------|
 | BD    | Buildings Department |
 | LSCP  | Licensing Self-Certification Portal |
-| MC    | Master Concept (Hong Kong) Limited |
-|       |                      |
-|       |                      |
-|       |                      |
-|       |                      |
-|       |                      |
+| MB    | Megabytes            |
+| KB    | Kilobytes            |
+| ObjectId | Unique identifier used in database |
+| Date  | Date and time value  |
+| String| Textual data         |
+| Int   | Integer number       |
+| Bool  | Boolean value (true/false) |
+| Object| Complex data structure |
+| Array | List of data items  |
+| Null  | Absence of value     |
 
 # 3. Data Entity Description
 
@@ -110,20 +123,18 @@ physical data design.
 
 | **Item** | **Entity Name** | **Entity Description** |
 |----------|-----------------|------------------------|
-| 1        | tasks           | Details in section 4.1.1 |
-| 2        | eminutes        | Details in section 4.1.2 |
-| 3        | submissions     | Details in section 4.1.3 |
-| 4        | applications    | Details in section 4.1.4 |
-| 5        | notifications   | Details in section 4.1.5 |
-| 6        | bsblocks        | Details in section 4.1.6 |
-| 7        | cases           | Details in section 4.1.7 |
-| 8        | oauthtokens     | Details in section 4.1.8 |
-| 9        | sysfilerefs     | Details in section 4.1.9 |
-| 10       | attachments     | Details in section 4.1.10 |
-| 11       | users           | Details in section 4.1.11 |
-| 12       | adrblkfilerefs  | Details in section 4.1.12 |
-
-#
+| 1        | tasks           | Tasks Collection       |
+| 2        | eminutes        | E-minutes Collection     |
+| 3        | submissions     | Submissions Collection |
+| 4        | applications    | Applications Collection|
+| 5        | notifications   | Notifications Collection|
+| 6        | bsblocks        | BS Blocks Collection   |
+| 7        | cases           | Cases Collection       |
+| 8        | oauthtokens     | OAuth Tokens Collection|
+| 9        | sysfilerefs     | System File References Collection |
+| 10       | attachments     | Attachments Collection |
+| 11       | users           | Users Collection       |
+| 12       | adrblkfilerefs  | ADR Block File References Collection |
 
 # 4. Equipment Configuration
 
@@ -178,7 +189,7 @@ behind.
 >
 > **Foreign Key** - Indicates if data item is part of the Foreign Key
 
-##
+## 
 
 ## 4.1 Objective
 
@@ -190,309 +201,376 @@ behind.
 >
 > File Name: TBC
 
-### 4.1.1. <a name="tasks"></a>tasks
+### 4.1.1. tasks
 
 > Entity Name: tasks
 >
-> Description: Collection for storing task information.
+> Description: Collection to store tasks.
+>
+> **Collection Statistics:**
+> - Document Count: 5523
+> - Size: 0.99 MB
+> - Average Document Size: 0.18 KB
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v            | To be defined   | BIGINT, UNIQUEIDENTIFIER |                  |               |                 |                 |
-| _id            | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| application    | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| createdAt      | To be defined   | DATETIME2        |                  |               |                 |                 |
-| status         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| submissionCase | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| taskType       | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| team           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| user           | To be defined   | NVARCHAR(MAX), UNIQUEIDENTIFIER |                  |               |                 |                 |
+|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v           | Version         | BIGINT/UNIQUEIDENTIFIER |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| application   | Application ID  | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| createdAt     | Creation Time   | DATETIME2        |                  |               |                 |                 |
+| status        | Task Status     | NVARCHAR         |                  |               |                 |                 |
+| submissionCase| Submission Case ID| UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| taskType      | Task Type       | NVARCHAR         |                  |               |                 |                 |
+| team          | Team            | NVARCHAR         |                  |               |                 |                 |
+| user          | User ID         | NVARCHAR/UNIQUEIDENTIFIER |                  |               |                 | Y               |
 
-### 4.1.2. <a name="eminutes"></a>eminutes
+### 4.1.2. eminutes
 
 > Entity Name: eminutes
 >
-> Description: Collection for storing electronic minutes information.
+> Description: Collection to store e-minutes.
+>
+> **Collection Statistics:**
+> - Document Count: 133
+> - Size: 0.03 MB
+> - Average Document Size: 0.24 KB
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v            | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id            | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| comment        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| content        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| createdAt      | To be defined   | DATETIME2        |                  |               |                 |                 |
-| efolio         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| eminuteId      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| from           | To be defined   | UNIQUEIDENTIFIER, NVARCHAR(MAX) |                  |               |                 | Y?              |
-| status         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| subject        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| submissionCase | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| sysFileRefId   | To be defined   | NVARCHAR(MAX)    |                  |               |                 | Y?              |
-| to             | To be defined   | UNIQUEIDENTIFIER, NVARCHAR(MAX) |                  |               |                 | Y?              |
+|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v           | Version         | BIGINT           |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| comment       | Comment         | NVARCHAR         |                  |               |                 |                 |
+| content       | Content         | NVARCHAR         |                  |               |                 |                 |
+| createdAt     | Creation Time   | DATETIME2        |                  |               |                 |                 |
+| efolio        | E-folio ID      | NVARCHAR         |                  |               |                 |                 |
+| eminuteId     | E-minute ID     | NVARCHAR         |                  |               |                 |                 |
+| from          | Sender User ID  | UNIQUEIDENTIFIER/NVARCHAR |                  |               |                 | Y               |
+| status        | Status          | NVARCHAR         |                  |               |                 |                 |
+| subject       | Subject         | NVARCHAR         |                  |               |                 |                 |
+| submissionCase| Submission Case ID| UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| sysFileRefId  | System File Reference ID | NVARCHAR         |                  |               |                 |                 |
+| to            | Recipient User ID| UNIQUEIDENTIFIER/NVARCHAR |                  |               |                 | Y               |
 
-### 4.1.3. <a name="submissions"></a>submissions
+### 4.1.3. submissions
 
 > Entity Name: submissions
 >
-> Description: Collection for storing submission information.
+> Description: Collection to store submissions.
+>
+> **Collection Statistics:**
+> - Document Count: 0
+> - Size: 0.00 MB
+> - Average Document Size: 0.00 KB
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| *(No fields defined in input)* |                 |                  |                  |               |                 |                 |
+|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
+| *No fields defined in schema analysis* |                 |                  |                  |               |                 |                 |
 
-### 4.1.4. <a name="applications"></a>applications
+### 4.1.4. applications
 
 > Entity Name: applications
 >
-> Description: Collection for storing application information.
+> Description: Collection to store applications.
+>
+> **Collection Statistics:**
+> - Document Count: 381
+> - Size: 0.36 MB
+> - Average Document Size: 0.96 KB
 
-| **Field Name**          | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-------------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| APP13                   | To be defined   | NVARCHAR(MAX), NVARCHAR(MAX)[] |                  |               |                 |                 |
-| AddressOfPremiseCN      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AddressOfPremiseCNFloor | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AddressOfPremiseCNUnit  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AddressOfPremiseEN      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AddressOfPremiseENFloor | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AddressOfPremiseENUnit  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AgeOfStudent            | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| ApplicantAddress        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ApplicantEmail          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ApplicantFax            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ApplicantMobile         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ApplicantName           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ApplicantNameCN         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ApplicantNameEN         | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| ApplicantTel            | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| ApplicationNo           | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| ApplicationType         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Area                    | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| BlockID                 | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ContactPerson           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ContactPersonCN         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ContactPersonEN         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ContactPersonEmail      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ContactPersonTel        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| DescriptionOfSchool     | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| District                | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| EstimatedNoOfStudent    | To be defined   | BIGINT, NULL     |                  |               |                 |                 |
-| FileReference           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| NameOfSchoolCN          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| NameOfSchoolEN          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Region                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| RelatedPremise          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| RelatedPremises         | To be defined   | NVARCHAR(MAX)[]  |                  |               |                 |                 |
-| SelfCertification      | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| StructuralCalculation   | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| SubmissionType          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| __v                     | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                     | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| address                 | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| assignedBS              | To be defined   | UNIQUEIDENTIFIER, NVARCHAR(MAX), NULL |                  |               |                 | Y?              |
-| assignedGR              | To be defined   | UNIQUEIDENTIFIER, NULL |                  |               |                 | Y?              |
-| assignedSBS             | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| createdAt               | To be defined   | DATETIME2        |                  |               |                 |                 |
-| updatedAt               | To be defined   | DATETIME2        |                  |               |                 |                 |
+| **Field Name**          | **Description**             | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|-------------------------|-----------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| APP13                   | APP13                       | OBJECT/ARRAY     |                  |               |                 |                 |
+| AddressOfPremiseCN      | Address Of Premise CN       | NVARCHAR         |                  |               |                 |                 |
+| AddressOfPremiseCNFloor | Address Of Premise CN Floor | NVARCHAR         |                  |               |                 |                 |
+| AddressOfPremiseCNUnit  | Address Of Premise CN Unit  | NVARCHAR         |                  |               |                 |                 |
+| AddressOfPremiseEN      | Address Of Premise EN       | NVARCHAR         |                  |               |                 |                 |
+| AddressOfPremiseENFloor | Address Of Premise EN Floor | NVARCHAR         |                  |               |                 |                 |
+| AddressOfPremiseENUnit  | Address Of Premise EN Unit  | NVARCHAR         |                  |               |                 |                 |
+| AgeOfStudent            | Age Of Student              | NVARCHAR         |                  |               |                 |                 |
+| ApplicantAddress        | Applicant Address           | NVARCHAR         |                  |               |                 |                 |
+| ApplicantEmail          | Applicant Email             | NVARCHAR         |                  |               |                 |                 |
+| ApplicantFax            | Applicant Fax               | NVARCHAR         |                  |               |                 |                 |
+| ApplicantMobile         | Applicant Mobile            | NVARCHAR         |                  |               |                 |                 |
+| ApplicantName           | Applicant Name              | NVARCHAR         |                  |               |                 |                 |
+| ApplicantNameCN         | Applicant Name CN           | NVARCHAR         |                  |               |                 |                 |
+| ApplicantNameEN         | Applicant Name EN           | NVARCHAR         |                  |               |                 |                 |
+| ApplicantTel            | Applicant Tel               | NVARCHAR         |                  |               |                 |                 |
+| ApplicationNo           | Application No              | NVARCHAR         |                  |               |                 |                 |
+| ApplicationType         | Application Type            | NVARCHAR         |                  |               |                 |                 |
+| Area                    | Area                        | NVARCHAR         |                  |               |                 |                 |
+| BlockID                 | Block ID                    | NVARCHAR         |                  |               |                 |                 |
+| ContactPerson           | Contact Person              | NVARCHAR         |                  |               |                 |                 |
+| ContactPersonCN         | Contact Person CN           | NVARCHAR         |                  |               |                 |                 |
+| ContactPersonEN         | Contact Person EN           | NVARCHAR         |                  |               |                 |                 |
+| ContactPersonEmail      | Contact Person Email        | NVARCHAR         |                  |               |                 |                 |
+| ContactPersonTel        | Contact Person Tel          | NVARCHAR         |                  |               |                 |                 |
+| DescriptionOfSchool     | Description Of School       | NVARCHAR         |                  |               |                 |                 |
+| District                | District                    | NVARCHAR         |                  |               |                 |                 |
+| EstimatedNoOfStudent    | Estimated No Of Student     | BIGINT/NVARCHAR  |                  |               |                 |                 |
+| FileReference           | File Reference              | NVARCHAR         |                  |               |                 |                 |
+| NameOfSchoolCN          | Name Of School CN           | NVARCHAR         |                  |               |                 |                 |
+| NameOfSchoolEN          | Name Of School EN           | NVARCHAR         |                  |               |                 |                 |
+| Region                  | Region                      | NVARCHAR         |                  |               |                 |                 |
+| RelatedPremise          | Related Premise             | NVARCHAR         |                  |               |                 |                 |
+| RelatedPremises         | Related Premises            | ARRAY            |                  |               |                 |                 |
+| SelfCertification       | Self Certification          | OBJECT           |                  |               |                 |                 |
+| StructuralCalculation   | Structural Calculation      | OBJECT           |                  |               |                 |                 |
+| SubmissionType          | Submission Type             | NVARCHAR         |                  |               |                 |                 |
+| __v                     | Version                     | BIGINT           |                  |               |                 |                 |
+| _id                     | Document ID                 | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| address                 | Address                     | OBJECT           |                  |               |                 |                 |
+| assignedBS              | Assigned BS                 | UNIQUEIDENTIFIER/NVARCHAR |                  |               |                 | Y               |
+| assignedGR              | Assigned GR                 | UNIQUEIDENTIFIER/NVARCHAR |                  |               |                 | Y               |
+| assignedSBS             | Assigned SBS                | NVARCHAR         |                  |               |                 |                 |
+| createdAt               | Creation Time               | DATETIME2        |                  |               |                 |                 |
+| updatedAt               | Update Time                 | DATETIME2        |                  |               |                 |                 |
 
-### 4.1.5. <a name="notifications"></a>notifications
+### 4.1.5. notifications
 
 > Entity Name: notifications
 >
-> Description: Collection for storing notification information.
+> Description: Collection to store notifications.
+>
+> **Collection Statistics:**
+> - Document Count: 1837
+> - Size: 0.24 MB
+> - Average Document Size: 0.13 KB
 
-| **Field Name**     | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|--------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v                | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| createdAt          | To be defined   | DATETIME2        |                  |               |                 |                 |
-| eminute            | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| notificationType   | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| requireSendEmail   | To be defined   | BIT              |                  |               |                 |                 |
-| task               | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| user               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
+| **Field Name**     | **Description**         | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|--------------------|-------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v                | Version                 | BIGINT           |                  |               |                 |                 |
+| _id                | Document ID             | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| createdAt          | Creation Time           | DATETIME2        |                  |               |                 |                 |
+| eminute            | E-minute ID             | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| notificationType   | Notification Type       | NVARCHAR         |                  |               |                 |                 |
+| requireSendEmail   | Require Send Email      | BIT              |                  |               |                 |                 |
+| task               | Task ID                 | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| user               | User ID                 | NVARCHAR         |                  |               |                 |                 |
 
-### 4.1.6. <a name="bsblocks"></a>bsblocks
+### 4.1.6. bsblocks
 
 > Entity Name: bsblocks
 >
-> Description: Collection for storing building structure block information.
+> Description: Collection to store BS Blocks information.
+>
+> **Collection Statistics:**
+> - Document Count: 98397
+> - Size: 6.40 MB
+> - Average Document Size: 0.07 KB
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v            | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id            | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| bdgis          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| blockId        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
+|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v           | Version         | BIGINT           |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| bdgis         | BDGIS Code      | NVARCHAR         |                  |               |                 |                 |
+| blockId       | Block ID        | NVARCHAR         |                  |               |                 |                 |
 
-### 4.1.7. <a name="cases"></a>cases
+### 4.1.7. cases
 
 > Entity Name: cases
 >
-> Description: Collection for storing case information.
+> Description: Collection to store cases.
+>
+> **Collection Statistics:**
+> - Document Count: 451
+> - Size: 1.17 MB
+> - Average Document Size: 2.65 KB
 
-| **Field Name**              | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-----------------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| ActualReplyDate             | To be defined   | DATETIME2, NULL  |                  |               |                 |                 |
-| Area                        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| AuditResult                 | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| CaseOfficer                 | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Category                    | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| District                    | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| FileReference               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| LAFileReference             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Nature                      | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| ObjectiontoLR               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ReceivedDate                | To be defined   | DATETIME2, NULL  |                  |               |                 |                 |
-| Referrer                    | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Region                      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Remarks                     | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| Reminders                   | To be defined   | NVARCHAR(MAX)[]  |                  |               |                 |                 |
-| SubmissionType              | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| SubstantialReplyDate        | To be defined   | DATETIME2, NULL  |                  |               |                 |                 |
-| TargetReplyDate             | To be defined   | DATETIME2, NULL  |                  |               |                 |                 |
-| ThreeTierReqt               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ViaSCS                      | To be defined   | BIT              |                  |               |                 |                 |
-| __v                         | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                         | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| application                 | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| assignedBS                  | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| assignedGR                  | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| building_information        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| caseDescription             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| caseOfficerReceive          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| caseOfficerReply            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| createdAt                   | To be defined   | DATETIME2        |                  |               |                 |                 |
-| deck_study                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| documentChecklist           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| dv                          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| frc                         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| misc                        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| moe                         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| seniorCaseOfficerReceive    | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| seniorCaseOfficerReply      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| site_inspection             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| structural_ccc_bs           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| structural_schnlh           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| structural_schnlhkinds      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| team                        | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| ubw                         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| updatedAt                   | To be defined   | DATETIME2        |                  |               |                 |                 |
+| **Field Name**              | **Description**               | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|-----------------------------|-------------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| ActualReplyDate             | Actual Reply Date             | DATETIME2        |                  |               |                 |                 |
+| Area                        | Area                          | NVARCHAR         |                  |               |                 |                 |
+| AuditResult                 | Audit Result                  | NVARCHAR         |                  |               |                 |                 |
+| CaseOfficer                 | Case Officer                  | NVARCHAR         |                  |               |                 |                 |
+| Category                    | Category                      | NVARCHAR         |                  |               |                 |                 |
+| District                    | District                      | NVARCHAR         |                  |               |                 |                 |
+| FileReference               | File Reference                | NVARCHAR         |                  |               |                 |                 |
+| LAFileReference             | LA File Reference             | OBJECT           |                  |               |                 |                 |
+| Nature                      | Nature                        | NVARCHAR         |                  |               |                 |                 |
+| ObjectiontoLR               | Objection to LR               | NVARCHAR         |                  |               |                 |                 |
+| ReceivedDate                | Received Date                 | DATETIME2        |                  |               |                 |                 |
+| Referrer                    | Referrer                      | OBJECT           |                  |               |                 |                 |
+| Region                      | Region                        | NVARCHAR         |                  |               |                 |                 |
+| Remarks                     | Remarks                       | NVARCHAR         |                  |               |                 |                 |
+| Reminders                   | Reminders                     | ARRAY            |                  |               |                 |                 |
+| SubmissionType              | Submission Type               | NVARCHAR         |                  |               |                 |                 |
+| SubstantialReplyDate        | Substantial Reply Date        | DATETIME2        |                  |               |                 |                 |
+| TargetReplyDate             | Target Reply Date             | DATETIME2        |                  |               |                 |                 |
+| ThreeTierReqt               | Three Tier Requirement        | NVARCHAR         |                  |               |                 |                 |
+| ViaSCS                      | Via SCS                       | BIT              |                  |               |                 |                 |
+| __v                         | Version                       | BIGINT           |                  |               |                 |                 |
+| _id                         | Document ID                   | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| application                 | Application ID                | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| assignedBS                  | Assigned BS                   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| assignedGR                  | Assigned GR                   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| building_information        | Building Information          | OBJECT           |                  |               |                 |                 |
+| caseDescription             | Case Description              | OBJECT           |                  |               |                 |                 |
+| caseOfficerReceive          | Case Officer Receive User ID  | NVARCHAR         |                  |               |                 |                 |
+| caseOfficerReply            | Case Officer Reply User ID    | NVARCHAR         |                  |               |                 |                 |
+| createdAt                   | Creation Time                 | DATETIME2        |                  |               |                 |                 |
+| deck_study                  | Deck Study Data               | OBJECT           |                  |               |                 |                 |
+| documentChecklist           | Document Checklist Data       | OBJECT           |                  |               |                 |                 |
+| dv                          | DV Data                       | OBJECT           |                  |               |                 |                 |
+| frc                         | FRC Data                      | OBJECT           |                  |               |                 |                 |
+| misc                        | Miscellaneous Data            | OBJECT           |                  |               |                 |                 |
+| moe                         | MOE Data                      | OBJECT           |                  |               |                 |                 |
+| seniorCaseOfficerReceive    | Senior Case Officer Receive User ID | NVARCHAR         |                  |               |                 |                 |
+| seniorCaseOfficerReply      | Senior Case Officer Reply User ID   | NVARCHAR         |                  |               |                 |                 |
+| site_inspection             | Site Inspection Data          | OBJECT           |                  |               |                 |                 |
+| structural_ccc_bs           | Structural CCC BS Data        | OBJECT           |                  |               |                 |                 |
+| structural_schnlh           | Structural SCHNLH Data        | OBJECT           |                  |               |                 |                 |
+| structural_schnlhkinds      | Structural SCHNLH Kinds Data  | OBJECT           |                  |               |                 |                 |
+| team                        | Team                          | NVARCHAR         |                  |               |                 |                 |
+| ubw                         | UBW Data                      | OBJECT           |                  |               |                 |                 |
+| updatedAt                   | Update Time                   | DATETIME2        |                  |               |                 |                 |
 
-### 4.1.8. <a name="oauthtokens"></a>oauthtokens
+### 4.1.8. oauthtokens
 
 > Entity Name: oauthtokens
 >
-> Description: Collection for storing OAuth token information.
+> Description: Collection to store OAuth tokens.
+>
+> **Collection Statistics:**
+> - Document Count: 3019
+> - Size: 2.29 MB
+> - Average Document Size: 0.78 KB
 
-| **Field Name**          | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-------------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v                     | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                     | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| accessToken             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| accessTokenExpiresAt    | To be defined   | DATETIME2        |                  |               |                 |                 |
-| client                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| refreshToken            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| refreshTokenExpiresAt   | To be defined   | DATETIME2        |                  |               |                 |                 |
-| user                    | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| **Field Name**            | **Description**             | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------------------|-----------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v                       | Version                     | BIGINT           |                  |               |                 |                 |
+| _id                       | Document ID                 | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| accessToken               | Access Token                | NVARCHAR         |                  |               |                 |                 |
+| accessTokenExpiresAt      | Access Token Expiry Time    | DATETIME2        |                  |               |                 |                 |
+| client                    | Client Information          | OBJECT           |                  |               |                 |                 |
+| refreshToken              | Refresh Token               | NVARCHAR         |                  |               |                 |                 |
+| refreshTokenExpiresAt     | Refresh Token Expiry Time   | DATETIME2        |                  |               |                 |                 |
+| user                      | User ID                     | UNIQUEIDENTIFIER |                  |               |                 | Y               |
 
-### 4.1.9. <a name="sysfilerefs"></a>sysfilerefs
+### 4.1.9. sysfilerefs
 
 > Entity Name: sysfilerefs
 >
-> Description: Collection for storing system file reference information.
+> Description: Collection to store system file references.
+>
+> **Collection Statistics:**
+> - Document Count: 601808
+> - Size: 204.70 MB
+> - Average Document Size: 0.35 KB
 
-| **Field Name**        | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-----------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v                   | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                   | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| createdDt             | To be defined   | DATETIME2        |                  |               |                 |                 |
-| createdName           | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| createdPost           | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| createdSection        | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| display               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| dvExceed              | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| dvStatusDt            | To be defined   | DATETIME2, NULL  |                  |               |                 |                 |
-| frefPref              | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| frefSeq               | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| frefSuf               | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| frefYr                | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| lastModifiedDt        | To be defined   | DATETIME2        |                  |               |                 |                 |
-| lastModifiedName      | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| lastModifiedPost      | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| lastModifiedSection   | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| sysFileRefId          | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
+| **Field Name**        | **Description**           | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|-----------------------|---------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v                   | Version                   | BIGINT           |                  |               |                 |                 |
+| _id                   | Document ID               | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| createdDt             | Creation Date             | DATETIME2        |                  |               |                 |                 |
+| createdName           | Creator Name              | NVARCHAR         |                  |               |                 |                 |
+| createdPost           | Creator Post              | NVARCHAR         |                  |               |                 |                 |
+| createdSection        | Creator Section           | NVARCHAR         |                  |               |                 |                 |
+| display               | Display Name              | NVARCHAR         |                  |               |                 |                 |
+| dvExceed              | DV Exceed Status          | NVARCHAR         |                  |               |                 |                 |
+| dvStatusDt            | DV Status Date            | DATETIME2        |                  |               |                 |                 |
+| frefPref              | File Reference Prefix     | NVARCHAR         |                  |               |                 |                 |
+| frefSeq               | File Reference Sequence   | NVARCHAR         |                  |               |                 |                 |
+| frefSuf               | File Reference Suffix     | NVARCHAR         |                  |               |                 |                 |
+| frefYr                | File Reference Year       | NVARCHAR         |                  |               |                 |                 |
+| lastModifiedDt        | Last Modified Date        | DATETIME2        |                  |               |                 |                 |
+| lastModifiedName      | Last Modified Name        | NVARCHAR         |                  |               |                 |                 |
+| lastModifiedPost      | Last Modified Post        | NVARCHAR         |                  |               |                 |                 |
+| lastModifiedSection   | Last Modified Section     | NVARCHAR         |                  |               |                 |                 |
+| sysFileRefId          | System File Reference ID  | NVARCHAR         |                  |               |                 |                 |
 
-### 4.1.10. <a name="attachments"></a>attachments
+### 4.1.10. attachments
 
 > Entity Name: attachments
 >
-> Description: Collection for storing attachment information.
+> Description: Collection to store attachments.
+>
+> **Collection Statistics:**
+> - Document Count: 370
+> - Size: 0.13 MB
+> - Average Document Size: 0.37 KB
 
-| **Field Name**     | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|--------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v                | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| application        | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| createdAt          | To be defined   | DATETIME2        |                  |               |                 |                 |
-| efolio             | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| file               | To be defined   | NVARCHAR(MAX), NVARCHAR(MAX) |                  |               |                 |                 |
-| filePartNo         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| receivedDate       | To be defined   | DATETIME2        |                  |               |                 |                 |
-| remarks            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| subType            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| submissionCase     | To be defined   | UNIQUEIDENTIFIER |                  |               |                 | Y               |
-| sysFileRefId       | To be defined   | NVARCHAR(MAX)    |                  |               |                 | Y               |
-| type               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| updatedAt          | To be defined   | DATETIME2        |                  |               |                 |                 |
+| **Field Name**     | **Description**         | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|--------------------|-------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v                | Version                 | BIGINT           |                  |               |                 |                 |
+| _id                | Document ID             | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| application        | Application ID          | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| createdAt          | Creation Time           | DATETIME2        |                  |               |                 |                 |
+| efolio             | E-folio ID              | NVARCHAR         |                  |               |                 |                 |
+| file               | File Information        | OBJECT/NVARCHAR  |                  |               |                 |                 |
+| filePartNo         | File Part Number        | NVARCHAR         |                  |               |                 |                 |
+| receivedDate       | Received Date           | DATETIME2        |                  |               |                 |                 |
+| remarks            | Remarks                 | NVARCHAR         |                  |               |                 |                 |
+| subType            | Sub Type                | NVARCHAR         |                  |               |                 |                 |
+| submissionCase     | Submission Case ID      | UNIQUEIDENTIFIER |                  |               |                 | Y               |
+| sysFileRefId       | System File Reference ID | NVARCHAR         |                  |               |                 |                 |
+| type               | Attachment Type         | NVARCHAR         |                  |               |                 |                 |
+| updatedAt          | Update Time             | DATETIME2        |                  |               |                 |                 |
 
-### 4.1.11. <a name="users"></a>users
+### 4.1.11. users
 
 > Entity Name: users
 >
-> Description: Collection for storing user information.
+> Description: Collection to store user information.
+>
+> **Collection Statistics:**
+> - Document Count: 116
+> - Size: 0.04 MB
+> - Average Document Size: 0.39 KB
 
-| **Field Name**         | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|------------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v                    | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                    | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| bdgis                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| begis                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| delegateTo             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| department             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| email                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| group                  | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| lastLoginAt            | To be defined   | DATETIME2        |                  |               |                 |                 |
-| letterLongPosition     | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| letterLongPositionCn   | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| letterName             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| letterNameCn           | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| letterPosition         | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| letterPositionCn       | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| lock                   | To be defined   | BIT              |                  |               |                 |                 |
-| luPostName             | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| name                   | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| notificationEmail      | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| osdpEmail              | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| osdpLoginId            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| password               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| phoneNumber            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| position               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| role                   | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| team                   | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| userType               | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
+| **Field Name**        | **Description**           | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|-----------------------|---------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v                   | Version                   | BIGINT           |                  |               |                 |                 |
+| _id                   | Document ID               | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| bdgis                 | BDGIS Code                | NVARCHAR         |                  |               |                 |                 |
+| begis                 | BEGIS Code                | NVARCHAR         |                  |               |                 |                 |
+| delegateTo            | Delegate To User ID       | NVARCHAR         |                  |               |                 |                 |
+| department            | Department                | NVARCHAR         |                  |               |                 |                 |
+| email                 | Email Address             | NVARCHAR         |                  |               |                 |                 |
+| group                 | Group                     | NVARCHAR         |                  |               |                 |                 |
+| lastLoginAt           | Last Login Time           | DATETIME2        |                  |               |                 |                 |
+| letterLongPosition    | Letter Long Position      | NVARCHAR         |                  |               |                 |                 |
+| letterLongPositionCn  | Letter Long Position (CN)| NVARCHAR         |                  |               |                 |                 |
+| letterName            | Letter Name               | NVARCHAR         |                  |               |                 |                 |
+| letterNameCn          | Letter Name (CN)          | NVARCHAR         |                  |               |                 |                 |
+| letterPosition        | Letter Position           | NVARCHAR         |                  |               |                 |                 |
+| letterPositionCn      | Letter Position (CN)      | NVARCHAR         |                  |               |                 |                 |
+| lock                  | Account Lock Status       | BIT              |                  |               |                 |                 |
+| luPostName            | LU Post Name              | NVARCHAR         |                  |               |                 |                 |
+| name                  | Name                      | NVARCHAR         |                  |               |                 |                 |
+| notificationEmail     | Notification Email        | NVARCHAR         |                  |               |                 |                 |
+| osdpEmail             | OSDP Email                | NVARCHAR         |                  |               |                 |                 |
+| osdpLoginId           | OSDP Login ID             | NVARCHAR         |                  |               |                 |                 |
+| password              | Password (hashed)         | NVARCHAR         |                  |               |                 |                 |
+| phoneNumber           | Phone Number              | NVARCHAR         |                  |               |                 |                 |
+| position              | Position                  | NVARCHAR         |                  |               |                 |                 |
+| role                  | Role                      | NVARCHAR         |                  |               |                 |                 |
+| team                  | Team                      | NVARCHAR         |                  |               |                 |                 |
+| userType              | User Type                 | NVARCHAR         |                  |               |                 |                 |
 
-### 4.1.12. <a name="adrblkfilerefs"></a>adrblkfilerefs
+### 4.1.12. adrblkfilerefs
 
 > Entity Name: adrblkfilerefs
 >
-> Description: Collection for storing address block file reference information.
+> Description: Collection to store ADR Block File References.
+>
+> **Collection Statistics:**
+> - Document Count: 566948
+> - Size: 154.89 MB
+> - Average Document Size: 0.28 KB
 
-| **Field Name**        | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-----------------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
-| __v                   | To be defined   | BIGINT           |                  |               |                 |                 |
-| _id                   | To be defined   | UNIQUEIDENTIFIER |                  |               | Y               |                 |
-| adrBlkFileRefId       | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| adrBlkId            | To be defined   | NVARCHAR(MAX)    |                  |               |                 |                 |
-| createdDt             | To be defined   | DATETIME2        |                  |               |                 |                 |
-| createdName           | To be defined   | NVARCHAR(MAX), NULL |                  |               |                 |                 |
-| createdPost           | To
+| **Field Name**        | **Description**               | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|-----------------------|-------------------------------|------------------|------------------|---------------|-----------------|-----------------|
+| __v                   | Version                       | BIGINT           |                  |               |                 |                 |
+| _id                   | Document ID                   | UNIQUEIDENTIFIER |                  | Y             | Y               |                 |
+| adrBlkFileRefId       | ADR Block File Reference ID   | NVARCHAR         |                  |               |                 |                 |
+| adrBlkId              | ADR Block ID                  | NVARCHAR         |                  |               |                 |                 |
+| createdDt             | Creation Date                 | DATETIME2        |                  |               |                 |                 |
+| createdName           | Creator Name                  | NVARCHAR         |                  |               |                 |                 |
+| createdPost           | Creator Post                  | NVARCHAR         |                  |               |                 |                 |
+| createdSection        | Creator Section               | NVARCHAR         |                  |               |                 |                 |
+| lastModifiedDt        | Last Modified Date            | DATETIME2        |                  |               |                 |                 |
+| lastModifiedName      | Last Modified Name            | NVARCHAR         |                  |               |                 |                 |
+| lastModifiedPost      | Last Modified Post            | NVARCHAR         |                  |               |                 |                 |
+| lastModifiedSection   | Last Modified Section         | NVARCHAR         |                  |               |                 |                 |
+| sysFileRefId          | System File Reference ID      | NVARCHAR         |                  |               |                 |                 |
+```
