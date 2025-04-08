@@ -1,4 +1,3 @@
-```markdown
 <img src="media/image1.jpg" style="width:2.03125in;height:1.52083in"
 alt="BDlogo" />
 
@@ -513,4 +512,3 @@ The explanation for columns is as follows:
 | lastModifiedPost | Last Modified By Post | NVARCHAR        |                  |               |                 |                 |
 | lastModifiedSection | Last Modified By Section | NVARCHAR        |                  |               |                 |                 |
 | sysFileRefId  | System File Reference ID | NVARCHAR        |                  |               |                 |                 |
-```
