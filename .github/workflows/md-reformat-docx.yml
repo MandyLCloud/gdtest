@@ -413,8 +413,20 @@ jobs:
           # Define the reverse lookup table as associative array
           declare -A lookup_table
           lookup_table=(
-            ["process_data_interface"]="Process Data Interface"
-            ["handover_plan"]="Handover Plan"
+            ["physical_data_design"]="physical_data_design"
+            ["process_data_interface"]="process_data_interface"
+            ["data_catalogue"]="data_catalogue"
+            ["program_spec"]="program_spec"
+            ["performance_optimisation_report"]="performance_optimisation_report"
+            ["system_installation_plan"]="system_installation_plan"
+            ["system_test_plan_and_result"]="system_test_plan_and_result"
+            ["acceptance_test_plan_and_result"]="acceptance_test_plan_and_result"
+            ["application_operation_manual"]="application_operation_manual"
+            ["computer_operation_procedures_manual"]="computer_operation_procedures_manual"
+            ["data_manual"]="data_manual"
+            ["program_manual"]="program_manual"
+            ["training_manual"]="training_manual"
+            ["handover_plan"]="handover_plan"
           )
 
           # Get list of changed Markdown files
