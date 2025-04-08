@@ -49,47 +49,72 @@ Government of the HKSAR.
 
 [**1. Introduction 5**](#introduction)
 
-[**2. Definitions 6**](#definitions)
+[**2. Database Overview 6**](#database-overview)
 
-[**3. Data Entity Description 7**](#data-entity-description)
+[**3. Definitions 7**](#definitions)
 
-[**4. Equipment Configuration 8**](#equipment-configuration)
+[**4. Data Entity Description 8**](#data-entity-description)
 
-> [4.1 Objective 9](#objective)
->
-> [4.1.1. Collections 9](#collections)
->
-> > [4.1.1.1. tasks 10](#tasks)
->
-> > [4.1.1.2. eminutes 11](#eminutes)
->
-> > [4.1.1.3. submissions 12](#submissions)
->
-> > [4.1.1.4. applications 12](#applications)
->
-> > [4.1.1.5. notifications 14](#notifications)
->
-> > [4.1.1.6. bsblocks 15](#bsblocks)
->
-> > [4.1.1.7. cases 15](#cases)
->
-> > [4.1.1.8. oauthtokens 17](#oauthtokens)
->
-> > [4.1.1.9. sysfilerefs 18](#sysfilerefs)
->
-> > [4.1.1.10. attachments 19](#attachments)
->
-> > [4.1.1.11. users 20](#users)
->
-> > [4.1.1.12. adrblkfilerefs 21](#adrblkfilerefs)
+[**5. Equipment Configuration 9**](#equipment-configuration)
 
+> [5.1 Objective 10](#objective)
+>
+> [5.1.1. tasks 10](#tasks)
+>
+> [5.1.2. eminutes 12](#eminutes)
+>
+> [5.1.3. submissions 14](#submissions)
+>
+> [5.1.4. applications 14](#applications)
+>
+> [5.1.5. notifications 17](#notifications)
+>
+> [5.1.6. bsblocks 18](#bsblocks)
+>
+> [5.1.7. cases 19](#cases)
+>
+> [5.1.8. oauthtokens 22](#oauthtokens)
+>
+> [5.1.9. sysfilerefs 23](#sysfilerefs)
+>
+> [5.1.10. attachments 25](#attachments)
+>
+> [5.1.11. users 27](#users)
+>
+> [5.1.12. adrblkfilerefs 29](#adrblkfilerefs)
 
 # 1. Introduction
 
 This document provides a description of data catalogue of the Combined
-System Development Services of the LSCP of the Buildings Department. This data catalogue is based on the analysis of the database named **bd**. The database contains information related to the Licensing Self-Certification Portal (LSCP) and its associated functionalities.
+System Development Services of the LSCP of the Buildings Department. It outlines the database structure, entities, and data items within the system.
 
-# 2. Definitions
+# 2. Database Overview
+
+This section provides a high-level overview of the LSCP database, named `bd`, including statistics on its size, collections, and data volume.
+
+**Database Statistics:**
+- Database Name: `bd`
+- Last Updated: 2025/3/4 ??10:10:39
+- Database Size: 88.10 MB
+- Collections: 12
+- Total Documents: 1278983
+- Total Data Size: 371.24 MB
+
+**Collections Overview:**
+- tasks: 5523 documents, 0.99 MB
+- eminutes: 133 documents, 0.03 MB
+- submissions: 0 documents, 0.00 MB
+- applications: 381 documents, 0.36 MB
+- notifications: 1837 documents, 0.24 MB
+- bsblocks: 98397 documents, 6.40 MB
+- cases: 451 documents, 1.17 MB
+- oauthtokens: 3019 documents, 2.29 MB
+- sysfilerefs: 601808 documents, 204.70 MB
+- attachments: 370 documents, 0.13 MB
+- users: 116 documents, 0.04 MB
+- adrblkfilerefs: 566948 documents, 154.89 MB
+
+# 3. Definitions
 
 | Terms | Definitions          |
 |-------|----------------------|
@@ -97,407 +122,395 @@ System Development Services of the LSCP of the Buildings Department. This data c
 | LSCP  | Licensing Self-Certification Portal |
 | MB    | Megabytes            |
 | KB    | Kilobytes            |
-| ObjectId | MongoDB ObjectId, a 12-byte BSON type |
-| String | Textual data |
-| Int   | Integer number |
-| Date  | Date and time information |
-| Bool  | Boolean value (true/false) |
-| Object | Complex data structure, potentially nested |
-| Array | Ordered list of values |
-| Null  | Absence of a value |
+| TBC   | To Be Confirmed      |
+|       |                      |
+|       |                      |
+|       |                      |
+|       |                      |
+|       |                      |
+|       |                      |
+|       |                      |
 
-# 3. Data Entity Description
+# 4. Data Entity Description
 
-This section states all the entities (collections) in the LSCP Database (**bd**).
-
-The following section describes how the LSCP entities are physically designed in the database.
+This section states all the entities (Collections) in the LSCP Database (`bd`).
 
 -   Entities list for LSCP Data
 
 | **Item** | **Entity Name** | **Entity Description** |
 |----------|-----------------|------------------------|
-| 1        | tasks           | Tasks related to applications or cases |
-| 2        | eminutes        | Electronic minutes of meetings or discussions |
-| 3        | submissions     | Application submissions |
-| 4        | applications    | Applications for licensing self-certification |
-| 5        | notifications   | System notifications for users |
-| 6        | bsblocks        | Building blocks information |
-| 7        | cases           | Cases related to applications, potentially for follow-up or audit |
-| 8        | oauthtokens     | OAuth tokens for API authentication |
-| 9        | sysfilerefs     | System file references, metadata for files |
-| 10       | attachments     | File attachments associated with applications or cases |
-| 11       | users           | User accounts and profiles |
-| 12       | adrblkfilerefs  | Address block file references |
+| 1        | tasks           | Collection of tasks related data. |
+| 2        | eminutes        | Collection of e-minutes (electronic minutes) data. |
+| 3        | submissions     | Collection of submissions data. |
+| 4        | applications    | Collection of applications data. |
+| 5        | notifications   | Collection of notifications data. |
+| 6        | bsblocks        | Collection of building services blocks data. |
+| 7        | cases           | Collection of cases data. |
+| 8        | oauthtokens     | Collection of OAuth tokens data for authentication. |
+| 9        | sysfilerefs     | Collection of system file references data. |
+| 10       | attachments     | Collection of attachments data. |
+| 11       | users           | Collection of user data. |
+| 12       | adrblkfilerefs  | Collection of address block file references data. |
+|          |                 |                        |
+|          |                 |                        |
+|          |                 |                        |
 
-#
+# 5. Equipment Configuration
 
-# 4. Equipment Configuration
+This section details the data items for each database collection in the physical design.
 
-This section details the data items for each database collection in the physical design. The explanation for columns is as follows.
-
-Database-level validation is not utilized. Instead, validations are implemented on the server side.
+The explanation for columns is as follows:
 
 > **Entity Name** - Name of database collection
 >
-> **Description** - Description of entity (collection)
+> **Description** - Description of collection
 >
-> **Field Name** - Name of attribute (field) within a document
+> **Field Name** - Name of attribute within the collection
 >
-> **Field Format** - Type of the data item as identified in the database schema analysis. Mapped to general data types where applicable.
+> **Field Format** - Type of the data item:
 >
-> BIGINT: The BIGINT data type is used to store larger integer value. e.g. from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807.
+> BIGINT: The BIGINT data type is used to store larger integer values (e.g., from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807).
 >
 > NVARCHAR: The NVARCHAR data type stores character data in a variable-length field.
 >
 > DATETIME2: "DATETIME2" data type is used to store date and time values.
 >
-> UNIQUEIDENTIFIER: A column or local variable of unique identifier data type can be initialized to a value. (Represents ObjectId in MongoDB context)
+> UNIQUEIDENTIFIER: A column or local variable of unique identifier data type. Represents ObjectId.
 >
 > BIT: BIT data type is used to represent a Boolean value.
 >
-> **Field Length** - Specify the max number of characters of string field (Variable for NVARCHAR, N/A for other types in this context)
+> OBJECT/ARRAY: Represents complex data structures, stored as NVARCHAR for simplicity in this catalogue.
 >
-> **Mandatory** - Specify if the data item is mandatory. ?Y? if true. (Information not available from schema analysis)
+> **Field Length** - Specify the max number of characters of string field (Not Specified in Source).
 >
-> **Primary Key** - Indicates if data item is part of the Primary Key. (Assumed '_id' is Primary Key)
+> **Mandatory** - Specify if the data item is mandatory. ?Y? if true (Not Specified in Source).
 >
-> **Foreign Key** - Indicates if data item is likely a Foreign Key referencing another collection. (Inferred based on field names, may not be explicitly defined)
+> **Primary Key** - Indicates if data item is part of the Primary Key (Inferred `_id` as Primary Key).
+>
+> **Foreign Key** - Indicates if data item is part of the Foreign Key (Not Specified in Source).
 
-##
+## 
 
-## 4.1 Objective
+## 5.1 Objective
 
 > Name Space: LSCP
 >
-> Description: LSCP Data Storage for **bd** database
+> Description: LSCP Data Storage
 >
-> Storage Location: TBC (To Be Confirmed)
+> Storage Location: TBC
 >
-> File Name: TBC (To Be Confirmed)
+> File Name: TBC
 
-### 4.1.1. Collections
-
-This section describes the fields within each collection of the **bd** database.
-
-#### 4.1.1.1. tasks
+### 5.1.1. tasks
 
 > Entity Name: tasks
 >
-> Description: Collection to store tasks related to applications or cases.
+> Description: Collection storing information about tasks.
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v             | Version field     | Int, ObjectId    | N/A              |               |                 |                 |
-| _id             | Task ID         | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| application     | Application ID  | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| createdAt       | Creation Date   | DATETIME2        | N/A              |               |                 |                 |
-| status          | Task Status     | NVARCHAR         | Variable         |               |                 |                 |
-| submissionCase  | Case ID         | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| taskType        | Type of Task    | NVARCHAR         | Variable         |               |                 |                 |
-| team            | Team assigned   | NVARCHAR         | Variable         |               |                 |                 |
-| user            | User assigned   | NVARCHAR, UNIQUEIDENTIFIER | Variable/N/A   |               |                 | Y               |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT/UNIQUEIDENTIFIER         |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| application   | Application ID  | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| createdAt     | Creation Timestamp | DATETIME2       |                  |               |                 |                 |
+| status        | Task Status     | NVARCHAR        |                  |               |                 |                 |
+| submissionCase| Submission Case ID | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| taskType      | Task Type       | NVARCHAR        |                  |               |                 |                 |
+| team          | Team identifier | NVARCHAR        |                  |               |                 |                 |
+| user          | User identifier | NVARCHAR/UNIQUEIDENTIFIER         |                  |               |                 | Y               |
 
-#### 4.1.1.2. eminutes
+### 5.1.2. eminutes
 
 > Entity Name: eminutes
 >
-> Description: Collection for electronic minutes, potentially for meetings or case discussions.
+> Description: Collection storing information about electronic minutes.
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v             | Version field     | Int              | N/A              |               |                 |                 |
-| _id             | Minute ID       | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| comment         | Comment content | NVARCHAR         | Variable         |               |                 |                 |
-| content         | Minute content  | NVARCHAR         | Variable         |               |                 |                 |
-| createdAt       | Creation Date   | DATETIME2        | N/A              |               |                 |                 |
-| efolio          | Efolio reference| NVARCHAR         | Variable         |               |                 |                 |
-| eminuteId       | Minute Identifier| NVARCHAR         | Variable         |               |                 |                 |
-| from            | Sender ID       | UNIQUEIDENTIFIER, NVARCHAR | N/A/Variable   |               |                 | Y               |
-| status          | Minute Status   | NVARCHAR         | Variable         |               |                 |                 |
-| subject         | Minute Subject  | NVARCHAR         | Variable         |               |                 |                 |
-| submissionCase  | Case ID         | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| sysFileRefId    | File Reference ID| NVARCHAR         | Variable         |               |                 | Y               |
-| to              | Recipient ID    | UNIQUEIDENTIFIER, NVARCHAR | N/A/Variable   |               |                 | Y               |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| comment       | Comment         | NVARCHAR        |                  |               |                 |                 |
+| content       | Content         | NVARCHAR        |                  |               |                 |                 |
+| createdAt     | Creation Timestamp | DATETIME2       |                  |               |                 |                 |
+| efolio        | Efolio identifier | NVARCHAR        |                  |               |                 |                 |
+| eminuteId     | E-minute ID     | NVARCHAR        |                  |               |                 |                 |
+| from          | Sender identifier | UNIQUEIDENTIFIER/NVARCHAR         |                  |               |                 | Y               |
+| status        | Status          | NVARCHAR        |                  |               |                 |                 |
+| subject       | Subject         | NVARCHAR        |                  |               |                 |                 |
+| submissionCase| Submission Case ID | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| sysFileRefId  | System File Reference ID | NVARCHAR        |                  |               |                 |                 |
+| to            | Recipient identifier | UNIQUEIDENTIFIER/NVARCHAR         |                  |               |                 | Y               |
 
-#### 4.1.1.3. submissions
+### 5.1.3. submissions
 
 > Entity Name: submissions
 >
-> Description: Collection to store application submissions. Currently empty.
+> Description: Collection storing information about submissions. Currently empty.
 
 | **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-----------------|------------------|------------------|---------------|-----------------|-----------------|
-| *(No fields defined in schema analysis as collection is empty)* |                  |                  |                  |               |                 |                 |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| *(No Fields Defined)* | *(No Fields Defined)* | *(No Fields Defined)* | *(No Fields Defined)* | *(No Fields Defined)* | *(No Fields Defined)* | *(No Fields Defined)* |
 
-#### 4.1.1.4. applications
+### 5.1.4. applications
 
 > Entity Name: applications
 >
-> Description: Collection for storing applications for licensing self-certification.
+> Description: Collection storing information about applications.
 
-| **Field Name**          | **Description**             | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-----------------------|-----------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| APP13                   | APP13 data                  | Object, Array    | N/A              |               |                 |                 |
-| AddressOfPremiseCN      | Premise Address (CN)        | NVARCHAR         | Variable         |               |                 |                 |
-| AddressOfPremiseCNFloor | Premise Address Floor (CN)  | NVARCHAR         | Variable         |               |                 |                 |
-| AddressOfPremiseCNUnit  | Premise Address Unit (CN)   | NVARCHAR         | Variable         |               |                 |                 |
-| AddressOfPremiseEN      | Premise Address (EN)        | NVARCHAR         | Variable         |               |                 |                 |
-| AddressOfPremiseENFloor | Premise Address Floor (EN)  | NVARCHAR         | Variable         |               |                 |                 |
-| AddressOfPremiseENUnit  | Premise Address Unit (EN)   | NVARCHAR         | Variable         |               |                 |                 |
-| AgeOfStudent            | Age of Student              | NVARCHAR, Null   | Variable         |               |                 |                 |
-| ApplicantAddress        | Applicant Address           | NVARCHAR         | Variable         |               |                 |                 |
-| ApplicantEmail          | Applicant Email             | NVARCHAR         | Variable         |               |                 |                 |
-| ApplicantFax            | Applicant Fax               | NVARCHAR         | Variable         |               |                 |                 |
-| ApplicantMobile         | Applicant Mobile            | NVARCHAR         | Variable         |               |                 |                 |
-| ApplicantName           | Applicant Name              | NVARCHAR         | Variable         |               |                 |                 |
-| ApplicantNameCN         | Applicant Name (CN)         | NVARCHAR         | Variable         |               |                 |                 |
-| ApplicantNameEN         | Applicant Name (EN)         | NVARCHAR, Null   | Variable         |               |                 |                 |
-| ApplicantTel            | Applicant Telephone         | NVARCHAR, Null   | Variable         |               |                 |                 |
-| ApplicationNo           | Application Number          | NVARCHAR, Null   | Variable         |               |                 |                 |
-| ApplicationType         | Application Type            | NVARCHAR         | Variable         |               |                 |                 |
-| Area                    | Area                        | NVARCHAR         | Variable         |               |                 |                 |
-| BlockID                 | Block ID                    | NVARCHAR         | Variable         |               |                 |                 |
-| ContactPerson           | Contact Person Name         | NVARCHAR         | Variable         |               |                 |                 |
-| ContactPersonCN         | Contact Person Name (CN)    | NVARCHAR         | Variable         |               |                 |                 |
-| ContactPersonEN         | Contact Person Name (EN)    | NVARCHAR         | Variable         |               |                 |                 |
-| ContactPersonEmail      | Contact Person Email        | NVARCHAR         | Variable         |               |                 |                 |
-| ContactPersonTel        | Contact Person Telephone    | NVARCHAR         | Variable         |               |                 |                 |
-| DescriptionOfSchool     | Description of School       | NVARCHAR, Null   | Variable         |               |                 |                 |
-| District                | District                    | NVARCHAR         | Variable         |               |                 |                 |
-| EstimatedNoOfStudent    | Estimated Number of Students| Int, Null        | N/A              |               |                 |                 |
-| FileReference           | File Reference              | NVARCHAR         | Variable         |               |                 |                 |
-| NameOfSchoolCN          | Name of School (CN)         | NVARCHAR         | Variable         |               |                 |                 |
-| NameOfSchoolEN          | Name of School (EN)         | NVARCHAR         | Variable         |               |                 |                 |
-| Region                  | Region                      | NVARCHAR         | Variable         |               |                 |                 |
-| RelatedPremise          | Related Premise             | NVARCHAR         | Variable         |               |                 |                 |
-| RelatedPremises         | Related Premises (Array)    | Array            | N/A              |               |                 |                 |
-| SelfCertification      | Self Certification Data     | Object, Null     | N/A              |               |                 |                 |
-| StructuralCalculation   | Structural Calculation Data | Object           | N/A              |               |                 |                 |
-| SubmissionType          | Submission Type           | NVARCHAR         | Variable         |               |                 |                 |
-| __v                     | Version field             | Int              | N/A              |               |                 |                 |
-| _id                     | Application ID            | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| address                 | Address object            | Object           | N/A              |               |                 |                 |
-| assignedBS              | Assigned Building Surveyor ID | UNIQUEIDENTIFIER, NVARCHAR, Null | N/A/Variable   |               |                 | Y               |
-| assignedGR              | Assigned Geotechnical Engineer ID | UNIQUEIDENTIFIER, Null | N/A              |               |                 | Y               |
-| assignedSBS             | Assigned Structural Engineer ID | NVARCHAR, Null   | Variable         |               |                 |                 |
-| createdAt               | Creation Date             | DATETIME2        | N/A              |               |                 |                 |
-| updatedAt               | Last Updated Date         | DATETIME2        | N/A              |               |                 |                 |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| APP13         | APP13 data      | OBJECT/ARRAY        |                  |               |                 |                 |
+| AddressOfPremiseCN | Address of Premise (CN) | NVARCHAR        |                  |               |                 |                 |
+| AddressOfPremiseCNFloor | Address of Premise Floor (CN) | NVARCHAR        |                  |               |                 |
+| AddressOfPremiseCNUnit | Address of Premise Unit (CN) | NVARCHAR        |                  |               |                 |
+| AddressOfPremiseEN | Address of Premise (EN) | NVARCHAR        |                  |               |                 |                 |
+| AddressOfPremiseENFloor | Address of Premise Floor (EN) | NVARCHAR        |                  |               |                 |
+| AddressOfPremiseENUnit | Address of Premise Unit (EN) | NVARCHAR        |                  |               |                 |
+| AgeOfStudent  | Age of Student  | NVARCHAR        |                  |               |                 |                 |
+| ApplicantAddress | Applicant Address | NVARCHAR        |                  |               |                 |                 |
+| ApplicantEmail | Applicant Email | NVARCHAR        |                  |               |                 |                 |
+| ApplicantFax  | Applicant Fax   | NVARCHAR        |                  |               |                 |                 |
+| ApplicantMobile | Applicant Mobile | NVARCHAR        |                  |               |                 |                 |
+| ApplicantName | Applicant Name  | NVARCHAR        |                  |               |                 |                 |
+| ApplicantNameCN | Applicant Name (CN) | NVARCHAR        |                  |               |                 |                 |
+| ApplicantNameEN | Applicant Name (EN) | NVARCHAR        |                  |               |                 |                 |
+| ApplicantTel  | Applicant Tel   | NVARCHAR        |                  |               |                 |                 |
+| ApplicationNo | Application Number | NVARCHAR        |                  |               |                 |                 |
+| ApplicationType | Application Type | NVARCHAR        |                  |               |                 |                 |
+| Area          | Area            | NVARCHAR        |                  |               |                 |                 |
+| BlockID       | Block ID        | NVARCHAR        |                  |               |                 |                 |
+| ContactPerson | Contact Person  | NVARCHAR        |                  |               |                 |                 |
+| ContactPersonCN | Contact Person (CN) | NVARCHAR        |                  |               |                 |                 |
+| ContactPersonEN | Contact Person (EN) | NVARCHAR        |                  |               |                 |                 |
+| ContactPersonEmail | Contact Person Email | NVARCHAR        |                  |               |                 |                 |
+| ContactPersonTel | Contact Person Tel | NVARCHAR        |                  |               |                 |                 |
+| DescriptionOfSchool | Description of School | NVARCHAR        |                  |               |                 |                 |
+| District      | District        | NVARCHAR        |                  |               |                 |                 |
+| EstimatedNoOfStudent | Estimated Number of Students | BIGINT/NVARCHAR        |                  |               |                 |
+| FileReference | File Reference  | NVARCHAR        |                  |               |                 |                 |
+| NameOfSchoolCN | Name of School (CN) | NVARCHAR        |                  |               |                 |                 |
+| NameOfSchoolEN | Name of School (EN) | NVARCHAR        |                  |               |                 |                 |
+| Region        | Region          | NVARCHAR        |                  |               |                 |                 |
+| RelatedPremise | Related Premise | NVARCHAR        |                  |               |                 |                 |
+| RelatedPremises | Related Premises | ARRAY           |                  |               |                 |                 |
+| SelfCertification | Self Certification Data | OBJECT/NVARCHAR        |                  |               |                 |
+| StructuralCalculation | Structural Calculation Data | OBJECT        |                  |               |                 |
+| SubmissionType | Submission Type | NVARCHAR        |                  |               |                 |                 |
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| address       | Address Data    | OBJECT          |                  |               |                 |                 |
+| assignedBS    | Assigned BS ID  | UNIQUEIDENTIFIER/NVARCHAR         |                  |               |                 | Y               |
+| assignedGR    | Assigned GR ID  | UNIQUEIDENTIFIER/NVARCHAR         |                  |               |                 | Y               |
+| assignedSBS   | Assigned SBS ID | NVARCHAR/NVARCHAR         |                  |               |                 |                 |
+| createdAt     | Creation Timestamp | DATETIME2       |                  |               |                 |                 |
+| updatedAt     | Update Timestamp | DATETIME2       |                  |               |                 |                 |
 
-#### 4.1.1.5. notifications
+### 5.1.5. notifications
 
 > Entity Name: notifications
 >
-> Description: Collection for storing system notifications for users.
+> Description: Collection storing information about notifications.
 
-| **Field Name**     | **Description**         | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|--------------------|-------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v                  | Version field           | Int              | N/A              |               |                 |                 |
-| _id                  | Notification ID       | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| createdAt            | Creation Date         | DATETIME2        | N/A              |               |                 |                 |
-| eminute              | Eminute ID            | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| notificationType     | Type of Notification  | NVARCHAR         | Variable         |               |                 |                 |
-| requireSendEmail     | Email Required Flag   | BIT              | N/A              |               |                 |                 |
-| task                 | Task ID               | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| user                 | User ID               | NVARCHAR         | Variable         |               |                 | Y               |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| createdAt     | Creation Timestamp | DATETIME2       |                  |               |                 |                 |
+| eminute       | E-minute ID     | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| notificationType | Notification Type | NVARCHAR        |                  |               |                 |                 |
+| requireSendEmail | Require Send Email | BIT             |                  |               |                 |                 |
+| task          | Task ID         | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| user          | User identifier | NVARCHAR        |                  |               |                 | Y               |
 
-#### 4.1.1.6. bsblocks
+### 5.1.6. bsblocks
 
 > Entity Name: bsblocks
 >
-> Description: Collection for building blocks information.
+> Description: Collection storing information about building services blocks.
 
-| **Field Name** | **Description**   | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------|-------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v             | Version field     | Int              | N/A              |               |                 |                 |
-| _id             | Block ID          | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| bdgis           | BDGIS identifier  | NVARCHAR         | Variable         |               |                 |                 |
-| blockId         | Block Identifier  | NVARCHAR         | Variable         |               |                 |                 |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| bdgis         | BDGIS identifier | NVARCHAR        |                  |               |                 |                 |
+| blockId       | Block ID        | NVARCHAR        |                  |               |                 |                 |
 
-#### 4.1.1.7. cases
+### 5.1.7. cases
 
 > Entity Name: cases
 >
-> Description: Collection for cases related to applications, potentially for follow-up or audit.
+> Description: Collection storing information about cases.
 
-| **Field Name**              | **Description**                 | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------------------|---------------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| ActualReplyDate           | Actual Reply Date               | DATETIME2, Null  | N/A              |               |                 |                 |
-| Area                      | Area                            | NVARCHAR         | Variable         |               |                 |                 |
-| AuditResult               | Audit Result                    | NVARCHAR         | Variable         |               |                 |                 |
-| CaseOfficer               | Case Officer Name               | NVARCHAR         | Variable         |               |                 |                 |
-| Category                  | Case Category                   | NVARCHAR         | Variable         |               |                 |                 |
-| District                  | District                        | NVARCHAR         | Variable         |               |                 |                 |
-| FileReference             | File Reference                  | NVARCHAR         | Variable         |               |                 |                 |
-| LAFileReference           | LA File Reference               | Object           | N/A              |               |                 |                 |
-| Nature                    | Case Nature                     | NVARCHAR, Null   | Variable         |               |                 |                 |
-| ObjectiontoLR             | Objection to LR                 | NVARCHAR         | Variable         |               |                 |                 |
-| ReceivedDate              | Date Received                   | DATETIME2, Null  | N/A              |               |                 |                 |
-| Referrer                  | Case Referrer                   | Object           | N/A              |               |                 |                 |
-| Region                    | Region                          | NVARCHAR         | Variable         |               |                 |                 |
-| Remarks                   | Case Remarks                    | NVARCHAR         | Variable         |               |                 |                 |
-| Reminders                 | Reminders (Array)               | Array            | N/A              |               |                 |                 |
-| SubmissionType            | Submission Type                 | NVARCHAR         | Variable         |               |                 |                 |
-| SubstantialReplyDate      | Substantial Reply Date          | DATETIME2, Null  | N/A              |               |                 |                 |
-| TargetReplyDate           | Target Reply Date               | DATETIME2, Null  | N/A              |               |                 |                 |
-| ThreeTierReqt             | Three Tier Requirement          | NVARCHAR         | Variable         |               |                 |                 |
-| ViaSCS                    | Via SCS Flag                    | BIT              | N/A              |               |                 |                 |
-| __v                       | Version field                   | Int              | N/A              |               |                 |                 |
-| _id                       | Case ID                         | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| application               | Application ID                  | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| assignedBS                | Assigned Building Surveyor ID    | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| assignedGR                | Assigned Geotechnical Engineer ID| UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| building_information      | Building Information Object     | Object           | N/A              |               |                 |                 |
-| caseDescription           | Case Description Object         | Object           | N/A              |               |                 |                 |
-| caseOfficerReceive        | Case Officer Receive User ID    | NVARCHAR         | Variable         |               |                 | Y               |
-| caseOfficerReply          | Case Officer Reply User ID      | NVARCHAR         | Variable         |               |                 | Y               |
-| createdAt                 | Creation Date                   | DATETIME2        | N/A              |               |                 |                 |
-| deck_study                | Deck Study Object               | Object           | N/A              |               |                 |                 |
-| documentChecklist         | Document Checklist Object       | Object           | N/A              |               |                 |                 |
-| dv                        | DV Object                       | Object           | N/A              |               |                 |                 |
-| frc                       | FRC Object                      | Object           | N/A              |               |                 |                 |
-| misc                      | Miscellaneous Object            | Object           | N/A              |               |                 |                 |
-| moe                       | MOE Object                      | Object           | N/A              |               |                 |                 |
-| seniorCaseOfficerReceive  | Senior Case Officer Receive User ID | NVARCHAR         | Variable         |               |                 | Y               |
-| seniorCaseOfficerReply    | Senior Case Officer Reply User ID   | NVARCHAR         | Variable         |               |                 | Y               |
-| site_inspection           | Site Inspection Object          | Object           | N/A              |               |                 |                 |
-| structural_ccc_bs         | Structural CCC BS Object        | Object           | N/A              |               |                 |                 |
-| structural_schnlh         | Structural SCHNLH Object        | Object           | N/A              |               |                 |                 |
-| structural_schnlhkinds    | Structural SCHNLHKINDS Object   | Object           | N/A              |               |                 |                 |
-| team                      | Team assigned                   | NVARCHAR         | Variable         |               |                 |                 |
-| ubw                       | UBW Object                      | Object           | N/A              |               |                 |                 |
-| updatedAt                 | Last Updated Date               | DATETIME2        | N/A              |               |                 |                 |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| ActualReplyDate | Actual Reply Date | DATETIME2/NVARCHAR       |                  |               |                 |                 |
+| Area          | Area            | NVARCHAR        |                  |               |                 |                 |
+| AuditResult   | Audit Result    | NVARCHAR        |                  |               |                 |                 |
+| CaseOfficer   | Case Officer    | NVARCHAR        |                  |               |                 |                 |
+| Category      | Category        | NVARCHAR        |                  |               |                 |                 |
+| District      | District        | NVARCHAR        |                  |               |                 |                 |
+| FileReference | File Reference  | NVARCHAR        |                  |               |                 |                 |
+| LAFileReference | LA File Reference | OBJECT          |                  |               |                 |                 |
+| Nature        | Nature          | NVARCHAR        |                  |               |                 |                 |
+| ObjectiontoLR | Objection to LR | NVARCHAR        |                  |               |                 |                 |
+| ReceivedDate  | Received Date   | DATETIME2/NVARCHAR       |                  |               |                 |                 |
+| Referrer      | Referrer Data   | OBJECT          |                  |               |                 |                 |
+| Region        | Region          | NVARCHAR        |                  |               |                 |                 |
+| Remarks       | Remarks         | NVARCHAR        |                  |               |                 |                 |
+| Reminders     | Reminders       | ARRAY           |                  |               |                 |                 |
+| SubmissionType | Submission Type | NVARCHAR        |                  |               |                 |                 |
+| SubstantialReplyDate | Substantial Reply Date | DATETIME2/NVARCHAR       |                  |               |                 |
+| TargetReplyDate | Target Reply Date | DATETIME2/NVARCHAR       |                  |               |                 |                 |
+| ThreeTierReqt | Three Tier Requirement | NVARCHAR        |                  |               |                 |                 |
+| ViaSCS        | Via SCS         | BIT             |                  |               |                 |                 |
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| application   | Application ID  | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| assignedBS    | Assigned BS ID  | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| assignedGR    | Assigned GR ID  | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| building_information | Building Information | OBJECT          |                  |               |                 |                 |
+| caseDescription | Case Description | OBJECT          |                  |               |                 |                 |
+| caseOfficerReceive | Case Officer Receive | NVARCHAR        |                  |               |                 |                 |
+| caseOfficerReply | Case Officer Reply | NVARCHAR        |                  |               |                 |                 |
+| createdAt     | Creation Timestamp | DATETIME2       |                  |               |                 |                 |
+| deck_study    | Deck Study Data | OBJECT          |                  |               |                 |                 |
+| documentChecklist | Document Checklist | OBJECT          |                  |               |                 |                 |
+| dv            | DV Data         | OBJECT          |                  |               |                 |                 |
+| frc           | FRC Data        | OBJECT          |                  |               |                 |                 |
+| misc          | Miscellaneous Data | OBJECT          |                  |               |                 |                 |
+| moe           | MOE Data        | OBJECT          |                  |               |                 |                 |
+| seniorCaseOfficerReceive | Senior Case Officer Receive | NVARCHAR        |                  |               |                 |                 |
+| seniorCaseOfficerReply | Senior Case Officer Reply | NVARCHAR        |                  |               |                 |                 |
+| site_inspection | Site Inspection Data | OBJECT          |                  |               |                 |                 |
+| structural_ccc_bs | Structural CCC BS Data | OBJECT          |                  |               |                 |                 |
+| structural_schnlh | Structural SCHNLH Data | OBJECT          |                  |               |                 |                 |
+| structural_schnlhkinds | Structural SCHNLH Kinds Data | OBJECT          |                  |               |                 |                 |
+| team          | Team identifier | NVARCHAR        |                  |               |                 |                 |
+| ubw           | UBW Data        | OBJECT          |                  |               |                 |                 |
+| updatedAt     | Update Timestamp | DATETIME2       |                  |               |                 |                 |
 
-#### 4.1.1.8. oauthtokens
+### 5.1.8. oauthtokens
 
 > Entity Name: oauthtokens
 >
-> Description: Collection for OAuth 2.0 access and refresh tokens.
+> Description: Collection storing information about OAuth tokens.
 
-| **Field Name**          | **Description**             | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-----------------------|-----------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v                     | Version field               | Int              | N/A              |               |                 |                 |
-| _id                     | Token ID                    | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| accessToken             | Access Token                | NVARCHAR         | Variable         |               |                 |                 |
-| accessTokenExpiresAt    | Access Token Expiry Date    | DATETIME2        | N/A              |               |                 |                 |
-| client                  | Client Object               | Object           | N/A              |               |                 |                 |
-| refreshToken            | Refresh Token               | NVARCHAR         | Variable         |               |                 |                 |
-| refreshTokenExpiresAt   | Refresh Token Expiry Date   | DATETIME2        | N/A              |               |                 |                 |
-| user                    | User ID                     | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| accessToken   | Access Token    | NVARCHAR        |                  |               |                 |                 |
+| accessTokenExpiresAt | Access Token Expiry | DATETIME2       |                  |               |                 |                 |
+| client        | Client Data     | OBJECT          |                  |               |                 |                 |
+| refreshToken  | Refresh Token   | NVARCHAR        |                  |               |                 |                 |
+| refreshTokenExpiresAt | Refresh Token Expiry | DATETIME2       |                  |               |                 |                 |
+| user          | User ID         | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
 
-#### 4.1.1.9. sysfilerefs
+### 5.1.9. sysfilerefs
 
 > Entity Name: sysfilerefs
 >
-> Description: Collection for system file references, storing metadata about files.
+> Description: Collection storing system file references.
 
-| **Field Name**        | **Description**           | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------------|---------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v                   | Version field             | Int              | N/A              |               |                 |                 |
-| _id                   | File Reference ID         | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| createdDt             | Creation Date             | DATETIME2        | N/A              |               |                 |                 |
-| createdName           | Creator Name              | NVARCHAR, Null   | Variable         |               |                 |                 |
-| createdPost           | Creator Post              | NVARCHAR, Null   | Variable         |               |                 |                 |
-| createdSection        | Creator Section           | NVARCHAR, Null   | Variable         |               |                 |                 |
-| display               | Display Name              | NVARCHAR         | Variable         |               |                 |                 |
-| dvExceed              | DV Exceed Status          | NVARCHAR, Null   | Variable         |               |                 |                 |
-| dvStatusDt            | DV Status Date            | DATETIME2, Null  | N/A              |               |                 |                 |
-| frefPref              | File Reference Prefix     | NVARCHAR, Null   | Variable         |               |                 |                 |
-| frefSeq               | File Reference Sequence   | NVARCHAR, Null   | Variable         |               |                 |                 |
-| frefSuf               | File Reference Suffix     | NVARCHAR, Null   | Variable         |               |                 |                 |
-| frefYr                | File Reference Year       | NVARCHAR, Null   | Variable         |               |                 |                 |
-| lastModifiedDt        | Last Modified Date        | DATETIME2        | N/A              |               |                 |                 |
-| lastModifiedName      | Last Modifier Name        | NVARCHAR, Null   | Variable         |               |                 |                 |
-| lastModifiedPost      | Last Modifier Post        | NVARCHAR, Null   | Variable         |               |                 |                 |
-| lastModifiedSection   | Last Modifier Section     | NVARCHAR, Null   | Variable         |               |                 |                 |
-| sysFileRefId          | System File Reference ID  | NVARCHAR         | Variable         |               |                 |                 |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| createdDt     | Creation Date   | DATETIME2       |                  |               |                 |                 |
+| createdName   | Created By Name | NVARCHAR        |                  |               |                 |                 |
+| createdPost   | Created By Post | NVARCHAR        |                  |               |                 |                 |
+| createdSection | Created By Section | NVARCHAR        |                  |               |                 |                 |
+| display       | Display Value   | NVARCHAR        |                  |               |                 |                 |
+| dvExceed      | DV Exceed Value | NVARCHAR        |                  |               |                 |                 |
+| dvStatusDt    | DV Status Date  | DATETIME2/NVARCHAR       |                  |               |                 |                 |
+| frefPref      | File Reference Prefix | NVARCHAR        |                  |               |                 |                 |
+| frefSeq       | File Reference Sequence | NVARCHAR        |                  |               |                 |                 |
+| frefSuf       | File Reference Suffix | NVARCHAR        |                  |               |                 |                 |
+| frefYr        | File Reference Year | NVARCHAR        |                  |               |                 |                 |
+| lastModifiedDt | Last Modified Date | DATETIME2       |                  |               |                 |                 |
+| lastModifiedName | Last Modified By Name | NVARCHAR        |                  |               |                 |                 |
+| lastModifiedPost | Last Modified By Post | NVARCHAR        |                  |               |                 |                 |
+| lastModifiedSection | Last Modified By Section | NVARCHAR        |                  |               |                 |                 |
+| sysFileRefId  | System File Reference ID | NVARCHAR        |                  |               |                 |                 |
 
-#### 4.1.1.10. attachments
+### 5.1.10. attachments
 
 > Entity Name: attachments
 >
-> Description: Collection for file attachments associated with applications or cases.
+> Description: Collection storing information about attachments.
 
-| **Field Name**    | **Description**       | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|-----------------|-----------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v               | Version field         | Int              | N/A              |               |                 |                 |
-| _id               | Attachment ID       | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| application       | Application ID      | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| createdAt         | Creation Date       | DATETIME2        | N/A              |               |                 |                 |
-| efolio            | Efolio reference    | NVARCHAR, Null   | Variable         |               |                 |                 |
-| file              | File Object/String    | Object, NVARCHAR | N/A/Variable   |               |                 |                 |
-| filePartNo        | File Part Number      | NVARCHAR         | Variable         |               |                 |                 |
-| receivedDate      | Date Received       | DATETIME2        | N/A              |               |                 |                 |
-| remarks           | Attachment Remarks  | NVARCHAR         | Variable         |               |                 |                 |
-| subType           | Attachment Subtype  | NVARCHAR         | Variable         |               |                 |                 |
-| submissionCase    | Case ID             | UNIQUEIDENTIFIER | N/A              |               |                 | Y               |
-| sysFileRefId      | File Reference ID   | NVARCHAR         | Variable         |               |                 | Y               |
-| type              | Attachment Type     | NVARCHAR         | Variable         |               |                 |                 |
-| updatedAt         | Last Updated Date   | DATETIME2        | N/A              |               |                 |                 |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| application   | Application ID  | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| createdAt     | Creation Timestamp | DATETIME2       |                  |               |                 |                 |
+| efolio        | Efolio identifier | NVARCHAR        |                  |               |                 |                 |
+| file          | File Data       | OBJECT/NVARCHAR        |                  |               |                 |                 |
+| filePartNo    | File Part Number | NVARCHAR        |                  |               |                 |                 |
+| receivedDate  | Received Date   | DATETIME2       |                  |               |                 |                 |
+| remarks       | Remarks         | NVARCHAR        |                  |               |                 |                 |
+| subType       | Sub Type        | NVARCHAR        |                  |               |                 |                 |
+| submissionCase| Submission Case ID | UNIQUEIDENTIFIER         |                  |               |                 | Y               |
+| sysFileRefId  | System File Reference ID | NVARCHAR        |                  |               |                 |                 |
+| type          | Attachment Type | NVARCHAR        |                  |               |                 |                 |
+| updatedAt     | Update Timestamp | DATETIME2       |                  |               |                 |                 |
 
-#### 4.1.1.11. users
+### 5.1.11. users
 
 > Entity Name: users
 >
-> Description: Collection for user accounts and profiles.
+> Description: Collection storing user information.
 
-| **Field Name**        | **Description**             | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------------|-----------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v                   | Version field               | Int              | N/A              |               |                 |                 |
-| _id                   | User ID                     | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| bdgis                 | BDGIS identifier            | NVARCHAR         | Variable         |               |                 |                 |
-| begis                 | BEGIS identifier            | NVARCHAR         | Variable         |               |                 |                 |
-| delegateTo            | Delegate To User ID         | NVARCHAR         | Variable         |               |                 | Y               |
-| department            | Department                  | NVARCHAR         | Variable         |               |                 |                 |
-| email                 | Email Address               | NVARCHAR         | Variable         |               |                 |                 |
-| group                 | User Group                  | NVARCHAR         | Variable         |               |                 |                 |
-| lastLoginAt           | Last Login Date             | DATETIME2        | N/A              |               |                 |                 |
-| letterLongPosition    | Letter Long Position (EN)   | NVARCHAR         | Variable         |               |                 |                 |
-| letterLongPositionCn  | Letter Long Position (CN)   | NVARCHAR         | Variable         |               |                 |                 |
-| letterName            | Letter Name (EN)            | NVARCHAR         | Variable         |               |                 |                 |
-| letterNameCn          | Letter Name (CN)            | NVARCHAR         | Variable         |               |                 |                 |
-| letterPosition        | Letter Position (EN)        | NVARCHAR         | Variable         |               |                 |                 |
-| letterPositionCn      | Letter Position (CN)        | NVARCHAR         | Variable         |               |                 |                 |
-| lock                  | Account Lock Status         | BIT              | N/A              |               |                 |                 |
-| luPostName            | LU Post Name                | NVARCHAR         | Variable         |               |                 |                 |
-| name                  | User Name (EN)              | NVARCHAR         | Variable         |               |                 |                 |
-| notificationEmail     | Notification Email Address  | NVARCHAR         | Variable         |               |                 |                 |
-| osdpEmail             | OSDP Email Address          | NVARCHAR         | Variable         |               |                 |                 |
-| osdpLoginId           | OSDP Login ID               | NVARCHAR         | Variable         |               |                 |                 |
-| password              | Password (Hashed)           | NVARCHAR         | Variable         |               |                 |                 |
-| phoneNumber           | Phone Number                | NVARCHAR         | Variable         |               |                 |                 |
-| position              | Position (EN)               | NVARCHAR         | Variable         |               |                 |                 |
-| role                  | User Role                   | NVARCHAR         | Variable         |               |                 |                 |
-| team                  | Team assigned               | NVARCHAR         | Variable         |               |                 |                 |
-| userType              | User Type                   | NVARCHAR         | Variable         |               |                 |                 |
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| bdgis         | BDGIS identifier | NVARCHAR        |                  |               |                 |                 |
+| begis         | BEGIS identifier | NVARCHAR        |                  |               |                 |                 |
+| delegateTo    | Delegate To User | NVARCHAR        |                  |               |                 |                 |
+| department    | Department      | NVARCHAR        |                  |               |                 |                 |
+| email         | Email Address   | NVARCHAR        |                  |               |                 |                 |
+| group         | Group identifier | NVARCHAR        |                  |               |                 |                 |
+| lastLoginAt   | Last Login Timestamp | DATETIME2       |                  |               |                 |                 |
+| letterLongPosition | Letter Long Position | NVARCHAR        |                  |               |                 |                 |
+| letterLongPositionCn | Letter Long Position (CN) | NVARCHAR        |                  |               |                 |                 |
+| letterName    | Letter Name     | NVARCHAR        |                  |               |                 |                 |
+| letterNameCn  | Letter Name (CN) | NVARCHAR        |                  |               |                 |                 |
+| letterPosition | Letter Position | NVARCHAR        |                  |               |                 |                 |
+| letterPositionCn | Letter Position (CN) | NVARCHAR        |                  |               |                 |                 |
+| lock          | Account Lock Status | BIT             |                  |               |                 |                 |
+| luPostName    | LU Post Name    | NVARCHAR        |                  |               |                 |                 |
+| name          | User Name       | NVARCHAR        |                  |               |                 |                 |
+| notificationEmail | Notification Email | NVARCHAR        |                  |               |                 |                 |
+| osdpEmail     | OSDP Email      | NVARCHAR        |                  |               |                 |                 |
+| osdpLoginId   | OSDP Login ID   | NVARCHAR        |                  |               |                 |                 |
+| password      | Password Hash   | NVARCHAR        |                  |               |                 |                 |
+| phoneNumber   | Phone Number    | NVARCHAR        |                  |               |                 |                 |
+| position      | Position        | NVARCHAR        |                  |               |                 |                 |
+| role          | User Role       | NVARCHAR        |                  |               |                 |                 |
+| team          | Team identifier | NVARCHAR        |                  |               |                 |                 |
+| userType      | User Type       | NVARCHAR        |                  |               |                 |                 |
 
-#### 4.1.1.12. adrblkfilerefs
+### 5.1.12. adrblkfilerefs
 
 > Entity Name: adrblkfilerefs
 >
-> Description: Collection for address block file references.
+> Description: Collection storing address block file references.
 
-| **Field Name**        | **Description**             | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
-|---------------------|-----------------------------|------------------|------------------|---------------|-----------------|-----------------|
-| __v                   | Version field               | Int              | N/A              |               |                 |                 |
-| _id                   | Address Block File Ref ID   | UNIQUEIDENTIFIER | N/A              | Y             | Y               |                 |
-| adrBlkFileRefId       | Address Block File Ref Identifier | NVARCHAR         | Variable         |               |                 |                 |
-| adrBlkId            | Address Block ID            | NVARCHAR         | Variable         |               |                 | Y               |
-| createdDt             | Creation Date             | DATETIME2        | N/A              |               |                 |                 |
-| createdName           | Creator Name              | NVARCHAR, Null   | Variable         |               |                 |                 |
-| createdPost           | Creator Post              | NVARCHAR         | Variable         |               |                 |                 |
-| createdSection        | Creator Section           | NVARCHAR, Null   | Variable         |               |                 |                 |
-| lastModifiedDt        | Last Modified Date        | DATETIME2        | N/A              |               |                 |                 |
-| lastModifiedName      | Last Modifier Name        | NVARCHAR, Null   | Variable         |               |                 |                 |
-| lastModifiedPost      | Last Modifier Post        | NVARCHAR         | Variable         |               |                 |                 |
-| lastModifiedSection   | Last Modifier Section     | NVARCHAR, Null   | Variable         |               |                 |                 |
-| sysFileRefId          | System File Reference ID  | NVARCHAR         | Variable         |               |                 | Y               |
-
----
-
-**Note:**
-
-- "Mandatory", "Field Length", and explicit "Foreign Key" relationships are not directly derived from the provided `database_schema.md`. "Mandatory" is left blank, "Field Length" is set to "Variable" for NVARCHAR types and "N/A" for others where applicable. "Foreign Key" is inferred based on field names and common database relationships, marked as 'Y' where likely, but should be verified against actual database constraints.
-- "Field Format" is based on the "Types" listed in `database_schema.md` and mapped to more general data types where appropriate for clarity in a Data Catalogue.
-- Descriptions for Entities and Fields are derived from the collection and field names provided in `database_schema.md`. They can be further refined for better clarity and business context.
-- This Data Catalogue is based on the database schema analysis performed on 2025/3/4 ??10:10:39. Database schema changes after this date are not reflected in this document.
+| **Field Name** | **Description** | **Field Format** | **Field Length** | **Mandatory** | **Primary Key** | **Foreign Key** |
+|---------------|-----------------|-----------------|-----------------|---------------|-----------------|-----------------|
+| __v           | Version field   | BIGINT          |                  |               |                 |                 |
+| _id           | Document ID     | UNIQUEIDENTIFIER         |                  |               | Y               |                 |
+| adrBlkFileRefId | Address Block File Reference ID | NVARCHAR        |                  |               |                 |                 |
+| adrBlkId      | Address Block ID | NVARCHAR        |                  |               |                 |                 |
+| createdDt     | Creation Date   | DATETIME2       |                  |               |                 |                 |
+| createdName   | Created By Name | NVARCHAR        |                  |               |                 |                 |
+| createdPost   | Created By Post | NVARCHAR        |                  |               |                 |                 |
+| createdSection | Created By Section | NVARCHAR        |                  |               |                 |                 |
+| lastModifiedDt | Last Modified Date | DATETIME2       |                  |               |                 |                 |
+| lastModifiedName | Last Modified By Name | NVARCHAR        |                  |               |                 |                 |
+| lastModifiedPost | Last Modified By Post | NVARCHAR        |                  |               |                 |                 |
+| lastModifiedSection | Last Modified By Section | NVARCHAR        |                  |               |                 |                 |
+| sysFileRefId  | System File Reference ID | NVARCHAR        |                  |               |                 |                 |
 ```
