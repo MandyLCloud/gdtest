@@ -1,326 +1,224 @@
 ```markdown
-![BDlogo](media/image1.jpg)
-
-**PROCESS DATA INTERFACE**
-
-**FOR**
-
-**COMBINED SYSTEM DEVELOPMENT SERVICES**
-
-**FOR**
-
-**LICENSING SELF-CERTIFICATION PORTAL**
-
-**OF**
-
-**BUILDINGS DEPARTMENT**
+# Process Data Interface for Licensing Self-Certification Portal
 
 **Version: 0.1**
-
 **Jan 2025**
 
 ? The Government of the Hong Kong Special Administrative Region
 
-The contents of this document remain the property of and may not be reproduced in whole or in part without the express permission of the Government of the HKSAR.
+## 1. Introduction
 
-| Distribution |  |
-| :---: | :---: |
-| Copy No. | Holder |
-| 1 | Buildings Department (BD) |
-| 2 | Master Concept (Hong Kong) Limited (MC) |
+This Process Data Interface (PDI) document outlines the data process interfaces for the Licensing Self-Certification Portal (LSCP) for the Buildings Department (BD). It describes both the internal system data process interface and the external interfaces with other systems.
 
-|  Amendment History  |  |  |  |  |  |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| Change Number | Revision Description | Pages Affected on Respective Version | Revision / Version Number | Date | Approval Reference |
-| 1 |  1st draft | All | 0.1 | 16/01/2025 |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
-|  |  |  |  |  |  |
+This document is structured as follows:
 
-**TABLE OF CONTENTS**
+1.  **Introduction**: Provides an overview of the PDI document and its purpose.
+2.  **System Data Process Interface**: Defines the approach for handling data processing within the LSCP system.
+3.  **External Interfaces**: Details the system integration with external systems, including interface specifications.
 
-[1. Introduction](#1-introduction)
+This PDI serves as a guide for the physical design and integration of the LSCP with external systems, ensuring seamless data flow and system interoperability.
 
-[2. System Data Process Interface](#2-system-data-process-interface)
+## 2. System Overview of Self-Certification System (SCS)
 
-[3. External Interfaces](#3-external-interfaces)
+The proposed Self-Certification System (SCS), also referred to as Licensing Self-Certification Portal (LSCP), is designed to modernize and streamline the application, processing, and management of certificates and notices required by the Buildings Department (BD) for:
 
-[3.1 List of External Interface Specification](#31-list-of-external-interface-specification)
+*   **Educational Premises (EP)** under the Education Ordinance (Cap. 279)
+*   **Child Care Centre (CCC)** under the Child Care Services Ordinance (Cap. 243)
+*   **Non-Local-Higher and Professional Education (Regulation) Ordinance [NLHP(R)O]** applications
+*   **Temporary Places of Public Entertainment License (TPPEL)** - Application for inclusion of Temporary Structures in the Pre-accepted Temporary Structure (PTS) Register
 
-[3.2 Interface Specification](#32-interface-specification)
+The SCS aims to provide a single, centralized repository for all applications and supporting documents, facilitating efficient processing and easy retrieval of records for BD users, as well as providing online e-submission capabilities for applicants, Authorized Persons (AP), Registered Structure Engineers (RSE), and users from Education Bureau (EDB) and Social Welfare Department (SWD).
 
-[3.2.1 INT-SMIS-01- Data Import from SMIS](#321-int-smis-01--data-import-from-smis)
+Currently, the Buildings Department relies on the Building Control Information System (BCIS) and primarily paper-based processes for managing these applications. The SCS is intended to address the limitations of the current system by introducing e-submission, e-processing, and e-tracking functionalities, along with interfaces to other relevant government systems.
 
-[3.2.2 INT-OSDP-01 -Single Sign-On through OSDP](#322-int-osdp-01--single-sign-on-through-osdp)
+## 3. System Data Process Interface
 
-[3.2.3 INT-MWMS2-01- Data Import from MWMS2](#323-int-mwms2-01--data-import-from-mwms2)
+The System Data Process Interface defines how data is handled internally within the LSCP system. It focuses on the physical data design and the components of the physical process, ensuring that the database implementation aligns with the Required System Logical Data Model. This approach aims to simplify system implementation and future maintenance.
 
-[3.2.4 INT-ESH-01 -Data Import from ESH](#324-int-esh-01--data-import-from-esh)
+For each incoming process request, the system will:
 
-[3.2.5 INT-ERKS-01 -Data Import from ERKS](#325-int-erks-01--data-import-from-erks)
+1.  **Accept and Handle Input**: Receive and validate the input data.
+2.  **Update and Enquire Database**: Process the data by updating or querying the database as required.
 
-[3.2.6 INT-BRAVO-01 -Data Import from BRAVO](#326-int-bravo-01--data-import-from-bravo)
-
-# **1. Introduction** {#1-introduction}
-
-The Process Data Interface (PDI) document outlines the data processing approach within the Licensing Self-Certification Portal (LSCP) system and its integration with external systems. This document is structured into three main sections:
-
-1.  **Introduction:** Provides an overview of the PDI's purpose and scope.
-2.  **System Data Process Interface:** Defines the internal data handling mechanisms within the LSCP system.
-3.  **External Interfaces:** Specifies the interfaces between the LSCP and external systems, including interface specifications and data exchange details.
-
-This PDI serves as a guide for the physical design and implementation of the LSCP system, ensuring seamless data flow and interoperability with other systems within the Buildings Department (BD) and other government departments.
-
-The following table lists the external systems that LSCP will interface with:
-
-| Abbreviation | Other External System                   | Host                                    |
-| :----------- | :-------------------------------------- | :-------------------------------------- |
-| SMIS         | Statutory Management Information System | *To be confirmed*                       |
-| OSDP         | Open Source Departmental Portal         | *To be confirmed* (likely CCGO Gateway) |
-| MWMS2        | Minor Works Management System 2.0       | *To be confirmed*                       |
-| ESH          | ESH (Environmental Safety and Health System)                              | *To be confirmed*                       |
-| ERKS         | ERKS (Electronic Records Keeping System)                               | *To be confirmed*                       |
-| BRAVO        | BRAVO (Building Records and Viewing Online)                               | *To be confirmed*                       |
-
-
-# **2. System Data Process Interface** {#2-system-data-process-interface}
-
-The System Data Process Interface (PDI) is designed to bridge the gap between the logical data model and the physical implementation of the LSCP database and processing components. This interface ensures that the physical database effectively supports the system's data processing needs and facilitates system implementation and maintenance.
-
-The PDI follows a consistent pattern for handling incoming process requests. Each function within the system is designed to:
-
-1.  **Accept and Handle Input:** Receive and process incoming data from various sources, including user inputs and external system interfaces.
-2.  **Update and Enquire Database:** Interact with the LSCP database to store, retrieve, and update data as required by the process.
-
-The diagram below illustrates the position of the Process Data Interface (PDI) within the universal function model, depicting the data flow direction:
+The following diagram illustrates the position of the Process Data Interface (PDI) within the universal function model:
 
 ![In/Out data process flow diagram](media/image2.png)
+*In/Out data process flow diagram from pdi_t1.md*
 
+## 4. External Interfaces
 
-# **3. External Interfaces** {#3-external-interfaces}
+The LSCP system is designed to interface with several external systems to enhance its functionality and data integration. These interfaces are crucial for data exchange, user authentication, and system interoperability.
 
-## 3.1 List of External Interface Specification {#31-list-of-external-interface-specification}
+### 4.1 List of External Interface Specifications
 
-The LSCP system is designed to interface with several external systems to ensure data consistency, streamline workflows, and enhance system functionality. The following table summarizes the external interfaces and their specifications:
+The following table summarizes the external interfaces of the LSCP system:
 
-| System Scope | Interfacing Party/ System | Interface Spec. ID | Name | Interface Type | In / Out | Authentication / Encryption |
-| :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| External | SMIS | INT-SMIS-01 | Data Import from SMIS | Stored Procedure | In | *To be determined* |
-| External | OSDP | INT-OSDP-01 | Single Sign-On through OSDP | HTTP Request Redirection | In | TLS 1.2 over HTTPS |
-| External | MWMS2 | INT-MWMS2-01 | Data Import from MWMS2 | SFTP and Excel | In | SFTP |
-| External | ESH | INT-ESH-01 | Data Import from ESH | SFTP | In |  SFTP|
-| External | ERKS | INT-ERKS-01 | Data Import from ERKS | *To be confirmed* | In |  *To be confirmed*|
-| External | BRAVO | INT-BRAVO-01 | Data Import from BRAVO | HTTP Request Redirection | In | *To be confirmed* |
+| System Scope | Interfacing Party/ System | Interface Spec. ID | Name                               | Interface Type             | In / Out | Authentication / Encryption |
+| :----------- | :------------------------ | :----------------- | :---------------------------------- | :------------------------- | :------- | :-------------------------- |
+| External     | SMIS                      | INT-SMIS-01        | Data Import from SMIS               | Stored Procedure           | In       | *To be determined*          |
+| External     | OSDP                      | INT-OSDP-01        | Single Sign-On through OSDP         | HTTP Request Redirection   | In       | TLS 1.2 over HTTPS          |
+| External     | MWMS2                     | INT-MWMS2-01       | Data Import from MWMS2              | SFTP and Excel             | In       | SFTP                        |
+| External     | ESH                       | INT-ESH-01         | Data Import from ESH                | SFTP                       | In       | SFTP                        |
+| External     | ERKS                      | INT-ERKS-01        | Data Import from ERKS               | *To be confirmed*          | In       | *To be confirmed*          |
+| External     | BRAVO                     | INT-BRAVO-01       | Data Import from BRAVO              | HTTP Request Redirection   | In       | *To be confirmed*          |
 
-**Note:**
--  Some authentication and encryption methods are marked "To be determined" or left blank, pending further clarification and confirmation based on the specific requirements and capabilities of each external system.
+**Note:** Authentication and encryption methods marked "To be determined" will be clarified and confirmed during the detailed design phase based on the specific requirements and capabilities of each external system.
 
-## 3.2 Interface Specification {#32-interface-specification}
+### 4.2 Interface Specifications
 
-### 3.2.1 INT-SMIS-01- Data Import from SMIS  {#321-int-smis-01--data-import-from-smis}
+#### 4.2.1 INT-SMIS-01 - Data Import from SMIS
 
-*   **Target System:** SMIS (Statutory Management Information System)
-*   **Interface Spec. ID:** INT-SMIS-01
-*   **Name:** Data Import from SMIS
+*   **Target System:** Statutory Management Information System (SMIS)
 *   **Interface Type:** Stored Procedure
-*   **In / Out:** In
+*   **In/Out:** In
 *   **Frequency:** Daily
-*   **Authentication / Encryption:** *To be determined*
 
-*   **Description:**
-    The LSCP system will interface with SMIS to import essential data required for case creation and management. This interface will facilitate the retrieval of master data and reference information from BCIS to streamline the application process within LSCP. The specific data fields to be imported will be defined during the detailed design phase.
+**Description:** The LSCP system will import necessary data from SMIS by calling stored procedures in the SMIS database. The specific data fields to be imported will be defined during the detailed design phase.
 
-*   **Data Exchange:**
-    Data exchange will be performed through stored procedures residing within the SMIS database. The LSCP system will invoke these stored procedures to retrieve the necessary data.
+**Data Exchange:** Data will be transferred directly between databases via stored procedures.
 
-*   **Authentication:**
-    The authentication mechanism for accessing the SMIS database will be determined in consultation with the relevant teams. Options may include database user credentials or API keys.
+**Authentication:** Authentication method for accessing the SMIS database will be determined (e.g., database user credentials, API keys).
 
-*   **Error Handling:**
-    Robust error handling will be implemented within the stored procedures to manage potential issues during data transfer. Error events will be logged for monitoring and troubleshooting purposes.
+**Error Handling:** Stored procedures will include error handling and logging mechanisms.
 
-*   **Data Mapping:**
+**Data Mapping:** Data mapping details will be defined in the detailed design phase.
 
-    | **SMIS Data Item** | **LSCP Data Item** | **Data Type** | **Description** |
-    | :---------------- | :---------------- | :----------- | :-------------- |
-    | *To be defined*  | *To be defined*  | *To be defined*  | *To be defined*  |
-    | ...             | ...             | ...          | ...             |
-    *(Note: The detailed data mapping will be defined in the detailed design phase based on the specific data requirements.)*
-
-*   **Example Stored Procedure Call (Illustrative):**
-
+**Example Stored Procedure Call (Illustrative):**
 ```sql
 EXECUTE SMIS.Import_LSCP_Data;
 ```
 
-### 3.2.2 INT-OSDP-01 -Single Sign-On through OSDP {#322-int-osdp-01--single-sign-on-through-osdp}
+#### 4.2.2 INT-OSDP-01 - Single Sign-On through OSDP
 
-*   **Target System:** OSDP (Open Source Departmental Portal)
-*   **Interface Spec. ID:** INT-OSDP-01
-*   **Name:** Single Sign-On through OSDP
-*   **Interface Type:** HTTP Request Redirection with departmental portal
-*   **In / Out:** In
+*   **Target System:** Open Source Departmental Portal (OSDP)
+*   **Interface Type:** URL redirection with departmental portal
+*   **In/Out:** In
 *   **Frequency:** Per user request
-*   **Authentication / Encryption:** TLS 1.2 over HTTPS
 
-*   **Description:**
-    Single Sign-On (SSO) will be implemented using the Open Source Departmental Portal (OSDP) to allow seamless access for BD users, EDB users, and SWD users. Users logged into their respective departmental portals (BD OSDP, EDB OSDP, SWD OSDP) will be able to access the LSCP system without requiring separate login credentials.
+**Description:** Single Sign-On (SSO) will be implemented through departmental portals (OSDP) for BD users, EDB users, and SWD users. Users will access LSCP via a link in their respective departmental portals.
 
-*   **Access Points:**
-    -   **Buildings Department (BD) Departmental Portal:** Access via a direct link: `https://lscp.bd.gov.hk`
-    -   **Other B/Ds Departmental Portal:** Users from other Bureaus/Departments (B/Ds) will access LSCP through their departmental portals. The departmental portals will redirect requests through the CCGO gateway to LSCP.
+**Access Points:**
+*   **Buildings Department (BD) Departmental Portal:** `https://lscp.bd.gov.hk`
+*   **Other B/Ds Departmental Portals:** Requests will be redirected through the CCGO gateway, with SSL secured connections.
 
-*   **Authentication and Authorization:**
-    -   Departmental portal users seeking access to LSCP must apply for Intranet access through ITU.
-    -   The LSCP System Administrator will create user accounts in LSCP based on submitted information, linking them to departmental portal accounts.
-    -   LSCP authenticates users by verifying the login name and department code against registered accounts.
-    -   Only users with matching login names and department codes in LSCP will be granted access.
+**Authentication and Authorization:**
+*   Departmental portal users require Intranet access to ITU.
+*   LSCP System Administrator will create user accounts in LSCP based on submitted information.
+*   LSCP authenticates users based on login name and department code from the departmental portal account.
 
-*   **Data Exchange:**
-    -   The departmental portal must forward the "UID" (User ID) and "Dpdeptid" (Department ID) to LSCP within the HTTP response header.
-    -   These parameters will contain the departmental portal user's ID and department code, enabling LSCP to identify and authenticate the user.
+**Data Exchange:**
+*   Departmental portal forwards "UID" and "Dpdeptid" in the HTTP response header to LSCP.
+*   "UID" and "Dpdeptid" contain departmental portal user ID and department code.
 
-*   **In/Out data process flow diagram**
-    ![In/Out data process flow diagram](media/image4.png)
+**In/Out Data Process Flow Diagram:**
 
-### 3.2.3 INT-MWMS2-01- Data Import from MWMS2 {#323-int-mwms2-01--data-import-from-mwms2}
+![In/Out data process flow diagram for OSDP](media/image4.png)
+*In/Out data process flow diagram from pdi_t1.md*
 
-*   **Target System:** MWMS2 (Minor Works Management System 2.0)
-*   **Interface Spec. ID:** INT-MWMS2-01
-*   **Name:** Data Import from MWMS2
+
+#### 4.2.3 INT-MWMS2-01 - Data Import from MWMS2
+
+*   **Target System:** Minor Works Management System 2.0 (MWMS2)
 *   **Interface Type:** SFTP and Excel
-*   **In / Out:** In
+*   **In/Out:** In
 *   **Frequency:** Daily
-*   **Authentication / Encryption:** SFTP
 
-*   **Description:**
-    The LSCP system will interface with MWMS 2.0 to retrieve Authorized Person (AP) and Registered Structural Engineer (RSE) data. This data will be used for AP/RSE verification and to ensure that only registered professionals are involved in self-certification submissions. Data will be transferred daily via SFTP in Excel file format.
+**Description:** LSCP will retrieve AP/RSE information from MWMS2 daily via SFTP in Excel files.
 
-*   **Data Exchange:**
-    1.  MWMS2 system generates Excel files containing AP/RSE information and places them in a designated SFTP server directory.
-    2.  LSCP system connects to the SFTP server, authenticates using SSH keys or username/password, and downloads the Excel files.
-    3.  LSCP system parses the Excel files and imports the data into the LSCP database.
+**Data Exchange:**
+1.  MWMS2 generates and places Excel files in a designated SFTP server directory.
+2.  LSCP connects to the SFTP server, authenticates, and downloads Excel files.
+3.  LSCP parses Excel files and imports data into its database.
 
-*   **Authentication:**
-    SFTP access authentication will be secured using SSH keys or username/password credentials, as determined by security protocols.
+**Authentication:** SFTP access uses SSH keys or username/password.
 
-*   **Error Handling:**
-    The system will implement error handling mechanisms for file transfer, parsing, and database import failures. Error events will be logged, and retry mechanisms will be incorporated to ensure data integrity.
+**Error Handling:** System handles file transfer, parsing, and database import errors with logging and retry mechanisms.
 
-*   **Excel File Format:**
+**Excel File Format:** (Example - Actual format to be confirmed)
 
-    | Field Name | Description                                                                   | Data Type | Format/Example |
-    | :--------- | :---------------------------------------------------------------------------- | :-------- | :------------- |
-    | AP\_ID     | Unique identifier for the Authorized Person                                  | Number    | 12345          |
-    | AP\_NAME   | Name of the Authorized Person                                                | Text      | John Doe       |
-    | AP\_REG\_NO | Registration number of the Authorized Person                               | Text      | AP-98765       |
-    | RSE\_ID    | Unique identifier for the Registered Structural Engineer                    | Number    | 67890          |
-    | RSE\_NAME  | Name of the Registered Structural Engineer                                   | Text      | Jane Smith     |
-    | RSE\_REG\_NO| Registration number of the Registered Structural Engineer                   | Text      | RSE-54321      |
-    | ...        | ...                                                                           | ...       | ...            |
-    *(Note: The exact format and content of the Excel file will be confirmed with the MWMS2 system owners.)*
+| Field Name     | Description                                 | Data Type | Format/Example |
+| :------------- | :------------------------------------------ | :-------- | :------------- |
+| AP\_ID         | Unique identifier for Authorized Person       | Number    | 12345          |
+| AP\_NAME       | Name of Authorized Person                     | Text      | John Doe       |
+| AP\_REG\_NO    | Registration number of Authorized Person      | Text      | AP-98765       |
+| RSE\_ID        | Unique identifier for Registered Structure Engineer | Number    | 67890          |
+| RSE\_NAME      | Name of Registered Structure Engineer         | Text      | Jane Smith     |
+| RSE\_REG\_NO   | Registration number of Registered Structure Engineer | Text      | RSE-54321      |
+| ...            | ...                                         | ...       | ...            |
 
-### 3.2.4 INT-ESH-01 -Data Import from ESH {#324-int-esh-01--data-import-from-esh}
+#### 4.2.4 INT-ESH-01 - Data Import from ESH
 
-*   **Target System:** ESH (Environmental Safety and Health System)
-*   **Interface Spec. ID:** INT-ESH-01
-*   **Name:** Data Import from ESH
+*   **Target System:** ESH (System Name to be confirmed)
 *   **Interface Type:** SFTP
-*   **In / Out:** In
+*   **In/Out:** In
 *   **Frequency:** Daily
-*   **Authentication / Encryption:** SFTP
 
-*   **Description:**
-    The LSCP system will interface with the ESH system to retrieve site project information. This information will be used to validate user involvement in site projects, ensuring that users accessing project-related data are authorized personnel. Data will be transferred daily via SFTP.
+**Description:** LSCP retrieves site project information from ESH daily via SFTP to validate user involvement in site projects.
 
-*   **Data Exchange:**
-    1.  ESH system generates files containing site project information and places them in a designated SFTP server directory.
-    2.  LSCP system connects to the SFTP server, authenticates, and downloads the files.
-    3.  LSCP system parses the files and imports the data into its database.
+**Data Exchange:**
+1.  ESH generates and places files in a designated SFTP server directory.
+2.  LSCP connects to the SFTP server, authenticates, and downloads files.
+3.  LSCP parses files and imports data into its database.
 
-*   **Authentication:**
-    SFTP access authentication will be secured using SSH keys or username/password credentials.
+**Authentication:** SFTP access uses SSH keys or username/password.
 
-*   **Error Handling:**
-    Error handling mechanisms will be implemented to manage file transfer, parsing, and database import errors. Logging and retry mechanisms will be included.
+**Error Handling:** System handles file transfer, parsing, and database import errors with logging and retry mechanisms.
 
-*   **File Format:**
-    The file format for data exchange with ESH is to be confirmed. It may be Excel, CSV, or JSON format.
+**File Format:** (To be confirmed - could be Excel, CSV, or JSON)
 
-*   **Data Mapping:**
+**Data Mapping:**
 
-    | ESH Data Item | LSCP Data Item | Data Type | Description |
-    | :---- | :---- | :---: | :---- |
-    | File Reference | File Reference | string | BD Reference Number of the site project |
-    | Site Address | Site Address | string | Address of the site project |
-    | AP Registration Number | AP Registration Number | string | Registration number of the AP involved in the site project |
-    | RSE Registration Number | RSE Registration Number | string | Registration number of the RSE involved in the site project |
-    | RGE Registration Number | RGE Registration Number | string | Registration number of the RGE involved in the site project |
-    | RC Registration Number | RC Registration Number | string | Registration number of the RC involved in the site project |
+| ESH Data Item           | LSCP Data Item          | Data Type | Description                                                                  |
+| :---------------------- | :---------------------- | :-------- | :--------------------------------------------------------------------------- |
+| File Reference          | File Reference          | string    | BD Reference Number of the site project                                      |
+| Site Address            | Site Address            | string    | Address of the site project                                                  |
+| AP Registration Number  | AP Registration Number  | string    | Registration number of the AP involved in the related site project            |
+| RSE Registration Number | RSE Registration Number | string    | Registration number of the RSE involved in the related site project           |
+| RGE Registration Number | RGE Registration Number | string    | Registration number of the RGE involved in the related site project           |
+| RC Registration Number  | RC Registration Number  | string    | Registration number of the RC involved in the related site project            |
 
-### 3.2.5 INT-ERKS-01 -Data Import from ERKS {#325-int-erks-01--data-import-from-erks}
+#### 4.2.5 INT-ERKS-01 - Data Import from ERKS
 
-*   **Target System:** ERKS (Electronic Records Keeping System)
-*   **Interface Spec. ID:** INT-ERKS-01
-*   **Name:** Data Import from ERKS
-*   **Interface Type:** *To be confirmed*
-*   **In / Out:** In
-*   **Frequency:** *To be confirmed*
-*   **Authentication / Encryption:** *To be confirmed*
+*   **Target System:** ERKS (System Name to be confirmed)
+*   **Interface Type:** To Be Confirmed (TBC)
+*   **In/Out:** In
+*   **Frequency:** TBC
 
-*   **Description:**
-    The LSCP system will interface with ERKS for record-keeping purposes. Certificates, notices, reply letters, and other generated documents from LSCP will be imported into ERKS for archival and compliance. The specific data and interface mechanism will be determined in consultation with ERKS system owners during the SM&S stage.
+**Description:** Interface for importing data from ERKS into LSCP. Specifics to be determined in consultation with ERKS system owners.
 
-*   **Data Exchange:**
-    The method of data exchange (API, file transfer, database link, etc.) will be defined based on ERKS capabilities and requirements.
+**Data Exchange:** Method of data exchange (API, file transfer, database link) to be defined.
 
-*   **Authentication:**
-    Authentication and authorization mechanisms for accessing ERKS data will be established in accordance with security protocols.
+**Authentication:** Authentication and authorization mechanism for accessing ERKS data to be established.
 
-*   **Error Handling:**
-    Robust error handling will be implemented to address any issues during data exchange, ensuring data integrity and completeness.
+**Error Handling:** Robust error handling required for data exchange process.
 
-*   **Data Mapping:**
-    *(This section will be filled in with specific data elements and mapping details between ERKS and LSCP once the interface type and data requirements are finalized.)*
+**Data Mapping:** Data mapping details to be defined based on specific data elements to be exchanged.
 
-### 3.2.6 INT-BRAVO-01 -Data Import from BRAVO {#326-int-bravo-01--data-import-from-bravo}
+#### 4.2.6 INT-BRAVO-01 - Data Import from BRAVO
 
-*   **Target System:** BRAVO (Building Records and Viewing Online)
-*   **Interface Spec. ID:** INT-BRAVO-01
-*   **Name:** Data Import from BRAVO
+*   **Target System:** BRAVO
 *   **Interface Type:** HTTP Request Redirection
-*   **In / Out:** In
+*   **In/Out:** In
 *   **Frequency:** Per User Request
-*   **Authentication / Encryption:** *To be confirmed*
 
-*   **Description:**
-    The LSCP system will provide users with seamless access to BRAVO for retrieving building records and related information. This interface will be implemented through HTTP request redirection, allowing users to navigate to BRAVO directly from within LSCP.
+**Description:** LSCP redirects to BRAVO using URL calls with specified parameters for accessing building information.
 
-*   **Data Exchange:**
-    LSCP will use HTTP requests (GET or POST) to redirect users to specific BRAVO URLs. Parameters, such as case numbers or block IDs, will be passed in the URL query string to directly access relevant building information in BRAVO.
+**Data Exchange:** LSCP makes HTTP requests (GET or POST) to BRAVO URLs, passing parameters in the URL query string or request body. BRAVO responds with relevant data.
 
-*   **Authentication:**
-    The authentication method for accessing BRAVO will be determined based on BRAVO's security requirements and capabilities.
+**Authentication:** Authentication method for accessing BRAVO (API keys, OAuth) to be determined.
 
-*   **Error Handling:**
-    The system will handle potential errors during redirection and provide appropriate feedback to the user if BRAVO access is unsuccessful.
+**Error Handling:** System handles errors returned by BRAVO API and provides feedback to the user.
 
-*   **URL Syntax (Examples):**
+**URL Syntax (Examples):**
+*   **with Case number and Year:** `https://dp2.bd.hksarg/bravo/BuildingSearchRedirection?CASE_NUMBER=<CASE_NUMBER>&YEAR=<YEAR>`
+*   **with Block ID:** `https://dp2.bd.hksarg/bravo/BuildingSearchRedirection?BLOCK_ID=<BLOCK_ID>`
+*   **with full File Reference No:** `https://dp2.bd.hksarg/bravo/BuildingSearchRedirection?SEARCH_TYPE=<SEARCH_TYPE>&SUBJECT_CODE=\<SUBJECT_CODE\>&CASE_NUMBER=\<CASE_NUMBER\>&YEAR=\<YEAR\>&SPECIAL_CAT=\<SPECIAL_CAT>`
 
-    *   **with Case number and Year**
-        `https://dp2.bd.hksarg/bravo/BuildingSearchRedirection?CASE_NUMBER=<CASE_NUMBER>&YEAR=<YEAR>`
+**Data Mapping:** Data mapping details to be defined based on specific data elements to be exchanged.
 
-    *   **with Block ID**
-        `https://dp2.bd.hksarg/bravo/BuildingSearchRedirection?BLOCK_ID=<BLOCK_ID>`
+## 5. Conclusion
 
-    *   **with full File Reference No**
-        `https://dp2.bd.hksarg/bravo/BuildingSearchRedirection?SEARCH_TYPE=<SEARCH_TYPE>&SUBJECT_CODE=\<SUBJECT_CODE\>&CASE_NUMBER=\<CASE_NUMBER\>&YEAR=\<YEAR\>&SPECIAL_CAT=\<SPECIAL_CAT>`
-
-    *(Note: The exact URL syntax and parameter names will be confirmed with the BRAVO system owners.)*
-
-*   **Data Mapping:**
-    *(This section will be filled in with the specific data elements and mapping details between LSCP and BRAVO, if any, once the interface requirements are finalized.)*
+The Process Data Interface is a critical component of the Licensing Self-Certification Portal, enabling seamless integration with external systems and efficient internal data processing. These interfaces are essential for achieving the goals of the SCS, including streamlined application processing, improved data management, and enhanced user experience for both BD staff and external users. Further refinement and detailing of these interfaces will be carried out in subsequent phases of system development.
 
 *** End of document***
 ```
