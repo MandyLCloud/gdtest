@@ -53,8 +53,7 @@ Government of the HKSAR.
 >
 > [2.3 Software Specification 8](#software-specification)
 
-[3. Application Deployment Procedure for Production
-10](#application-deployment-procedure-for-production)
+[3. Application Deployment Procedure for Production 10](#application-deployment-procedure-for-production)
 
 > [3.1 Database Server 10](#database-server)
 >
@@ -64,8 +63,7 @@ Government of the HKSAR.
 >
 > [3.3.1 sFTP Server Setup 10](#sftp-server-setup)
 
-[4. System Installation Schedule and Result
-11](#system-installation-schedule-and-result)
+[4. System Installation Schedule and Result 11](#system-installation-schedule-and-result)
 
 > [4.1 System Installation Schedule 11](#system-installation-schedule)
 >
@@ -74,13 +72,12 @@ Government of the HKSAR.
 # Introduction
 
 The System Installation plan describes the procedure and schedule for
-deploying the application in the production environment, including 3
-parts of the system:
+deploying the application in the production environment. The Licensing Self-Certification Portal (LSCP) allows Buildings Department (BD) users to receive, process and manage the application for certificates and notice required under Education Ordinance (Cap.279) and Child Care Services Ordinance (Cap. 243) for the registration of non-purpose built Educational Premises (EP) and Child Care Centre (CCC) and to provide building safety comment to Education Bureau upon applications for conducting courses of non-local higher and professional education under NLHPE(R) Rules (Cap.493B).
+
+The system comprises 3 parts:
 
 -   Database Server
-
 -   Backend Server
-
 -   Frontend and Web Portal Server
 
 # Project Environment Description
@@ -90,9 +87,7 @@ parts of the system:
 Below is a logical network diagram in 1/F West Kowloon Government Office
 for production and UAT site.
 
-<img src="media/image2.png" style="width:6.62605in;height:5.91667in" alt="System Architecture Production Environment WKGO"/>
-
-<img src="media/image3.png" style="width:6.62605in;height:5.81944in" alt="System Architecture Production and UAT Site"/>
+<span class="mark">\[DIAGRAM HERE\]</span>
 
 The network will be separated into three zones: DMZ, trusted zone, and
 storage network.
@@ -102,7 +97,8 @@ Incoming network traffic to the system must go through the DMZ before
 entering the trusted zone.
 
 To utilize hardware resources more effectively, servers listed in
-section 2.2, except the backup server, will be set up in the form of virtual machines (VM) and consolidated into DMZ
+section 1.3.3, except the backup server, will
+be set up in the form of virtual machines (VM) and consolidated into DMZ
 VM host servers and trusted zone VM host servers for each physical site.
 Two VM host servers will be built in each zone for the purpose of high
 availability.
@@ -115,126 +111,268 @@ host servers in DMZ and trusted zone.
 
 The diagram below illustrates the physical setup.
 
-<img src="media/image6.png" style="width:6.62605in;height:5.30556in" alt="Rack Diagram"/>
-
 ## Hardware Specification
 
 Production and UAT environment:
 
 List of machines and virtual machines:
 
-**Production Environment - WKGO**
+<table>
+<thead>
+<tr class="header">
+<th>Hostname<br> (Physical Machine)</th>
+<th>Hostname<br> (Virtual Machine)</th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>prd-scs-vcenter-01</td>
+<td>vCenter</td>
+<td>192.168.10.24 / 10.5.161.210</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-backup-01</td>
+<td>Veeam Backup Server</td>
+<td>192.168.10.25 / 10.5.161.211</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-log-01</td>
+<td>Kiwi Log Server</td>
+<td>192.168.10.11 / 10.5.161.223</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-esetnod32</td>
+<td>NOD32 Anti-Virus Server</td>
+<td>192.168.10.34 / 10.5.161.215</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-admin-api-01</td>
+<td>API Server</td>
+<td>192.168.12.11</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-admin-frontend-01</td>
+<td>Frontend Server</td>
+<td>192.168.12.12</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-admin-backend-01</td>
+<td>Backend Server</td>
+<td>192.168.12.13</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-db-01</td>
+<td>Database Server</td>
+<td>192.168.12.14</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-filer</td>
+<td>File Server</td>
+<td>192.168.12.20</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-proxy</td>
+<td>Reverse Proxy Server</td>
+<td>192.168.12.15 / 10.5.161.226</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-admin-api-02</td>
+<td>API Server</td>
+<td>192.168.12.16</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-admin-frontend-02</td>
+<td>Frontend Server</td>
+<td>192.168.12.17</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-admin-backend-02</td>
+<td>Backend Server</td>
+<td>192.168.12.18</td>
+</tr>
+<tr>
+<td></td>
+<td>prd-scs-db-02</td>
+<td>Database Server</td>
+<td>192.168.12.19</td>
+</tr>
+<tr>
+<td></td>
+<td>uat-scs-admin-api-01</td>
+<td>API Server (UAT)</td>
+<td>192.168.13.10</td>
+</tr>
+<tr>
+<td></td>
+<td>uat-scs-admin-frontend-01</td>
+<td>Frontend Server (UAT)</td>
+<td>192.168.13.11</td>
+</tr>
+<tr>
+<td></td>
+<td>uat-scs-admin-backend-01</td>
+<td>Backend Server (UAT)</td>
+<td>192.168.13.12</td>
+</tr>
+<tr>
+<td></td>
+<td>uat-scs-db-01</td>
+<td>Database Server (UAT)</td>
+<td>192.168.13.13</td>
+</tr>
+<tr>
+<td></td>
+<td>uat-scs-filer</td>
+<td>File Server (UAT)</td>
+<td>192.168.13.15</td>
+</tr>
+<tr>
+<td></td>
+<td>uat-scs-proxy</td>
+<td>Reverse Proxy Server (UAT)</td>
+<td>192.168.13.14 / 10.5.161.224</td>
+</tr>
+<tr>
+<td>prd-scs-admin-server-01</td>
+<td></td>
+<td>VM Host Server</td>
+<td>192.168.10.22, 10.5.161.206</td>
+</tr>
+<tr>
+<td>prd-scs-admin-server-02</td>
+<td></td>
+<td>VM Host Server</td>
+<td>192.168.10.23, 10.5.161.207</td>
+</tr>
+<tr>
+<td>prd-scs-nas</td>
+<td></td>
+<td>NAS</td>
+<td>192.168.10.35, 10.5.161.218</td>
+</tr>
+</tbody>
+</table>
 
-| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose                                | IP                                        |
-|-----------------------------|----------------------------|----------------------------------------|-------------------------------------------|
-| prd-scs-admin-server-01     | prd-scs-vcenter-01         | vCenter                                | 192.168.10.24 / 10.5.161.210              |
-|                             | prd-scs-log-01             | Kiwi Log Server                        | 192.168.10.11 / 10.5.161.223              |
-|                             | prd-scs-admin-api-01       | API Server                             | 192.168.12.11                             |
-|                             | prd-scs-admin-frontend-01  | Frontend Server                        | 192.168.12.12                             |
-|                             | prd-scs-admin-backend-01   | Backend Server                         | 192.168.12.13                             |
-|                             | prd-scs-db-01              | Database Server                        | 192.168.12.14                             |
-|                             | prd-scs-filer              | File Server                            | 192.168.12.20                             |
-|                             | prd-scs-proxy              | Reverse Proxy Server                   | 192.168.12.15 / 10.5.161.226              |
-| prd-scs-admin-server-02     | prd-scs-backup-01          | Veeam Backup Server                    | 192.168.10.25 / 10.5.161.211              |
-|                             | prd-scs-esetnod32          | NOD32 Anti-Virus Server                | 192.168.10.34 / 10.5.161.215              |
-|                             | prd-scs-admin-api-02       | API Server                             | 192.168.12.16                             |
-|                             | prd-scs-admin-frontend-02  | Frontend Server                        | 192.168.12.17                             |
-|                             | prd-scs-admin-backend-02   | Backend Server                         | 192.168.12.18                             |
-|                             | prd-scs-db-02              | Database Server                        | 192.168.12.19                             |
-| prd-scs-nas               | N/A                        | NAS                                    | 192.168.10.35, 10.5.161.218              |
-| PA-850-SCSPri             | N/A                        | Firewall (Primary)                       | 192.168.10.12 / 10.5.161.205              |
-| PA-850-SCSSec             | N/A                        | Firewall (Secondary)                     | 192.168.10.13 / 10.5.161.220              |
-| Switch 1                    | N/A                        | Switch                                 | 192.168.10.14                             |
-| Switch 2                    | N/A                        | Switch                                 | 192.168.10.15                             |
-| PS500T-Cluster1             | N/A                        | SAN Storage                            | 192.168.10.26, 192.168.10.27, 192.168.10.28, 192.168.10.29 |
-| prd-scs-backupstorage-01    | N/A                        | Backup Appliance                       | 192.168.10.20                             |
-| Dell ML3                    | N/A                        | Tape Library                           | 192.168.10.20                             |
-| Cyber View                  | N/A                        | KVM                                    | N/A                                       |
-| Vertiv? Liebert? GXT5 3000  | N/A                        | UPS 1                                  | 192.168.11.20                             |
-| Vertiv? Liebert? GXT5 3000  | N/A                        | UPS 2                                  | 192.168.11.21                             |
-
-**UAT Environment - WKGO**
-
-| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose                                | IP                                        |
-|-----------------------------|----------------------------|----------------------------------------|-------------------------------------------|
-| prd-scs-admin-server-01     | uat-scs-admin-api-01       | API Server                             | 192.168.13.10                             |
-|                             | uat-scs-admin-frontend-01  | Frontend Server                        | 192.168.13.11                             |
-|                             | uat-scs-admin-backend-01   | Backend Server                         | 192.168.13.12                             |
-|                             | uat-scs-db-01              | Database Server                        | 192.168.13.13                             |
-|                             | uat-scs-filer              | File Server                            | 192.168.13.15                             |
-|                             | uat-scs-proxy              | Reverse Proxy Server                   | 192.168.13.14 / 10.5.161.224              |
-| GCIS P1                     | scsuwi                     | Reverse Proxy Server (Internet DMZ)    | 192.168.0.7 / 45.119.94.99                |
-|                             | scsuwg                     | Reverse Proxy Server (GNET DMZ)        | 192.168.4.7 / 10.148.11.220               |
-|                             | scsuad                     | Apps Server                            | 192.168.8.9                               |
-|                             | scsudb                     | Database Server                        | 192.168.8.10                              |
-
-**DR environment:**
+DR environment:
 
 List of machines and virtual machines:
 
-**DR Environment - AIA**
-
-| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose                                | IP                                        |
-|-----------------------------|----------------------------|----------------------------------------|-------------------------------------------|
-| dr-scs-admin-server-01      | dr-scs-vcenter-01          | vCenter                                | 192.168.20.18 / 10.5.174.225              |
-|                             | dr-scs-backup-01           | Veeam Backup Server                    | 192.168.20.19 / 10.5.161.224              |
-|                             | dr-scs-log-01              | Kiwi Log Server                        | 192.168.20.10                             |
-|                             | dr-scs-admin-api-01        | API Server                             | 192.168.22.11                             |
-|                             | dr-scs-admin-frontend-01   | Frontend Server                        | 192.168.22.12                             |
-|                             | dr-scs-admin-backend-01    | Backend Server                         | 192.168.22.13                             |
-|                             | dr-scs-db-01               | Database Server                        | 192.168.22.14                             |
-|                             | dr-scs-filer               | File Server                            | 192.168.22.16                             |
-|                             | dr-scs-proxy               | Reverse Proxy Server                   | 192.168.22.15 / 10.5.174.228              |
-| dr-scs-nas                | N/A                        | NAS                                    | 192.168.20.35, 10.5.174.225              |
-| PA-850-SCSDR              | N/A                        | Firewall                               | 192.168.20.12 / 10.5.174.215              |
-| Switch DR                   | N/A                        | Switch                                 | 192.168.20.13                             |
-| PS500T-Cluster2             | N/A                        | SAN Storage                            | 192.168.20.20, 192.168.20.21, 192.168.20.22, 192.168.20.23 |
-| dr-scs-backupstorage-01     | N/A                        | Backup Appliance                       | 192.168.20.25                             |
-| Vertiv? Liebert? GXT5 3000  | N/A                        | UPS                                    | 192.168.20.11                             |
-| GCIS P2                     | scspwi                     | Reverse Proxy Server (Internet DMZ)    | 192.168.0.6 / 45.119.93.84                |
-|                             | scspwg                     | Reverse Proxy Server (GNET DMZ)        | 192.168.4.6 / 10.160.139.211              |
-|                             | scspad                     | Apps Server                            | 192.168.8.6                               |
-|                             | scspdb                     | Database Server                        | 192.168.8.7                               |
-
-**DEV Environment - WKGO**
-
-| Hostname (Physical Machine) | Hostname (Virtual Machine) | Purpose                                | IP                                        |
-|-----------------------------|----------------------------|----------------------------------------|-------------------------------------------|
-| prd-scs-admin-server-02     | dev-scs-admin-api-01       | API Server                             | 192.168.14.10                             |
-|                             | dev-scs-admin-frontend-01  | Frontend Server                        | 192.168.14.11                             |
-|                             | dev-scs-admin-backend-01   | Backend Server                         | 192.168.14.12                             |
-|                             | dev-scs-db-01              | Database Server                        | 192.168.14.13                             |
-|                             | dev-scs-filer              | File Server                            | 192.168.14.15                             |
-|                             | dev-scs-proxy              | Reverse Proxy Server                   | 192.168.14.14 / 10.5.161.225              |
-| GCIS T1                     | scsdwi                     | Reverse Proxy Server (Internet DMZ)    | 192.168.0.6 / 45.119.94.100               |
-|                             | scsdwg                     | Reverse Proxy Server (GNET DMZ)        | 192.168.4.6 / 10.148.11.220               |
-|                             | scsdad                     | Apps Server                            | 192.168.8.7                               |
-|                             | scsddb                     | Database Server                        | 192.168.8.8                               |
+<table>
+<thead>
+<tr class="header">
+<th>Hostname<br> (Physical Machine)</th>
+<th>Hostname<br> (Virtual Machine)</th>
+<th>Purpose</th>
+<th>IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>dr-scs-vcenter-01</td>
+<td>vCenter (DR)</td>
+<td>192.168.20.18 / 10.5.174.225</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-backup-01</td>
+<td>Veeam Backup Server (DR)</td>
+<td>192.168.20.19 / 10.5.161.224</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-log-01</td>
+<td>Kiwi Log Server (DR)</td>
+<td>192.168.20.10</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-admin-api-01</td>
+<td>API Server (DR)</td>
+<td>192.168.22.11</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-admin-frontend-01</td>
+<td>Frontend Server (DR)</td>
+<td>192.168.22.12</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-admin-backend-01</td>
+<td>Backend Server (DR)</td>
+<td>192.168.22.13</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-db-01</td>
+<td>Database Server (DR)</td>
+<td>192.168.22.14</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-filer</td>
+<td>File Server (DR)</td>
+<td>192.168.22.16</td>
+</tr>
+<tr>
+<td></td>
+<td>dr-scs-proxy</td>
+<td>Reverse Proxy Server (DR)</td>
+<td>192.168.22.15 / 10.5.174.228</td>
+</tr>
+<tr>
+<td>dr-scs-admin-server-01</td>
+<td></td>
+<td>VM Host Server (DR)</td>
+<td>192.168.20.17, 10.5.174.216</td>
+</tr>
+<tr>
+<td>dr-scs-nas</td>
+<td></td>
+<td>NAS (DR)</td>
+<td>192.168.20.35, 10.5.174.225</td>
+</tr>
+</tbody>
+</table>
 
 ## Software Specification
 
-| Category          | Software                                      | Version                  | Purpose                                                                 |
-|-------------------|-----------------------------------------------|--------------------------|-------------------------------------------------------------------------|
-| Operating System  | Windows Server 2022 21H2                      |                          | For most servers in WKGO and DR                                         |
-|                   | Windows Server 2019 1809                      |                          | For servers in GCIS                                                       |
-|                   | VMware ESXi                                   | 8.0.3                    | Hypervisor for Virtual Machines                                         |
-| Virtualization    | VMware vCenter Server                         | 8.0.3                    | Management of VMware environment                                        |
-| Web Server        | IIS                                           | 10.0                     | Hosting Frontend and Backend Applications                               |
-|                   | Nginx                                         | 1.26.2                   | Reverse Proxy Server                                                      |
-| Database          | Microsoft SQL Server 2022                     | 16.0.1000.6              | Database Management System                                              |
-| Backup            | Veeam Backup & Replication                    | 12.1.2.172               | Virtual Machine Backup and Replication                                  |
-| Log Management    | Kiwi Syslog Server NG                         | 1.2.1.4                  | Centralized Log Management (WKGO & DR)                                  |
-|                   | Kiwi Syslog Server 9.8.3 (Service Edition)    |                          | Centralized Log Management (GCIS)                                       |
-| Anti-Virus        | ESET Server Security                          | 10.0.12012.0             | Anti-virus protection (WKGO & DR)                                       |
-|                   | ESET Management Agent                         | 10.1.1292.0              | Management agent for ESET Anti-virus (WKGO & DR)                          |
-|                   | ESET PROTECT Server                           | 11.0.199.0               | Centralized management of ESET Anti-virus (WKGO & DR)                   |
-|                   | Bitdefender Endpoint Security Tools           | 7.9.17.458               | Anti-virus protection (GCIS)                                            |
-| Management Tools  | Microsoft SQL Server Management Studio (SSMS) | 19.1                     | Database administration and management                                    |
-| Framework         | React                                         | 18.2.0                   | Frontend JavaScript framework                                           |
-|                   | ExpressJS                                     | 4.19.2                   | Backend Node.js framework                                                |
-|                   | NodeJS                                        | 20.11.1                  | Runtime environment for backend application                               |
-| Other             | VMware Tools                                  | 12.4.0.23259341 (WKGO/DR) | VMware Tools for Virtual Machines                                       |
-|                   |                                               | 12.1.0.20219665 (GCIS)   |                                                                         |
+| Category | Software | Version |
+|---|---|---|
+| **Operating System** | Windows Server 2022 21H2 |  |
+|  | Windows Server 2019 1809 (GCIS) |  |
+|  | VMware ESXi | 8.0.3 |
+| **Database** | Microsoft SQL Server 2022 | 16.0.1000.6 |
+| **Web Server** | IIS | 10.0 |
+|  | Nginx | 1.26.2 |
+| **Virtualization** | VMware vSphere | 8.0.3 |
+|  | VMware Tools | 12.4.0.23259341 (WKGO), 12.1.0.20219665 (GCIS) |
+| **Backup** | Veeam Backup & Replication | 12.1.2.172 |
+| **Log Management** | Kiwi Syslog Server NG | 1.2.1.4 (WKGO), 9.8.3 (GCIS) |
+| **Anti-Virus** | ESET Server Security | 10.0.12012.0 (WKGO) |
+|  | ESET Management Agent | 10.1.1292.0 (WKGO) |
+|  | ESET PROTECT Server | 11.0.199.0 (WKGO) |
+|  | Bitdefender Endpoint Security Tools | 7.9.17.458 (GCIS) |
+| **Management Studio** | Microsoft Management Studio | 19.1 |
+| **Framework (Frontend)** | React | 18.2.0 |
+| **Framework (Backend)** | ExpressJS | 4.19.2 |
+| **Runtime** | NodeJS | 20.11.1 |
 
 # Application Deployment Procedure for Production
 
@@ -242,42 +380,21 @@ List of machines and virtual machines:
 
 To install database server, follow these steps:
 
-1.  Remote login to PRD-DB-01(192.168.12.14).
-2.  Install Microsoft SQL Server 2022.
-3.  Configure database instance and create necessary databases and users according to application requirements.
-4.  Setup database mirroring/availability group as per design.
-5.  Perform initial database backup.
+1.  Remote login to PRD-DB-01(10.5.113.218).
 
 ## Backend Servers
 
-1.  Remote login into PRD-WEBAPP-01 (192.168.12.13).
-2.  Install NodeJS runtime environment.
-3.  Deploy backend application code to the server.
-4.  Configure application settings, including database connection strings and API endpoints.
-5.  Start backend application service.
-6.  Repeat steps for PRD-WEBAPP-02 (192.168.12.18).
-7.  Configure Network Load Balancer (NLB) for backend servers.
+1.  Remote login into PRD-WEBAPP-01.
 
 ## Frontend Servers
 
-1.  Remote login into PRD-WEBAPP-01 (192.168.12.12).
-2.  Install IIS role and necessary features.
-3.  Deploy frontend application code to the IIS website directory.
-4.  Configure IIS website settings, including binding and SSL certificates.
-5.  Configure reverse proxy settings to forward API requests to backend servers.
-6.  Start IIS website.
-7.  Repeat steps for PRD-WEBAPP-02 (192.168.12.17).
-8.  Configure Windows Network Load Balancing (NLB) for frontend servers.
+1.  Remote login into PRD-WEBAPP-01.
 
 ### sFTP Server Setup
 
-1.  Install OpenSSH server in Windows Server on File Server (prd-scs-filer, 192.168.12.20). Go to Apps & Features,
+1.  Install OpenSSH server in Windows Server. Go to Apps & Features,
     > Click ?Optional Features?, click ?Add a feature?, check ?OpenSSH
     > Server?
-2.  Configure SSH service to start automatically.
-3.  Create user accounts for sFTP access with appropriate permissions.
-4.  Configure firewall rules to allow SSH traffic (port 22) to the sFTP server.
-5.  Test sFTP access using a client like FileZilla or WinSCP.
 
 # System Installation Schedule and Result
 
@@ -285,42 +402,42 @@ To install database server, follow these steps:
 
 The following table summarises the testing schedule:
 
-| Pre-Requisite                                            |     | Start Date | End Date   | Start time | End Time |
-|----------------------------------------------------------|-----|------------|------------|------------|----------|
-| Database Server Installation (Production and DR)         |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Backend Server Installation (Production and DR)          |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Frontend Server Installation (Production and DR)         |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Functionality test (VM & Networking)                     |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Database setup                                           |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Deployment for 1<sup>st</sup> version of frontend server |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Deployment for 1<sup>st</sup> version of backend server  |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Application Health Check                                 |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Integration Test                                         |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Deployment for Latest Mobile Application                 |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Final Check Production Web Server                        |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Final Check Production Database Server                   |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Final Check DR Web & Database server                     |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
-| Final Check IIS & Framework                              |     | YYYY-MM-DD | YYYY-MM-DD | HH:MM      | HH:MM    |
+| Pre-Requisite                                            |     | Start Date | End Date | Start time | End Time |
+|-----------------------------------|----|---------|---------|--------|--------|
+| Database Server Installation (Production and DR)         |     |            |          |            |          |
+| Backend Server Installation (Production and DR)          |     |            |          |            |          |
+| Frontend Server Installation (Production and DR)         |     |            |          |            |          |
+| Functionality test (VM & Networking)                     |     |            |          |            |          |
+| Database setup                                           |     |            |          |            |          |
+| Deployment for 1<sup>st</sup> version of frontend server |     |            |          |            |          |
+| Deployment for 1<sup>st</sup> version of backend server  |     |            |          |            |          |
+| Application Health Check                                 |     |            |          |            |          |
+| 1                                                        |     |            |          |            |          |
+| Deployment for Latest Mobile Application                 |     |            |          |            |          |
+| Final Check Production Web Server                        |     |            |          |            |          |
+| Final Check Production Database Server                   |     |            |          |            |          |
+| Final Check DR Web & Database server                     |     |            |          |            |          |
+| Final Check IIS & Framework                              |     |            |          |            |          |
 
 ## System Installation Result
 
 The following table summarises the actual system installation schedule:
 
 | Pre-Requisite                                            |     | Actual Start Date | Actual End Date | Actual Start time | Actual End Time | Status/Result |
-|----------------------------------------------------------|-----|-------------------|-----------------|-------------------|-----------------|---------------|
-| Database Server Installation (Production, UAT and DR)    |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Backend Server Installation (Production, UAT and DR)     |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Frontend Server Installation (Production, UAT and DR)    |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Functionality test (VM & Networking)                     |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Database setup                                           |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Deployment for 1<sup>st</sup> version of frontend server |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Deployment for 1<sup>st</sup> version of backend server  |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Application Health Check                                 |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Integration Test                                         |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Deployment for Latest Mobile Application                 |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Final Check Production Web Server                        |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Final Check Production Database Server                   |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Final Check DR Web & DB server                           |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
-| Final Check IIS & Framework                              |     | YYYY-MM-DD        | YYYY-MM-DD      | HH:MM             | HH:MM           |               |
+|----------------------|----|-----------|-------------|--------|--------|---------|
+| Database Server Installation (Production, UAT and DR)    |     |                   |                 |                   |                 |               |
+| Backend Server Installation (Production, UAT and DR)     |     |                   |                 |                   |                 |               |
+| Frontend Server Installation (Production, UAT and DR)    |     |                   |                 |                   |                 |               |
+| Functionality test (VM & Networking)                     |     |                   |                 |                   |                 |               |
+| Database setup                                           |     |                   |                 |                   |                 |               |
+| Deployment for 1<sup>st</sup> version of frontend server |     |                   |                 |                   |                 |               |
+| Deployment for 1<sup>st</sup> version of backend server  |     |                   |                 |                   |                 |               |
+| Application Health Check                                 |     |                   |                 |                   |                 |               |
+| 1                                                        |     |                   |                 |                   |                 |               |
+| Deployment for Latest Mobile Application                 |     |                   |                 |                   |                 |               |
+| Final Check Production Web Server                        |     |                   |                 |                   |                 |               |
+| Final Check Production Database Server                   |     |                   |                 |                   |                 |               |
+| Final Check DR Web & DB server                           |     |                   |                 |                   |                 |               |
+| Final Check IIS & Framework                              |     |                   |                 |                   |                 |               |
 
 \<\<End of Document\>\>
