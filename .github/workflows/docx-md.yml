@@ -99,6 +99,7 @@ jobs:
           
           if git status | grep -q "Changes to be committed"; then
             git commit -m "Convert DOCX to Markdown"
+            git pull --rebase
             git push
           else
             echo "No changes to commit"
