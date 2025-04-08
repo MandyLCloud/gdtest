@@ -103,37 +103,26 @@ Government of the HKSAR.
 >
 > [4.1.2 Query Optimization 14](#query-optimization)
 >
-> [4.1.3 Data Archiving 15](#data-archiving)
+> [4.1.3 Data Archiving and Management 15](#data-archiving-and-management)
+>
+> [4.2 Database Analysis and Recommendations 16](#database-analysis-and-recommendations)
 
-##
 
-## 1. Introduction
-
-This Performance Optimization Report outlines strategies and considerations for enhancing the performance of the Licensing Self-Certification Portal. The system's performance is crucial for user satisfaction and the overall efficiency of the Buildings Department's operations. This report is based on an analysis of the database schema and general performance optimization principles.
-
-**Database Overview (as of 2025/3/4 ??10:10:39):**
-
-- **Database Name:** bd
-- **Database Size:** 88.10 MB
-- **Collections:** 12
-- **Total Documents:** 1278983
-- **Total Data Size:** 371.24 MB
-
-The database comprises 12 collections, with 'sysfilerefs' and 'adrblkfilerefs' being the largest in terms of document count and data size, indicating they are potentially critical for performance considerations.
+## 1. Introduction <a name="introduction"></a>
 
 The performance optimization of the system could be classified into
-optimization of Online Transaction.
+optimization of Online Transaction. This report outlines the performance optimization strategies for the Licensing Self-Certification Portal, focusing on database aspects based on the provided database schema analysis.
 
-## 1.1 Goal of Performance Optimization
+## 1.1 Goal of Performance Optimization <a name="goal-of-performance-optimization"></a>
 
 The main goal of performance optimization is to improve the response
 time of the system to users. In order to achieve better response time,
 the program implementation should take the following areas into
 consideration.
 
-### 1.1.1 Server Loading
+### 1.1.1 Server Loading <a name="server-loading"></a>
 
-The capacity of Server Loading is a fixed variable of a system. An
+The Capacity of Server Loading is a fixed variable of a system. An
 increase in server loading would increase the response time of the
 system. Server loading is affected by
 
@@ -153,7 +142,7 @@ respond to users quicker and serve more users simultaneously.
 Therefore, response time could be reduced if the programming code could
 be optimized to use fewer server resources.
 
-### 1.1.2 Bandwidth Usage
+### 1.1.2 Bandwidth Usage <a name="bandwidth-usage"></a>
 
 Capacity of Bandwidth Usage is a fixed variable of a system. An increase
 in bandwidth usage would decrease the response time of the system.
@@ -175,7 +164,7 @@ more users simultaneously.
 Therefore, response time could be reduced if the size of the
 transmitting resource could be optimized to use less server resources.
 
-### 1.1.3 Better User Experience
+### 1.1.3 Better User Experience <a name="better-user-experience"></a>
 
 This application will be used by the public, in order words, it
 represents the department. If it performs well, the department can take
@@ -183,7 +172,7 @@ credit from it, the image of the department may be affected if this
 application performs bad or causes other problems, for example very slow
 or no response.
 
-## 1.2 Performance Optimisation Actions
+## 1.2 Performance Optimisation Actions <a name="performance-optimisation-actions"></a>
 
 To serve more users simultaneously with better response time, the system
 and the programs should be optimized to use the server loading and
@@ -199,37 +188,36 @@ measures that could be taken generally:
 -   Reduce waiting time of third-party services.
 -   Archive expired records to keep the size of active datastore minimal.
 
-## 1.3 Storage Allocation
+## 1.3 Storage Allocation <a name="storage-allocation"></a>
 
 The storage of the database data will be stored as following:
 
-i. System data ? Store in the ?Database? server in the Integrated
+i\. System data ? Store in the ?Database? server in the Integrated
 system.
 
-ii. Textual data ? Store in the ?Database? server in the Integrated
+ii\. Textual data ? Store in the ?Database? server in the Integrated
 system.
 
-The system utilizes a MongoDB database. Based on the database analysis, the following collections are the largest in size and document count and should be considered for storage optimization and performance tuning:
+All the required system and textual data will be logically stored in collections within the database system. The following table provides an overview of collection sizes.
 
-| Collection Name   | Document Count | Size (MB) | Average Document Size (KB) |
-|-------------------|----------------|-----------|----------------------------|
-| sysfilerefs       | 601808         | 204.70    | 0.35                       |
-| adrblkfilerefs    | 566948         | 154.89    | 0.28                       |
-| bsblocks          | 98397          | 6.40      | 0.07                       |
-| tasks             | 5523           | 0.99      | 0.18                       |
-| cases             | 451            | 1.17      | 2.65                       |
-| oauthtokens       | 3019           | 2.29      | 0.78                       |
-| notifications     | 1837           | 0.24      | 0.13                       |
-| applications      | 381            | 0.36      | 0.96                       |
-| attachments       | 370            | 0.13      | 0.37                       |
-| users             | 116            | 0.04      | 0.39                       |
-| eminutes          | 133            | 0.03      | 0.24                       |
-| submissions       | 0              | 0.00      | 0.00                       |
+| Collection Name   | Document Count | Size (MB) |
+|-------------------|----------------|-----------|
+| sysfilerefs       | 601808         | 204.70    |
+| adrblkfilerefs    | 566948         | 154.89    |
+| bsblocks          | 98397          | 6.40      |
+| oauthtokens       | 3019           | 2.29      |
+| cases             | 451            | 1.17      |
+| tasks             | 5523           | 0.99      |
+| applications      | 381            | 0.36      |
+| notifications     | 1837           | 0.24      |
+| attachments       | 370            | 0.13      |
+| users             | 116            | 0.04      |
+| eminutes          | 133            | 0.03      |
+| submissions       | 0              | 0.00      |
 
+The storage configuration should be reviewed to ensure optimal performance, especially for the largest collections (`sysfilerefs` and `adrblkfilerefs`). Consider factors like storage engine configuration, compression, and sharding strategy if necessary for scalability.
 
-Optimizing storage for the 'sysfilerefs' and 'adrblkfilerefs' collections will have the most significant impact on overall database performance due to their size. Strategies such as data archiving and efficient indexing should be considered for these collections.
-
-## 1.4 Required Response Time
+## 1.4 Required Response Time <a name="required-response-time"></a>
 
 The required response time is defined according to 2 pre-defined
 categories. They are Online Transaction and Online Report. All of the
@@ -256,7 +244,7 @@ level.
 -   Remote testing site will have **50% mark-up** time to the committed
     response time.
 
-### 1.4.1 Online Transaction
+### 1.4.1 Online Transaction <a name="online-transaction"></a>
 
 The programs in the following category are classified as online
 transaction:
@@ -284,9 +272,7 @@ Online transactions can also be classified as follows:
 | Online Enquiry Transactions | Used to retrieve records from LSCP, for example, filter site monitoring records   |
 | Full-text Search            | Used to search for records with given key words, for example, search assigned TCP |
 
-###
-
-### 1.4.2 Online Reports
+### 1.4.2 Online Reports <a name="online-reports"></a>
 
 The programs in the following category are classified as online reports:
 
@@ -300,13 +286,11 @@ would only estimate when the concurrent users are not more than 20.
 |                 |                         |
 |                 |                         |
 
-#
-
-# 2. Critical Online Transition Timing
+# 2. Critical Online Transition Timing <a name="critical-online-transition-timing"></a>
 
 The following matrix is the list of programs with the complexity and
 transaction type being marked.
-<br/>
+
 Offline module helps users save information in local devices when
 Internet connectivity is not available. Once Internet connectivity is
 back, it will submit the data and store it in the database. The major
@@ -393,10 +377,8 @@ timing.
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 </tr>
 <tr class="header">
-<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -415,20 +397,16 @@ timing.
 <th></th>
 <th></th>
 <th></th>
-<th></th>
 </tr>
 </tbody>
 </table>
 
-#
+> *Note: This table requires input on specific modules and programs, their complexity, transaction types, and mobile app involvement to be populated effectively. This information is application-specific and should be filled in based on system design and functional specifications.*
 
-#
-
-# 3. Critical Batch Cycle Timing
+# 3. Critical Batch Cycle Timing <a name="critical-batch-cycle-timing"></a>
 
 The below are the list of batch programs. The cycle timing of the batch
 is identified in the tables below.
-<br/>
 They are different from modules in the last section whereas they will
 run a thousand times everyday but the modules in this section probably
 run once or twice daily. Moreover, most of the modules described in this
@@ -448,54 +426,70 @@ required to optimize.
 |                   |                  |                |            |                  |                           |                  |
 |                   |                  |                |            |                  |                           |                  |
 
-# 4. Optimization changes
+> *Note: This table requires input on specific batch programs, their type, optimization needs, and cycle timing. This information is application-specific and should be filled based on system design and operational requirements.*
+
+# 4. Optimization changes <a name="optimization-changes"></a>
 
 The optimization will **<u>only</u>** focus the performance on programs
-and reports. Based on the database schema analysis, key areas for optimization include indexing, query efficiency, and data management for large collections.
+and reports, with a particular emphasis on database performance based on the schema analysis.
 
-## 4.1 Optimization Actions
+## 4.1 Optimization Actions <a name="optimization-actions"></a>
 
-### 4.1.1 Database Indexing
+Based on the database schema analysis, the following optimization actions are recommended:
 
-Appropriate indexing is crucial for improving query performance in MongoDB. Based on the field analysis from the database schema, consider the following indexing strategies:
+### 4.1.1 Database Indexing <a name="database-indexing"></a>
 
-- **Identify frequently queried fields:** Analyze application usage patterns to determine which fields are most frequently used in queries, especially in the 'sysfilerefs', 'adrblkfilerefs', 'tasks', and 'cases' collections, given their size and potential impact.
-- **Index fields used in filters and sorts:** For collections like 'tasks' and 'cases', fields such as 'status', 'application', 'submissionCase', 'taskType', 'createdAt', 'assignedBS', 'assignedGR', 'category', 'ReceivedDate', 'TargetReplyDate' appear to be good candidates for indexing as they are likely used in filtering and sorting operations.
-- **Compound Indexes:** For queries that filter on multiple fields, create compound indexes to improve efficiency. For example, if queries frequently filter on 'sysFileRefId' and 'createdDt' in 'sysfilerefs', a compound index on these two fields would be beneficial.
-- **Index Cardinality:** Ensure indexes are created on fields with high cardinality for better index selectivity.
+Appropriate indexing is crucial for query performance. Based on the field analysis, consider the following:
 
-**Example Indexing Considerations:**
+- **Identify Query Patterns:** Analyze application queries to understand frequently accessed fields and common query patterns for each collection.
+- **Index Frequently Queried Fields:** Create indexes on fields that are frequently used in `where` clauses, `sort` operations, and joins (if applicable).
+    - **Potential Index Candidates:**
+        - `tasks`: `application`, `submissionCase`, `taskType`, `user`, `status`, `createdAt`
+        - `applications`: `ApplicationNo`, `ApplicationType`, `assignedBS`, `assignedGR`, `createdAt`
+        - `notifications`: `task`, `user`, `notificationType`, `createdAt`
+        - `cases`: `application`, `assignedBS`, `assignedGR`, `Category`, `ReceivedDate`, `TargetReplyDate`, `createdAt`
+        - `sysfilerefs`: `sysFileRefId`, `createdDt`, `lastModifiedDt`, `frefPref`, `frefSeq`, `frefYr`
+        - `adrblkfilerefs`: `adrBlkFileRefId`, `adrBlkId`, `sysFileRefId`, `createdDt`, `lastModifiedDt`
+        - `eminutes`: `submissionCase`, `eminuteId`, `from`, `to`, `createdAt`
+        - `attachments`: `application`, `submissionCase`, `sysFileRefId`, `createdAt`, `receivedDate`, `type`, `subType`
+- **Compound Indexes:** For queries that filter or sort on multiple fields, consider creating compound indexes to improve efficiency.
+- **Index Type Selection:** Choose appropriate index types (e.g., B-tree, text, geospatial) based on the query requirements and data types.
+- **Index Size Management:** Monitor index sizes, especially for large collections, as excessive indexing can impact write performance and storage.
 
-- **`tasks` collection:** Index fields like `status`, `application`, `submissionCase`, `taskType`, `user`, `createdAt`. Consider compound indexes for common query combinations.
-- **`cases` collection:** Index fields like `Category`, `ReceivedDate`, `TargetReplyDate`, `assignedBS`, `assignedGR`, `application`, `team`, `createdAt`. Compound indexes for common case search criteria.
-- **`sysfilerefs` and `adrblkfilerefs` collections:** Given their large size, ensure indexes are in place for fields used in file retrieval and filtering, such as `sysFileRefId`, `adrBlkFileRefId`, `createdDt`, and potentially `createdName`, `createdSection` if these are used in search or filtering.
+### 4.1.2 Query Optimization <a name="query-optimization"></a>
 
-### 4.1.2 Query Optimization
+Efficient query design is essential for minimizing database load and improving response times.
 
-Inefficient queries can significantly impact performance. Review and optimize queries, especially those targeting large collections:
+- **Query Analysis:** Utilize database profiling tools and query explain plans to identify slow-performing queries.
+- **Optimize Query Selectivity:** Ensure queries are selective and retrieve only the necessary data. Use specific filters and avoid fetching entire collections when possible.
+- **Projection:** Use projection to return only required fields in queries to reduce data transfer overhead.
+- **Avoid `skip` and `limit` for Pagination in Large Datasets:** For pagination in large collections, consider using cursor-based pagination or other techniques to avoid performance issues associated with `skip`.
+- **Efficient Aggregation:** Optimize aggregation pipelines for complex data processing. Use indexes to support aggregation operations where applicable.
+- **Review Data Modeling:**  Evaluate if the data model is optimized for common query patterns. Consider embedding vs. referencing relationships based on access patterns.
 
-- **Analyze slow queries:** Use database profiling tools to identify slow-running queries.
-- **Optimize query structure:** Ensure queries are using indexes effectively. Avoid operations that prevent index usage, such as `$where` clauses or functions in query predicates when possible.
-- **Projection:** Retrieve only the necessary fields in queries using projection to reduce data transfer and memory usage.
-- **Limit and Pagination:** Implement limit and pagination for queries that return large datasets to improve response time and reduce server load, especially for online reports and data grids.
-- **Aggregation Pipeline Optimization:** If aggregation pipelines are used, optimize stages to filter and reduce data early in the pipeline. Use indexes to support aggregation operations where possible.
+### 4.1.3 Data Archiving and Management <a name="data-archiving-and-management"></a>
 
-### 4.1.3 Data Archiving
+Managing data growth, especially in large collections like `sysfilerefs` and `adrblkfilerefs`, is crucial for long-term performance.
 
-For collections like 'sysfilerefs' and 'adrblkfilerefs', which are very large, consider implementing a data archiving strategy:
+- **Archiving Strategy:** Implement a data archiving strategy to move older, less frequently accessed data from active collections to archive storage. This can significantly reduce the size of active datasets and improve query performance. Consider archiving data based on date fields like `createdDt`, `lastModifiedDt`, or `createdAt`.
+- **Data Retention Policies:** Define data retention policies to manage the lifecycle of data and ensure compliance requirements are met.
+- **Regular Data Cleanup:** Periodically review and clean up unnecessary or redundant data to maintain database efficiency.
+- **Collection Optimization:** Utilize database-specific commands to optimize collection storage and defragment data files if needed.
 
-- **Identify archive criteria:** Define criteria for archiving data based on age, status, or other relevant factors. For example, archive file references older than a certain period or associated with closed cases.
-- **Implement archiving process:** Regularly move historical data to archive collections or a separate archive database. This will reduce the size of the active collections, improving query performance and reducing storage requirements.
-- **Ensure data accessibility:** Design the archive process to ensure that archived data remains accessible for compliance and historical purposes, while minimizing the performance impact on the active system.
+## 4.2 Database Analysis and Recommendations <a name="database-analysis-and-recommendations"></a>
 
-| **Collection Name** | **Optimization Suggestion** | **Details** |
-|---|---|---|
-| sysfilerefs        | Indexing, Data Archiving  | Focus on indexing fields used in file retrieval and filtering. Implement data archiving for older file references to reduce active dataset size. |
-| adrblkfilerefs     | Indexing, Data Archiving  | Similar to sysfilerefs, prioritize indexing and data archiving strategies. |
-| tasks              | Indexing, Query Optimization | Ensure indexes on key fields like status, application, user. Optimize queries for task retrieval and management. |
-| cases              | Indexing, Query Optimization | Index fields relevant to case search and filtering. Optimize queries for case retrieval and reporting. |
-| notifications      | Indexing, Query Optimization | Index fields used for notification retrieval and filtering, such as user and notificationType. |
-| applications       | Indexing, Query Optimization | Index fields used for application search and filtering. Optimize queries for application management. |
+Based on the "Database Analysis: bd" report, the following observations and recommendations are made:
+
+- **Large Collections:** The `sysfilerefs` and `adrblkfilerefs` collections are significantly larger than others in terms of both document count and size. These collections should be prioritized for performance optimization efforts, including indexing, query optimization, and data archiving strategies.
+- **Collection Sizes:** Review the size and growth rate of all collections regularly. Monitor collections like `bsblocks`, `oauthtokens`, `cases`, and `tasks` to proactively address potential performance bottlenecks as data volume increases.
+- **Empty Collection:** The `submissions` collection is currently empty. Verify if this is expected. If submissions are anticipated, ensure the application logic and database schema are correctly configured for submission data.
+- **Field Type Variety:** Some fields exhibit multiple data types (e.g., `tasks.user`, `eminutes.from`, `eminutes.to`, `applications.assignedBS`). While flexible, this can sometimes indicate potential schema design issues or require careful index design to ensure efficient querying. Review the data model and application logic to ensure data type consistency where appropriate.
+- **Average Document Sizes:** Collections like `cases` and `applications` have relatively larger average document sizes. Analyze the structure of documents in these collections to identify potential areas for schema optimization or data compression if applicable.
+- **Indexing Strategy:** Develop a comprehensive indexing strategy based on application query patterns, focusing on the potential index candidates identified in section 4.1.1. Regularly review and adjust indexes as application usage evolves.
+- **Performance Monitoring:** Implement database performance monitoring tools to track key metrics like query execution time, index usage, and resource utilization. Establish performance baselines and proactively identify and address performance regressions.
+
+
+By implementing these optimization actions and continuously monitoring database performance, the Licensing Self-Certification Portal can achieve improved response times, enhanced user experience, and efficient resource utilization.
 
 <span class="mark">\<\< End of Document\>\></span>
 ```
