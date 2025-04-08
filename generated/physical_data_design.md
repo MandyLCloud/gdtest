@@ -1,214 +1,250 @@
-# Physical Data Design Document: Licensing Self-Certification Portal (LSCP)
+# Physical Data Design for Licensing Self-Certification Portal (LSCP)
 
 **Version 0.1**
-
-**Jan 2025**
+**Date: 2025-01-22**
 
 ## 1. Introduction
 
-This document outlines the Physical Data Design for the Licensing
-Self-Certification Portal (LSCP) project. It details the database
-structure, including key entities, their attributes, and relationships,
-and how the codebase interacts with this data layer. This document is
-intended to provide a clear understanding of the system's data
-architecture for developers, database administrators, and stakeholders.
+This document outlines the physical data design for the Licensing Self-Certification Portal (LSCP) database, named `bd`. It provides an overview of the database structure, collection details, and considerations for physical implementation based on the database schema analysis. This document is intended for developers, database administrators, and stakeholders involved in the LSCP project.
 
-## 2. Database Schema Overview
+## 2. Database Overview
 
-The LSCP database, named `bd`, is designed to store and manage data
-related to licensing self-certification processes. Below is a summary of
-the database's physical characteristics and an overview of its
-collections.
+The LSCP database, `bd`, is designed to efficiently manage data related to licensing self-certification processes. The database statistics are as follows:
 
-### 2.1. Database Statistics
-
-- **Database Name:** bd
 - **Database Size:** 88.10 MB
-- **Number of Collections:** 12
+- **Collections:** 12
 - **Total Documents:** 1,278,983
 - **Total Data Size:** 371.24 MB
 
-### 2.2. Collections Overview
+This indicates a moderately sized database with a significant number of documents spread across 12 collections. The average document size varies across collections, suggesting different data storage needs.
 
-The database is organized into 12 collections, each serving a specific
-purpose:
+## 3. Collections and Entities
 
-| Collection Name   | Document Count | Size (MB) | Description                                    |
-|-------------------|----------------|-----------|------------------------------------------------|
-| tasks             | 5,523          | 0.99      | Stores tasks related to applications and cases |
-| eminutes          | 133            | 0.03      | Stores electronic minutes records               |
-| submissions       | 0              | 0.00      | Stores application submissions data             |
-| applications      | 381            | 0.36      | Stores application forms data                 |
-| notifications     | 1,837          | 0.24      | Stores system notifications                   |
-| bsblocks          | 98,397         | 6.40      | Stores building block information             |
-| cases             | 451            | 1.17      | Stores case-related information                |
-| oauthtokens       | 3,019          | 2.29      | Stores OAuth tokens for authentication         |
-| sysfilerefs       | 601,808        | 204.70    | Stores system file references                  |
-| attachments       | 370            | 0.13      | Stores file attachments for applications/cases |
-| users             | 116            | 0.04      | Stores user information                        |
-| adrblkfilerefs    | 566,948        | 154.89    | Stores address block file references           |
+The database is organized into 12 collections, each representing a key entity within the LSCP system. The following sections detail each collection's purpose, statistics, and key fields.
 
-### 2.3. Key Collection Schemas
+### 3.1. Collection: tasks
 
-#### 2.3.1. Collection: `applications`
+- **Purpose:** Stores information about tasks within the LSCP workflow, such as desk studies, inspections, and endorsements.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Task.js`
+- **Statistics:**
+    - Document Count: 5,523
+    - Size: 0.99 MB
+    - Average Document Size: 0.18 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each task (objectId).
+    - `application`: Reference to the application this task belongs to (objectId).
+    - `submissionCase`: Reference to the case associated with the task (objectId).
+    - `taskType`: Type of task (string, e.g., "DESK_STUDY", "INSPECTION_REPORT").
+    - `status`: Current status of the task (string).
+    - `createdAt`: Date and time when the task was created (date).
+    - `user`: User assigned to the task (string, objectId).
+    - `team`: Team associated with the task (string).
 
-This collection stores data related to application forms. Each document
-represents an application and includes fields such as applicant
-information, school details, and application status.
+### 3.2. Collection: eminutes
 
-**Statistics:**
+- **Purpose:** Manages electronic minutes (e-minutes) for communication and endorsements within the system.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Eminute.js`
+- **Statistics:**
+    - Document Count: 133
+    - Size: 0.03 MB
+    - Average Document Size: 0.24 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each e-minute (objectId).
+    - `submissionCase`: Reference to the case the e-minute is related to (objectId).
+    - `application`: Reference to the application (objectId).
+    - `eminuteId`: Unique identifier for e-minute (string).
+    - `from`: Sender of the e-minute (objectId, string).
+    - `to`: Recipient of the e-minute (objectId, string).
+    - `status`: Status of the e-minute (string).
+    - `createdAt`: Date and time when the e-minute was created (date).
+    - `subject`: Subject of the e-minute (string).
+    - `content`: Content of the e-minute (string).
 
--   **Document Count:** 381
--   **Size:** 0.36 MB
--   **Average Document Size:** 0.96 KB
+### 3.3. Collection: submissions
 
-**Key Fields:**
+- **Purpose:** Stores submission data related to applications. Currently empty, suggesting this functionality might be pending or submissions are directly embedded within applications.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Submission.js`
+- **Statistics:**
+    - Document Count: 0
+    - Size: 0.00 MB
+    - Average Document Size: 0.00 KB
+- **Field Analysis:** No fields are analyzed as the collection is empty.
 
--   `ApplicationNo` (String): Unique application identifier.
--   `ApplicationType` (String): Type of application (e.g., NEWSCH, EXTSCH).
--   `NameOfSchoolEN` (String): Name of the school in English.
--   `NameOfSchoolCN` (String): Name of the school in Chinese.
--   `ApplicantName` (String): Applicant's name.
--   `ApplicantEmail` (String): Applicant's email address.
--   `assignedBS` (ObjectId, String, Null): Building Surveyor assigned to the application.
--   `assignedGR` (ObjectId, Null): GR assigned to the application.
--   `createdAt` (Date): Date of application creation.
--   `updatedAt` (Date): Date of last update.
+### 3.4. Collection: applications
 
-#### 2.3.2. Collection: `tasks`
+- **Purpose:** Contains core application data, including applicant details, school information, and related premises.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Application.js`
+- **Statistics:**
+    - Document Count: 381
+    - Size: 0.36 MB
+    - Average Document Size: 0.96 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each application (objectId).
+    - `ApplicationNo`: Application number (string).
+    - `ApplicationType`: Type of application (string).
+    - `SubmissionType`: Submission type (string).
+    - `FileReference`: File reference number (string).
+    - `NameOfSchoolEN`, `NameOfSchoolCN`: School names in English and Chinese (string).
+    - `ApplicantNameEN`, `ApplicantNameCN`: Applicant names in English and Chinese (string).
+    - `ApplicantEmail`, `ApplicantMobile`, `ApplicantTel`: Applicant contact information (string).
+    - `assignedBS`, `assignedGR`, `assignedSBS`: IDs or references to assigned personnel (objectId, string, null).
+    - `createdAt`, `updatedAt`: Timestamps for creation and update (date).
 
-The `tasks` collection manages workflow tasks within the LSCP system.
-Documents in this collection track the status and assignment of various
-tasks related to application processing.
+### 3.5. Collection: notifications
 
-**Statistics:**
+- **Purpose:** Manages notifications within the LSCP system, likely for task assignments and e-minute updates.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Notification.js`
+- **Statistics:**
+    - Document Count: 1,837
+    - Size: 0.24 MB
+    - Average Document Size: 0.13 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each notification (objectId).
+    - `user`: Recipient user (string).
+    - `notificationType`: Type of notification (string, e.g., "NEW_TASK", "NEW_EMINUTE").
+    - `task`: Reference to the related task (objectId).
+    - `eminute`: Reference to the related e-minute (objectId).
+    - `createdAt`: Date and time when the notification was created (date).
 
--   **Document Count:** 5,523
--   **Size:** 0.99 MB
--   **Average Document Size:** 0.18 KB
+### 3.6. Collection: bsblocks
 
-**Key Fields:**
+- **Purpose:** Stores Building Block (BS Block) data, likely related to geographical or zoning information.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/BsBlock.js`
+- **Statistics:**
+    - Document Count: 98,397
+    - Size: 6.40 MB
+    - Average Document Size: 0.07 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each BS Block (objectId).
+    - `blockId`: Block identifier (string).
+    - `bdgis`: BDGIS code (string).
 
--   `taskType` (String): Type of task (e.g., DESK\_STUDY, INSPECTION\_REPORT).
--   `application` (ObjectId): Reference to the `applications` collection.
--   `submissionCase` (ObjectId): Reference to the `cases` collection.
--   `user` (String, ObjectId): User assigned to the task.
--   `status` (String): Current status of the task (e.g., ACTIVE, COMPLETED).
--   `createdAt` (Date): Date of task creation.
+### 3.7. Collection: cases
 
-#### 2.3.3. Collection: `users`
+- **Purpose:** Manages cases related to applications, containing detailed information for processing and tracking.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Case.js`
+- **Statistics:**
+    - Document Count: 451
+    - Size: 1.17 MB
+    - Average Document Size: 2.65 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each case (objectId).
+    - `application`: Reference to the related application (objectId).
+    - `assignedBS`, `assignedGR`: IDs or references to assigned personnel (objectId).
+    - `caseOfficerReceive`, `caseOfficerReply`, `seniorCaseOfficerReceive`, `seniorCaseOfficerReply`: Case officer information (string).
+    - `Category`, `Nature`: Case categorization and nature (string).
+    - `ReceivedDate`, `TargetReplyDate`, `SubstantialReplyDate`, `ActualReplyDate`: Dates related to case processing (date, null).
+    - Various nested objects for different aspects of case details (e.g., `deck_study`, `building_information`, `structural_schnlh`).
+    - `createdAt`, `updatedAt`: Timestamps for creation and update (date).
 
-This collection contains user profiles for the LSCP system. It stores
-information about system users, their roles, and team assignments.
+### 3.8. Collection: oauthtokens
 
-**Statistics:**
+- **Purpose:** Stores OAuth 2.0 access and refresh tokens for API authentication.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/OAuthToken.js`
+- **Statistics:**
+    - Document Count: 3,019
+    - Size: 2.29 MB
+    - Average Document Size: 0.78 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each OAuth token (objectId).
+    - `accessToken`: OAuth access token (string).
+    - `refreshToken`: OAuth refresh token (string).
+    - `accessTokenExpiresAt`, `refreshTokenExpiresAt`: Expiry dates for tokens (date).
+    - `user`: Reference to the user associated with the token (objectId).
 
--   **Document Count:** 116
--   **Size:** 0.04 MB
--   **Average Document Size:** 0.39 KB
+### 3.9. Collection: sysfilerefs
 
-**Key Fields:**
+- **Purpose:** Manages system file references, likely used for tracking and retrieving files within the system. This collection is quite large, indicating extensive file management.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/SysFileRef.js`
+- **Statistics:**
+    - Document Count: 601,808
+    - Size: 204.70 MB
+    - Average Document Size: 0.35 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each system file reference (objectId).
+    - `sysFileRefId`: System file reference identifier (string).
+    - `frefPref`, `frefSeq`, `frefYr`, `frefSuf`: File reference components (string, null).
+    - `display`: Display name for the file reference (string).
+    - `createdDt`, `lastModifiedDt`: Timestamps for creation and last modification (date).
+    - `createdName`, `lastModifiedName`: User names associated with creation and modification (string, null).
 
--   `osdpLoginId` (String): Unique login ID for OSDP.
--   `name` (String): User's name.
--   `email` (String): User's email address.
--   `role` (String): User's role (e.g., GR, BS, SBS).
--   `team` (String): User's team assignment.
--   `department` (String): User's department.
--   `lastLoginAt` (Date): Date of last login.
+### 3.10. Collection: attachments
 
-#### 2.3.4. Collection: `sysfilerefs`
+- **Purpose:** Stores attachments related to applications and cases, including files uploaded by users and system-generated documents.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/Attachment.js`
+- **Statistics:**
+    - Document Count: 370
+    - Size: 0.13 MB
+    - Average Document Size: 0.37 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each attachment (objectId).
+    - `application`: Reference to the related application (objectId).
+    - `submissionCase`: Reference to the related case (objectId).
+    - `sysFileRefId`: System file reference ID (string).
+    - `efolio`: E-folio number (string, null).
+    - `type`: Type of attachment (string, enum `AttachemntType`).
+    - `subType`: Subtype of attachment (string).
+    - `file`: File details (object, string).
+    - `createdAt`, `updatedAt`: Timestamps for creation and update (date).
 
-The `sysfilerefs` collection is used to manage file references within
-the system. It stores metadata about files, including IDs and display
-names.
+### 3.11. Collection: users
 
-**Statistics:**
+- **Purpose:** Manages user accounts and their roles, permissions, and team assignments within the LSCP system.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/User.js`
+- **Statistics:**
+    - Document Count: 116
+    - Size: 0.04 MB
+    - Average Document Size: 0.39 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each user (objectId).
+    - `osdpLoginId`: OSDP login ID (string, unique).
+    - `name`: User's name (string).
+    - `email`: User's email address (string).
+    - `password`: Hashed password (string).
+    - `role`: User's role (string, enum `ROLES`).
+    - `team`: User's team assignment (string).
+    - `department`: User's department (string, enum `DEPARTMENTS`).
+    - `userType`: User type (string, enum `USER_TYPES`).
+    - `lastLoginAt`: Last login timestamp (date).
 
--   **Document Count:** 601,808
--   **Size:** 204.70 MB
--   **Average Document Size:** 0.35 KB
+### 3.12. Collection: adrblkfilerefs
 
-**Key Fields:**
+- **Purpose:** Address Block File References, likely linking address blocks to file references for document management. This collection is also large, similar to `sysfilerefs`.
+- **Model File (from `code1.txt`):** `bd-scs-backend-backend-main/models/AdrBlkFileRef.js`
+- **Statistics:**
+    - Document Count: 566,948
+    - Size: 154.89 MB
+    - Average Document Size: 0.28 KB
+- **Key Fields:**
+    - `_id`: Unique identifier for each address block file reference (objectId).
+    - `adrBlkFileRefId`: Address block file reference ID (string).
+    - `adrBlkId`: Address block ID (string).
+    - `sysFileRefId`: System file reference ID (string).
+    - `createdDt`, `lastModifiedDt`: Timestamps for creation and last modification (date).
+    - `createdName`, `lastModifiedName`: User names associated with creation and modification (string, null).
 
--   `sysFileRefId` (String): Unique file reference ID.
--   `display` (String): Display name of the file reference.
--   `createdDt` (Date): Date of file reference creation.
--   `lastModifiedDt` (Date): Date of last modification.
+## 4. Data Relationships
 
-## 3. Codebase Integration with Data Design
+Based on the field analysis, we can infer the following relationships:
 
-The LSCP codebase, as represented in `code1.txt`, is structured to
-interact with the database to manage and process the data defined in the
-schema.
+-   **Applications to Cases:** One-to-many relationship. One application can have multiple cases (e.g., revisions, different submission types). The `application` field in the `cases` collection establishes this relationship.
+-   **Cases to Tasks:** One-to-many relationship. One case can have multiple tasks associated with it. The `submissionCase` field in the `tasks` collection establishes this relationship.
+-   **Cases to Eminutes:** One-to-many relationship. One case can have multiple e-minutes. The `submissionCase` field in the `eminutes` collection establishes this relationship.
+-   **Applications/Cases to Attachments:** One-to-many relationship. Applications and Cases can have multiple attachments. The `application` and `submissionCase` fields in the `attachments` collection establish these relationships.
+-   **OAuthTokens to Users:** Many-to-one relationship. Multiple OAuth tokens can belong to one user. The `user` field in the `oauthtokens` collection establishes this relationship.
+-   **AdrBlkFileRefs to SysFileRefs:** Many-to-one relationship. Multiple address block file references can refer to one system file reference. The `sysFileRefId` field in the `adrblkfilerefs` collection establishes this relationship.
+-   **SysFileRefs to Attachments and AdrBlkFileRefs:** One-to-many relationship. One system file reference can be linked to multiple attachments and address block file references. The `sysFileRefId` field in the `attachments` and `adrblkfilerefs` collections establishes these relationships.
 
-### 3.1. Models
+## 5. Considerations for Physical Design
 
-The `models` directory in `bd-scs-backend-backend-main` contains
-JavaScript files that define the Mongoose models for each collection in
-the database. This directory includes files such as:
+-   **Indexing:** To optimize query performance, especially for frequently accessed collections like `sysfilerefs`, `adrblkfilerefs`, and `tasks`, consider indexing fields used in queries, such as `application`, `submissionCase`, `taskType`, `sysFileRefId`, `adrBlkId`, `blockId`, `user`, `role`, `notificationType`, and `createdAt`.
+-   **Data Types:** The schema effectively uses `objectId` for relationships and `date` for timestamps. String types are used for textual data, and integers/booleans are used where appropriate. Reviewing the field analysis, the chosen data types seem suitable.
+-   **Storage:** The database size is currently manageable. However, with the expected growth in documents, especially in `sysfilerefs` and `adrblkfilerefs`, consider database sharding or other scaling strategies for long-term scalability.
+-   **Performance:** Regularly monitor database performance and optimize queries as needed. Consider using database profiling tools to identify slow queries and optimize them.
+-   **Backup and Recovery:** Implement a robust backup and recovery strategy to ensure data durability and availability.
 
--   `AdrBlkFileRef.js`
--   `Application.js`
--   `Attachment.js`
--   `BsBlock.js`
--   `Case.js`
--   `Eminute.js`
--   `Notification.js`
--   `OAuthToken.js`
--   `Submission.js`
--   `SysFileRef.js`
--   `Task.js`
--   `User.js`
+## 6. Conclusion
 
-Each file corresponds to a collection in the database and defines the
-schema for documents within that collection. For example, `Application.js`
-likely defines the schema for the `applications` collection, mapping
-fields like `ApplicationNo`, `ApplicationType`, and `NameOfSchoolEN` to
-their respective data types in the MongoDB database.
-
-### 3.2. Routes
-
-The `routes` directory in `bd-scs-backend-backend-main` defines the API
-endpoints for interacting with the database. Files in this directory,
-such as:
-
--   `applications.js`
--   `attachments.js`
--   `cases.js`
--   `tasks.js`
--   `users.js`
--   `fileReferences.js`
-
-These files handle HTTP requests (GET, POST, PUT, DELETE) to perform
-CRUD operations on the corresponding collections. For instance,
-`applications.js` would contain routes for fetching, creating, and
-updating applications in the `applications` collection.
-
-### 3.3. Utilities and Helpers
-
-The `utils` directory in `bd-scs-backend-backend-main` contains utility
-functions and helper classes that facilitate database interactions and
-data processing. Key utilities include:
-
--   `MongoDBHelper.js`: Provides helper functions for connecting to and
-    interacting with the MongoDB database.
--   `application.js`: Contains utility functions specific to
-    application data, such as generating application numbers.
--   `sendEmail.js`: Implements functionality for sending emails, likely
-    used for notifications related to database events.
-
-These utilities abstract database interactions and business logic,
-making the codebase more modular and maintainable.
-
-## 4. Conclusion
-
-The Physical Data Design Document provides a detailed overview of the
-LSCP database and its integration with the codebase. The database schema
-is well-defined, with collections structured to efficiently store and
-manage application, case, user, and system-related data. The codebase
-effectively utilizes Mongoose models to interact with these collections
-through clearly defined API routes and utility functions, ensuring a
-cohesive and robust system architecture.
+This Physical Data Design document provides a solid foundation for the LSCP database. By understanding the database structure, collection details, and data relationships, developers and administrators can effectively build, manage, and maintain the LSCP system. Continuous monitoring and optimization will be crucial to ensure the database remains performant and scalable as the system evolves.
 
 \*\*\* End of Document \*\*\*
