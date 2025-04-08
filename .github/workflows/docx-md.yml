@@ -56,6 +56,7 @@ jobs:
             ["stp_refp"]="stp_i1"
             ["por_tem"]="por_i1"
             ["hp_tem"]="hp_i1"
+            ["dc_tem"]="dc_i1"
           )
           
           # Get list of changed DOCX files
