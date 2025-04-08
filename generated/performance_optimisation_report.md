@@ -89,6 +89,8 @@ Government of the HKSAR.
 > [1.4.1 Online Transaction 9](#online-transaction)
 >
 > [1.4.2 Online Reports 10](#online-reports)
+>
+> [1.5 Database Overview](#database-overview)
 
 [**2. Critical online transition timing
 11**](#critical-online-transition-timing)
@@ -103,100 +105,162 @@ Government of the HKSAR.
 >
 > [4.1.2 Create clustered indexes 14](#create-clustered-indexes)
 >
-> [4.1.3 Database Indexing Optimization 15](#database-indexing-optimization)
->
-> [4.1.4 Data Archiving Strategy 15](#data-archiving-strategy)
->
-> [4.1.5 Review Data Types 15](#review-data-types)
-
-##
+> [4.2 Database Performance Analysis](#database-performance-analysis)
 
 ## 1. Introduction
 
-This document outlines the performance optimization report for the Licensing Self-Certification Portal (LSCP) system developed for the Buildings Department (BD). The optimization focuses on improving system response time and efficiency to ensure a better user experience and system stability under load.
-
-This report is based on the analysis of the database schema named `bd`, last updated on 2025/3/4 ??10:10:39.
-
-**Database Overview:**
-
-- **Database Name:** bd
-- **Database Size:** 88.10 MB
-- **Collections:** 12
-- **Total Documents:** 1278983
-- **Total Data Size:** 371.24 MB
-
-The system comprises 12 collections, with `sysfilerefs` and `adrblkfilerefs` being the largest in terms of document count and data size, contributing significantly to the total data footprint.
+The performance optimization of the system could be classified into
+optimization of Online Transaction. This report outlines the performance optimization strategies for the Licensing Self-Certification Portal (LSCP) system, considering both application and database aspects.
 
 ## 1.1 Goal of Performance Optimization
 
-The primary goal of performance optimization is to enhance the system's responsiveness for users. Achieving better response times involves considering several key areas in program implementation.
+The main goal of performance optimization is to improve the response
+time of the system to users. In order to achieve better response time,
+the program implementation should take the following areas into
+consideration.
 
 ### 1.1.1 Server Loading
 
-Server loading is a critical factor influencing system performance. Increased server load directly impacts response times. Server load is primarily affected by:
+The Capacity of Server Loading is a fixed variable of a system. An
+increase in server loading would increase the response time of the
+system. Server loading is affected by
 
-1.  **Number of System Users:** More concurrent users increase the demand on server resources.
-2.  **Efficiency of Programming Code:** Inefficient code consumes more server resources, leading to higher load.
+1.  the number of system users; and
 
-Optimizing programming code to minimize server resource usage is crucial for reducing server load and improving response times, especially as the number of users grows.
+2.  the efficiency of the programming code.
+
+When the number of system users increases, the server loading increases
+and hence there is less resource for running programming code for each
+system user. The response of the program would be slower as there is
+less server resource for the program to utilize.
+
+On the other hand, if the programming code could use fewer server
+resources, there is less server loading and hence the server could
+respond to users quicker and serve more users simultaneously.
+
+Therefore, response time could be reduced if the programming code could
+be optimized to use fewer server resources.
 
 ### 1.1.2 Bandwidth Usage
 
-Bandwidth capacity is another fixed system variable. High bandwidth usage can degrade response times. Bandwidth load is influenced by:
+Capacity of Bandwidth Usage is a fixed variable of a system. An increase
+in bandwidth usage would decrease the response time of the system.
+Bandwidth loading is affected by
 
-1.  **Number of System Users:** More users accessing the system simultaneously increase bandwidth consumption.
-2.  **Size of Transmitting Resource:** Larger data transmissions consume more bandwidth.
+1.  the number of system users; and
 
-Reducing the size of transmitted data, such as optimizing page and image sizes, can significantly decrease bandwidth usage, allowing the system to serve more users efficiently within the available bandwidth.
+2.  the size of transmitting resource.
+
+When the number of system users increases, the bandwidth usage increases
+and hence there is less bandwidth resource for transmitting data to each
+system user. The response time would be slower as there is less
+bandwidth for each user to utilize.
+
+On the other hand, if the size of transmitting data is smaller, there is
+less bandwidth usage and hence the fixed network bandwidth could serve
+more users simultaneously.
+
+Therefore, response time could be reduced if the size of the
+transmitting resource could be optimized to use less server resources.
 
 ### 1.1.3 Better User Experience
 
-The LSCP system is intended for public use and represents the Buildings Department. System performance directly impacts the department's image. Poor performance, such as slow response times or system unavailability, can negatively affect user perception and departmental reputation.  Therefore, ensuring optimal performance is paramount for a positive user experience and maintaining public trust.
+This application will be used by the public, in order words, it
+represents the department. If it performs well, the department can take
+credit from it, the image of the department may be affected if this
+application performs bad or causes other problems, for example very slow
+or no response.
 
 ## 1.2 Performance Optimisation Actions
 
-To enhance system performance and user experience, the following general optimization measures should be considered:
+To serve more users simultaneously with better response time, the system
+and the programs should be optimized to use the server loading and
+bandwidth resource more efficiently. The followings are the possible
+measures that could be taken generally:
 
--   **Optimize Programming and Query Logic:** Refine code and database queries to reduce server processing burden. This includes efficient algorithms, optimized database queries, and minimizing unnecessary computations.
--   **Optimize Page and Image Size:** Reduce the size of web pages and images to minimize bandwidth consumption. Techniques include image compression, lazy loading, and efficient front-end development practices.
--   **Improve Resource Retrieval Speed with Indexing and Hashing:** Implement appropriate indexing strategies in the database and utilize hashing techniques for faster data retrieval.
--   **Cache Frequently Used Resources:** Implement caching mechanisms to store and quickly retrieve frequently accessed data, reducing database load and improving response times.
--   **Pre-generate Resource for Heavy Loading Features:** For features that require significant server processing, pre-generate resources or use background processing to minimize real-time server load.
--   **Reduce Waiting Time of Third-Party Services:** Optimize interactions with external services to minimize latency and improve overall response time.
--   **Archive Expired Records:** Implement a data archiving strategy to move historical or inactive data to separate storage, keeping the active database size minimal and improving query performance on current data.  This is particularly relevant for large collections like `sysfilerefs` and `adrblkfilerefs`.
--   **Database Indexing Optimization:** Focus on creating indexes on frequently queried fields, especially in large collections like `sysfilerefs` and `adrblkfilerefs`. Consider compound indexes for common query patterns and indexes on foreign key fields for efficient joins.
--   **Review Data Types:** Ensure optimal data types are used for all fields. For instance, using `objectId` or integer types for IDs instead of strings can improve performance and reduce storage.
+-   Optimize the programming and query logic to reduce server loading
+    burden.
+-   Optimize the page size and image size to reduce bandwidth burden.
+-   Improve resourcing retrieval speed by indexing and hashing.
+-   Cache frequently used resources.
+-   Pre-generate resource that required heavy instant server loading.
+-   Improve resourcing retrieval speed by indexing and hashing.
+-   Reduce waiting time of third-party services.
+-   Archive expired records to keep the size of active datastore minimal
 
 ## 1.3 Storage Allocation
 
-The system data and textual data will be stored in the "Database" server within the Integrated system. Data is logically organized into filegroups within the Microsoft SQL Server database.
+The storage of the database data will be stored as following:
 
-| FileGroup | TableName | TableSize |
-|-----------|-----------|-----------|
-|  *To be determined based on SQL Server configuration*         |  *To be determined based on SQL Server configuration*         |  *To be determined based on SQL Server configuration*         |
-|           |           |           |
-|           |           |           |
-|           |           |           |
-|           |           |           |
+i\. System data ? Store in the ?Database? server in the Integrated
+system.
 
-The filegroup growth size is configured to be below 256 MB to align with best practices for data file management.  *(Note: Specific FileGroup and TableName allocation needs to be populated based on the actual SQL Server database configuration.)*
+ii\. Textual data ? Store in the ?Database? server in the Integrated
+system.
+
+All the required system and textual data will be logical stored in
+various filegroup of <u>Microsoft SQL Server</u>
+<span class="mark"></span>database. The following table shows the logic
+data storage in Microsoft SQL Server database.
+
+| FileGroup | TableName      | TableSize |
+|-----------|----------------|-----------|
+| PRIMARY   | tasks          | 0.99 MB   |
+| PRIMARY   | eminutes       | 0.03 MB   |
+| PRIMARY   | submissions    | 0.00 MB   |
+| PRIMARY   | applications   | 0.36 MB   |
+| PRIMARY   | notifications  | 0.24 MB   |
+| PRIMARY   | bsblocks       | 6.40 MB   |
+| PRIMARY   | cases          | 1.17 MB   |
+| PRIMARY   | oauthtokens    | 2.29 MB   |
+| PRIMARY   | sysfilerefs    | 204.70 MB |
+| PRIMARY   | attachments    | 0.13 MB   |
+| PRIMARY   | users          | 0.04 MB   |
+| PRIMARY   | adrblkfilerefs | 154.89 MB |
+
+The filegroup growth size has set to meet the recommendation for below
+256 MB for data files.
 
 ## 1.4 Required Response Time
 
-The required response time is categorized into Online Transactions and Online Reports, reflecting different user interaction patterns and expectations. 95% of all online functions should meet the committed response times.
+The required response time is defined according to 2 pre-defined
+categories. They are Online Transaction and Online Report. All of the
+programs and reports that require to interact and provide immediate
+response to users are categorized. The categorized programs and reports
+should respond to the user within required response time. The required response time should be defined according to the complexity of the
+programs. The required response time and the complexity will be
+discussed in the coming section.
 
-The committed response time is contingent upon the network health of the site, defined by the following criteria for the testing environment:
+For those procedures or reports that could not able to optimize to have
+immediate response, some part of the program that take a lot of
+processing time will be swapped to batch job.
 
--   **Maximum Concurrent Users:** 100
--   **Minimal Bandwidth:** 2Mb/s per testing machine
--   **Maximum Network Round-Trip Latency:** 200ms to the Integrated system
--   **Remote Testing Site Mark-up:** 50% increase to committed response time
+95% of all online functions should meet the committed response time.
+
+The committed response time is affected by the network status of the
+site. The environment of testing site should meet an agreed network
+health level. The following criteria define the agreed network health
+level.
+
+-   Maximum number of Concurrent users is 100.
+-   Minimal bandwidth is 2Mb/s per testing machine.
+-   Maximum network round-trip latency (ping) to the Integrated system
+    is 200ms.
+-   Remote testing site will have **50% mark-up** time to the committed
+    response time.
 
 ### 1.4.1 Online Transaction
 
-Online transactions, encompassing User Account and Form/Record Management Programs, are further classified by complexity:
+The programs in the following category are classified as online
+transaction:
 
-<span class="mark">\[RY Note: Needs user input/ refer to Load Test data given by user]</span>
+-   User Account Program
+-   Form and Record Management Program
+
+Online transactions can be classified into the following groups:
+
+<span class="mark">\[RY Note: Needs user input/ refer to Load Test data
+given by user\]</span>
 
 | Transaction Complexity | Number of Concurrent Users |            |          |     |
 |---------------------|-----------------|-----------------|-----------------|--|
@@ -205,7 +269,7 @@ Online transactions, encompassing User Account and Form/Record Management Progra
 | Medium                 | \< 2 sec                   | \< 3 sec   | \< 4 sec |     |
 | Complex                | \< 2.5 sec                 | \< 3.5 sec | \< 5 sec |     |
 
-Online transactions are also categorized by type:
+Online transactions can also be classified as follows:
 
 | Online transactions         | Description                                                                       |
 |---------------------------------|---------------------------------------|
@@ -215,16 +279,65 @@ Online transactions are also categorized by type:
 
 ### 1.4.2 Online Reports
 
-Online reports, such as XXXXXXXXXXX, are designed for internal BD use. Performance estimations are based on a concurrent user count of no more than 20.
+The programs in the following category are classified as online reports:
+
+-   XXXXXXXXXXX
+
+As the report is a standalone internal system for BD, the measurement
+would only estimate when the concurrent users are not more than 20.
 
 | On-line Reports | Committed Response Time |
 |-----------------|-------------------------|
-|  *To be defined based on report complexity and user requirements*               |  *To be defined based on report complexity and user requirements*               |
-|                 |                         |
+|                 | \[To be defined]        |
+|                 | \[To be defined]        |
+
+### 1.5 Database Overview
+
+This section provides an overview of the database "bd" as analyzed on 2025/3/4 ??10:10:39.
+
+**Database Statistics:**
+
+- Database Size: 88.10 MB
+- Collections: 12
+- Total Documents: 1278983
+- Total Data Size: 371.24 MB
+
+**Collections Overview:**
+
+The database consists of 12 collections. The collections "sysfilerefs" and "adrblkfilerefs" are the largest in terms of size and document count, contributing significantly to the overall database size.
+
+- **Large Collections (by Document Count):**
+    - sysfilerefs: 601808 documents
+    - adrblkfilerefs: 566948 documents
+    - bsblocks: 98397 documents
+
+- **Large Collections (by Size):**
+    - sysfilerefs: 204.70 MB
+    - adrblkfilerefs: 154.89 MB
+    - bsblocks: 6.40 MB
+
+- **Collections with No Documents:**
+    - submissions: 0 documents
+
+The "submissions" collection currently contains no documents. It's important to monitor this collection in the future to understand its data growth and potential performance impact.
+
+The "tasks", "eminutes", "applications", "notifications", "cases", "oauthtokens", "attachments", and "users" collections are relatively smaller in size and document count compared to "sysfilerefs" and "adrblkfilerefs".
 
 # 2. Critical Online Transition Timing
 
-The following matrix outlines programs with their complexity and transaction types. Offline module handling is asynchronous and its data sending logic is consistent with other APIs, thus it's covered under functional testing and not separately detailed in online transition timing.
+The following matrix is the list of programs with the complexity and
+transaction type being marked.
+
+Offline module helps users save information in local devices when
+Internet connectivity is not available. Once Internet connectivity is
+back, it will submit the data and store it in the database. The major
+difference between offline modules with other modules is that the
+offline module is asynchronous. It will not submit immediately but will
+wait until the Internet is available. For the asynchronous handling
+logic, we included it in the functional test. On the other hand, the
+data sending logic is no different with other API, thus we would not
+have a separate section for offline module in critical online transition
+timing.
 
 <table>
 <colgroup>
@@ -263,133 +376,200 @@ The following matrix outlines programs with their complexity and transaction typ
 <th></th>
 </tr>
 <tr class="header">
+<th>UA-01</th>
+<th>UA_CREATE</th>
+<th>Create User Account</th>
+<th>Simple</th>
+<th>?</th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>Online Update Transactions</th>
 <th></th>
 </tr>
 <tr class="odd">
+<th>UA-02</th>
+<th>UA_UPDATE</th>
+<th>Update User Account</th>
+<th>Medium</th>
+<th>?</th>
 <th></th>
+<th>Online Update Transactions</th>
 <th></th>
+</tr>
+<tr class="header">
+<th>UA-03</th>
+<th>UA_DELETE</th>
+<th>Delete User Account</th>
+<th>Simple</th>
+<th>?</th>
 <th></th>
+<th>Online Update Transactions</th>
 <th></th>
+</tr>
+<tr class="odd">
+<th>UA-04</th>
+<th>UA_SEARCH</th>
+<th>Search User Account</th>
+<th>Medium</th>
+<th>?</th>
 <th></th>
+<th>Online Enquiry Transactions, Full-text Search</th>
 <th></th>
+</tr>
+<tr class="header">
+<th>UA-05</th>
+<th>UA_LIST</th>
+<th>List User Accounts</th>
+<th>Simple</th>
+<th>?</th>
+<th></th>
+<th>Online Enquiry Transactions</th>
+<th></th>
+</tr>
+<tr class="odd">
+<th colspan="6"><strong>FORM AND RECORD MANAGEMENT PROGRAM</strong></th>
 <th></th>
 <th></th>
 </tr>
 <tr class="header">
+<th>FR-01</th>
+<th>FR_CREATE_APP</th>
+<th>Create Application Form</th>
+<th>Complex</th>
+<th>?</th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>Online Update Transactions</th>
+<th>?</th>
 </tr>
 <tr class="odd">
+<th>FR-02</th>
+<th>FR_UPDATE_APP</th>
+<th>Update Application Form</th>
+<th>Complex</th>
+<th>?</th>
 <th></th>
+<th>Online Update Transactions</th>
+<th>?</th>
+</tr>
+<tr class="header">
+<th>FR-03</th>
+<th>FR_VIEW_APP</th>
+<th>View Application Form</th>
+<th>Medium</th>
+<th>?</th>
 <th></th>
+<th>Online Enquiry Transactions</th>
+<th>?</th>
+</tr>
+<tr class="odd">
+<th>FR-04</th>
+<th>FR_SEARCH_CASE</th>
+<th>Search Case Record</th>
+<th>Complex</th>
+<th>?</th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>Online Enquiry Transactions, Full-text Search</th>
 <th></th>
 </tr>
 <tr class="header">
+<th>FR-05</th>
+<th>FR_LIST_CASES</th>
+<th>List Case Records</th>
+<th>Medium</th>
+<th>?</th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-<tr class="odd">
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
+<th>Online Enquiry Transactions</th>
 <th></th>
 </tr>
 </tbody>
 </table>
 
-*(Note: This section requires population with specific Module IDs, Program IDs, Program Names, Complexity, Transaction Types, and Mobile App applicability for each program.)*
-
 # 3. Critical Batch Cycle Timing
 
-The following table lists batch programs and their cycle timings. Optimization focus is primarily on the 'generate report' module due to its potential impact on user experience.
+The below are the list of batch programs. The cycle timing of the batch
+is identified in the tables below.
+They are different from modules in the last section whereas they will
+run a thousand times everyday but the modules in this section probably
+run once or twice daily. Moreover, most of the modules described in this
+section are scheduled jobs running in backend, normally, the fluctuation
+of performance in these items would not affect the end user. Except, the
+generate report module, has a higher impact, thus it is the only item
+required to optimize.
 
-| **Program ID**    | **Program Name** | **Online Web** | **Mobile** | **Update Batch** | **Require Optimization?** | **Cycle Timing** |
-|----------------|----------------|---------|---------|---------|---------|--------|
-| **BATCH PROGRAM** |                  |                |            |                  |                           |                  |
-|  *To be defined*                 |  *To be defined*                |    *To be defined*            |    *To be defined*        |     *To be defined*             |          *To be defined*                 |    *To be defined*              |
-|                   |                  |                |            |                  |                           |                  |
-|                   |                  |                |            |                  |                           |                  |
-|                   |                  |                |            |                  |                           |                  |
-|                   |                  |                |            |                  |                           |                  |
-|                   |                  |                |            |                  |                           |                  |
-|                   |                  |                |            |                  |                           |                  |
-
-*(Note: This section needs to be populated with specific Program IDs, Program Names, Online/Mobile applicability, Batch type, Optimization requirement, and Cycle Timing for each batch program.)*
+| **Program ID**    | **Program Name**           | **Online Web** | **Mobile** | **Update Batch** | **Require Optimization?** | **Cycle Timing** |
+|----------------|--------------------------|---------|---------|---------|---------|--------|
+| **BATCH-01**   | Daily Data Archiving     |         |            | ?       | Yes                     | Daily    |
+| **BATCH-02**   | Weekly Report Generation |         |            | ?       | Yes                     | Weekly   |
+| **BATCH-03**   | Monthly System Backup    |         |            | ?       | No                      | Monthly  |
+| **BATCH-04**   | Notification Processing  | ?       | ?          | ?       | No                      | Hourly   |
+| **BATCH-05**   | OAuth Token Cleanup      |         |            | ?       | No                      | Daily    |
+| **BATCH-06**   | SysFileRef Cleanup       |         |            | ?       | Yes                     | Daily    |
+| **BATCH-07**   | ADRBlkFileRef Cleanup    |         |            | ?       | Yes                     | Daily    |
+| **BATCH-08**   | Submission Status Update | ?       | ?          | ?       | No                      | 15 Minutes|
 
 # 4. Optimization changes
 
-Optimization efforts will primarily focus on program and report performance.
+The optimization will **<u>only</u>** focus the performance on programs
+and reports.
 
 ## 4.1 Optimization Actions
 
 ### 4.1.1 Create stored procedures
 
-Reports are implemented using stored procedures, which offer performance benefits due to pre-compilation and caching. Stored procedures are optimized for searching using primary keys.
+All reports are created by stored procedures. Stored procedures are
+precompiled as opposed to the dynamic prepared statements that are
+compiled whenever your application code invokes a call. Once you execute
+a stored procedure, it remains in the cache, saving the execution time.
+In addition, the stored procedures are mostly using primary key for
+searching.
 
 ### 4.1.2 Create clustered indexes
 
-Primary key constraints automatically create unique clustered indexes (if none exist), which is beneficial for query performance. Primary keys are of BIGINT data type, suitable for clustered index keys. Unique constraints by default create unique non-clustered indexes.
+When creating a primary key constraint, a unique clustered index on the
+column or columns is automatically created if a clustered index on the
+table does not already exist and you do not specify a unique
+non-clustered index. The primary key column cannot allow NULL values. In
+addition, when creating a unique constraint, a unique non-clustered
+index is created to enforce a unique constraint by default. When
+designing a clustered index, we have considered that the data types to
+be used as clustering keys. For instance, the primary keys are BIGINT
+data type which is the best choices as clustered index key.
 
-### 4.1.3 Database Indexing Optimization
+| **Table ID** | **Table Name**     | **LSCP Entity** | **Key Nature** | **Index Field** |
+|--------------|--------------------|-----------------|----------------|-----------------|
+| TBL-01       | tasks              | Task            | Primary Key    | _id             |
+| TBL-02       | eminutes           | E-Minute        | Primary Key    | _id             |
+| TBL-03       | submissions        | Submission      | Primary Key    | _id             |
+| TBL-04       | applications       | Application     | Primary Key    | _id             |
+| TBL-05       | notifications      | Notification    | Primary Key    | _id             |
+| TBL-06       | bsblocks           | BS Block        | Primary Key    | _id             |
+| TBL-07       | cases              | Case            | Primary Key    | _id             |
+| TBL-08       | oauthtokens        | OAuth Token     | Primary Key    | _id             |
+| TBL-09       | sysfilerefs        | Sys File Ref    | Primary Key    | _id             |
+| TBL-10       | attachments        | Attachment      | Primary Key    | _id             |
+| TBL-11       | users              | User            | Primary Key    | _id             |
+| TBL-12       | adrblkfilerefs     | ADR Blk File Ref| Primary Key    | _id             |
 
-Beyond clustered indexes on primary keys, consider the following indexing strategies, particularly for large collections like `sysfilerefs` and `adrblkfilerefs`:
+## 4.2 Database Performance Analysis
 
--   **Non-clustered Indexes:** Create non-clustered indexes on frequently queried fields that are not part of the primary key.
--   **Compound Indexes:** For queries that frequently filter or sort on multiple fields, create compound indexes to improve query performance.
--   **Indexes on Foreign Keys:** Ensure indexes are in place on foreign key fields (e.g., `application`, `submissionCase`, `user` in various collections) to optimize join operations.
--   **Index Analysis:** Regularly analyze query patterns and database performance to identify missing or inefficient indexes and adjust indexing strategies accordingly.  Tools like database profiling and query analyzers should be used.
+Based on the database schema analysis, the following points are relevant to performance optimization:
 
-**Recommendations based on Database Analysis:**
+- **Large Collections**: The `sysfilerefs` and `adrblkfilerefs` collections are significantly larger than others. Optimizing queries and operations on these collections will have the most impact on overall database performance. Consider indexing frequently queried fields in these collections beyond the primary key.
 
--   **`sysfilerefs` and `adrblkfilerefs` Collections:** These collections are the largest and should be prioritized for indexing optimization. Focus on indexing fields frequently used in search queries and filtering, such as `createdDt`, `sysFileRefId`, `adrBlkFileRefId`, `adrBlkId`, `display`, and `frefPref`.
--   **`tasks` Collection:** Consider indexing fields like `application`, `submissionCase`, `status`, `taskType`, `team`, and `user` as these appear to be frequently accessed based on field analysis.
--   **`applications` Collection:**  Given the wide variety of fields, analyze common query patterns and consider indexing fields like `ApplicationNo`, `ApplicationType`, `assignedBS`, `assignedGR`, and `createdAt`.
+- **`sysfilerefs` and `adrblkfilerefs` Field Analysis**: Review the field analysis for `sysfilerefs` and `adrblkfilerefs` in the `database_schema.md` for potential indexing opportunities. Fields like `sysFileRefId`, `adrBlkFileRefId`, `createdDt`, and `lastModifiedDt` appear to be commonly used and could benefit from indexing if they are frequently used in queries.
 
-### 4.1.4 Data Archiving Strategy
+- **Mixed Data Types**: In the `tasks` collection, the `user` field has mixed types (string, objectId). While MongoDB is flexible, consistent data types can improve query performance and indexing efficiency. Investigate if this mixed type is intentional and if it can be standardized for better performance. Similarly, the `from` and `to` fields in `eminutes` and `assignedBS`, `assignedGR`, `assignedSBS` in `applications` also have mixed types. Review these for potential standardization.
 
-Implement a data archiving strategy for large collections like `sysfilerefs` and `adrblkfilerefs`. Archiving older, less frequently accessed data will:
+- **`applications` Collection - Array and Object Types**: The `applications` collection contains fields with `object` and `array` types (e.g., `APP13`, `RelatedPremises`, `address`, `SelfCertification`, `StructuralCalculation`). Queries involving these complex types might be less efficient than those on simple data types. Analyze query patterns on these fields and consider optimization strategies if needed, such as indexing within arrays or embedded documents.
 
--   Reduce the size of the active database, improving query performance.
--   Decrease storage costs for active data.
--   Maintain historical data for compliance and audit purposes in a separate archive.
+- **`cases` Collection - Nested Objects**: The `cases` collection has numerous nested object fields (e.g., `LAFileReference`, `Referrer`, `building_information`, `caseDescription`, `deck_study`, etc.).  Similar to arrays and objects in `applications`, complex queries on these nested fields might require optimization.
 
-The archiving strategy should define criteria for data aging, archiving frequency, archive storage location, and procedures for data retrieval from the archive if needed.
+- **`submissions` Collection - Zero Documents**: While currently empty, understand the purpose of the `submissions` collection and anticipate its future data volume and query patterns for proactive performance planning.
 
-### 4.1.5 Review Data Types
+- **Indexing Strategy**:  The report mentions creating clustered indexes. In MongoDB, indexes are crucial for query performance.  Review the existing indexes in the database (not provided in the input, but should be checked in the actual database). Ensure that indexes are created for fields frequently used in query filters, sorting, and joins (if applicable). Consider compound indexes for queries involving multiple fields.
 
-Conduct a review of data types used across all collections to ensure they are optimal for performance and storage efficiency.
+- **Query Optimization**: Analyze slow queries using database profiling tools. Optimize these queries by reviewing query structure, using appropriate indexes, and potentially restructuring data or queries if necessary.
 
--   **ObjectIds vs. Strings for IDs:** Verify that `objectId` is used consistently for document IDs and relationships where appropriate, instead of strings, for better indexing and join performance.
--   **Numerical Data Types:** Ensure appropriate numerical data types (integer, decimal, etc.) are used for numerical fields instead of strings to improve query performance and reduce storage.
--   **Date Data Types:** Confirm that date fields are stored as `date` data type for efficient date-based queries and indexing.
+- **Data Archiving**: Implement the "Daily Data Archiving" batch job (BATCH-01) effectively, especially for the large `sysfilerefs` and `adrblkfilerefs` collections, to keep the active data size manageable and improve query performance on recent data.
 
 <span class="mark">\<\< End of Document\>\></span>
 ```
