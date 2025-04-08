@@ -89,28 +89,36 @@ Government of the HKSAR.
 > [1.4.1 Online Transaction 9](#online-transaction)
 >
 > [1.4.2 Online Reports 10](#online-reports)
+
+[**2. Database Analysis and Optimization Opportunities 11**](#database-analysis-and-optimization-opportunities)
+
+> [2.1 Database Statistics 11](#database-statistics)
 >
-> [1.5 Database Performance Analysis](#database-performance-analysis)
-
-[**2. Critical online transition timing
-11**](#critical-online-transition-timing)
-
-[**3. Critical Batch Cycle Timing 12**](#critical-batch-cycle-timing)
-
-[**4. Optimization changes 13**](#optimization-changes)
-
-> [4.1 Optimization Actions 14](#optimization-actions)
+> [2.2 Collection Overview and Analysis 12](#collection-overview-and-analysis)
 >
-> [4.1.1 Create stored procedures 14](#create-stored-procedures)
+> [2.3 Field Analysis and Potential Issues 13](#field-analysis-and-potential-issues)
+
+[**3. Critical Online Transition Timing
+14**](#critical-online-transition-timing)
+
+[**4. Critical Batch Cycle Timing 15**](#critical-batch-cycle-timing)
+
+[**5. Optimization changes 16**](#optimization-changes)
+
+> [5.1 Optimization Actions 17](#optimization-actions)
 >
-> [4.1.2 Create clustered indexes 14](#create-clustered-indexes)
+> [5.1.1 Create stored procedures 17](#create-stored-procedures)
+>
+> [5.1.2 Create clustered indexes 17](#create-clustered-indexes)
+>
+> [5.2 Specific Optimization Recommendations 18](#specific-optimization-recommendations)
 
 ##
 
 ## 1. Introduction
 
 The performance optimization of the system could be classified into
-optimization of Online Transaction. This report outlines the performance optimization strategies for the Licensing Self-Certification Portal (LSCP) system, focusing on database aspects based on the provided database schema analysis.
+optimization of Online Transaction. This report outlines the analysis of the current database schema and proposes optimization strategies to enhance system performance for the Licensing Self-Certification Portal (LSCP).
 
 ## 1.1 Goal of Performance Optimization
 
@@ -180,19 +188,12 @@ measures that could be taken generally:
 
 -   Optimize the programming and query logic to reduce server loading
     > burden.
-
 -   Optimize the page size and image size to reduce bandwidth burden.
-
 -   Improve resourcing retrieval speed by indexing and hashing.
-
 -   Cache frequently used resources.
-
 -   Pre-generate resource that required heavy instant server loading.
-
 -   Improve resourcing retrieval speed by indexing and hashing.
-
 -   Reduce waiting time of third-party services.
-
 -   Archive expired records to keep the size of active datastore minimal
 
 ## 1.3 Storage Allocation
@@ -210,20 +211,20 @@ various filegroup of <u>Microsoft SQL Server</u>
 <span class="mark"></span>database. The following table shows the logic
 data storage in Microsoft SQL Server database.
 
-| FileGroup | TableName       | TableSize |
-|-----------|-----------------|-----------|
-| PRIMARY   | tasks           | 0.99 MB   |
-| PRIMARY   | eminutes        | 0.03 MB   |
-| PRIMARY   | submissions     | 0.00 MB   |
-| PRIMARY   | applications    | 0.36 MB   |
-| PRIMARY   | notifications   | 0.24 MB   |
-| PRIMARY   | bsblocks        | 6.40 MB   |
-| PRIMARY   | cases           | 1.17 MB   |
-| PRIMARY   | oauthtokens     | 2.29 MB   |
-| PRIMARY   | sysfilerefs     | 204.70 MB |
-| PRIMARY   | attachments     | 0.13 MB   |
-| PRIMARY   | users           | 0.04 MB   |
-| PRIMARY   | adrblkfilerefs  | 154.89 MB |
+| FileGroup | TableName      | TableSize |
+|-----------|----------------|-----------|
+|           | tasks          | 0.99 MB   |
+|           | eminutes       | 0.03 MB   |
+|           | submissions    | 0.00 MB   |
+|           | applications   | 0.36 MB   |
+|           | notifications  | 0.24 MB   |
+|           | bsblocks       | 6.40 MB   |
+|           | cases          | 1.17 MB   |
+|           | oauthtokens    | 2.29 MB   |
+|           | sysfilerefs    | 204.70 MB |
+|           | attachments    | 0.13 MB   |
+|           | users          | 0.04 MB   |
+|           | adrblkfilerefs | 154.89 MB |
 
 The filegroup growth size has set to meet the recommendation for below
 256 MB for data files.
@@ -250,12 +251,9 @@ health level. The following criteria define the agreed network health
 level.
 
 -   Maximum number of Concurrent users is 100.
-
 -   Minimal bandwidth is 2Mb/s per testing machine.
-
 -   Maximum network round-trip latency (ping) to the Integrated system
     > is 200ms.
-
 -   Remote testing site will have **50% mark-up** time to the committed
     > response time.
 
@@ -265,13 +263,12 @@ The programs in the following category are classified as online
 transaction:
 
 -   User Account Program
-
 -   Form and Record Management Program
 
 Online transactions can be classified into the following groups:
 
 <span class="mark">\[RY Note: Needs user input/ refer to Load Test data
-given by user\]</span>
+given by user]</span>
 
 | Transaction Complexity | Number of Concurrent Users |            |          |     |
 |---------------------|-----------------|-----------------|-----------------|--|
@@ -288,6 +285,8 @@ Online transactions can also be classified as follows:
 | Online Enquiry Transactions | Used to retrieve records from LSCP, for example, filter site monitoring records   |
 | Full-text Search            | Used to search for records with given key words, for example, search assigned TCP |
 
+###
+
 ### 1.4.2 Online Reports
 
 The programs in the following category are classified as online reports:
@@ -302,44 +301,63 @@ would only estimate when the concurrent users are not more than 20.
 |                 |                         |
 |                 |                         |
 
-## 1.5 Database Performance Analysis
+#
 
-Based on the "Database Analysis: bd" report dated 2025/3/4, the database statistics and collection overview provide valuable insights for performance optimization.
+# 2. Database Analysis and Optimization Opportunities
 
-**Database Statistics Summary:**
-- Database Size: 88.10 MB (Relatively small, but data size is larger)
-- Collections: 12
-- Total Documents: 1,278,983 (Significant number of documents)
-- Total Data Size: 371.24 MB (Larger than database size, indicating potential indexing overhead or inefficiencies)
+This section provides an analysis of the database schema and identifies potential areas for performance optimization based on the provided database statistics and collection details.
 
-**Key Observations from Collections Overview:**
+## 2.1 Database Statistics
 
-- **`sysfilerefs` and `adrblkfilerefs` are the largest collections in terms of size and document count.**  `sysfilerefs` (204.70 MB, 601,808 documents) and `adrblkfilerefs` (154.89 MB, 566,948 documents) constitute a significant portion of the total data size. Optimizing queries and operations on these collections will be crucial for overall performance.
-- **`bsblocks` collection is also relatively large** (6.40 MB, 98,397 documents).
-- **`submissions` collection is empty** (0 documents, 0.00 MB). This might indicate a feature not yet in use or a potential data issue.
-- **Other collections are significantly smaller**, suggesting that the majority of the data and potentially performance bottlenecks are concentrated in the `sysfilerefs`, `adrblkfilerefs`, and `bsblocks` collections.
+The following are the key statistics of the `bd` database as of 2025/3/4 ??10:10:39:
 
-**Recommendations based on Database Analysis:**
+- **Database Size:** 88.10 MB
+- **Collections:** 12
+- **Total Documents:** 1,278,983
+- **Total Data Size:** 371.24 MB
 
-1. **Index Optimization for Large Collections:**
-    - **`sysfilerefs` and `adrblkfilerefs`:** Analyze common query patterns for these collections. Focus on indexing fields frequently used in `WHERE` clauses, sorting, and joins.  Consider compound indexes for queries involving multiple fields.  Given the presence of `sysFileRefId` and `adrBlkFileRefId` fields, ensure these are indexed if used for lookups or relationships.  Also, date fields like `createdDt` and `lastModifiedDt` might benefit from indexing if used in date-range queries.
-    - **`bsblocks`:** Examine queries against `bsblocks` and ensure appropriate indexes are in place, especially on `blockId` and `bdgis` fields, if they are frequently used in searches or filters.
+The database size and total data size indicate the storage footprint of the application. The number of collections and documents provides an overview of the data organization.
 
-2. **Data Archiving Strategy:**
-    - For collections like `sysfilerefs` and `adrblkfilerefs` which are growing large, consider implementing a data archiving strategy for older, less frequently accessed data. This can reduce the active dataset size and improve query performance.
+## 2.2 Collection Overview and Analysis
 
-3. **Schema Review for `applications` Collection:**
-    - The `applications` collection has a wide variety of fields and some fields with mixed data types (e.g., `AgeOfStudent`, `ApplicantTel`). Review the schema for consistency and consider data type normalization if it improves query efficiency and data integrity.
+The database consists of 12 collections. The following table summarizes the document count and size of each collection:
 
-4. **Monitoring and Profiling:**
-    - Implement database monitoring tools to track query performance, identify slow queries, and monitor resource utilization. Regularly profile database operations to pinpoint performance bottlenecks and guide further optimization efforts.
+| Collection Name   | Document Count | Size      | Average Document Size |
+|-------------------|----------------|-----------|-----------------------|
+| tasks             | 5,523          | 0.99 MB   | 0.18 KB               |
+| eminutes          | 133            | 0.03 MB   | 0.24 KB               |
+| submissions       | 0              | 0.00 MB   | 0.00 KB               |
+| applications      | 381            | 0.36 MB   | 0.96 KB               |
+| notifications     | 1,837          | 0.24 MB   | 0.13 KB               |
+| bsblocks          | 98,397         | 6.40 MB   | 0.07 KB               |
+| cases             | 451            | 1.17 MB   | 2.65 KB               |
+| oauthtokens       | 3,019          | 2.29 MB   | 0.78 KB               |
+| sysfilerefs       | 601,808        | 204.70 MB | 0.35 KB               |
+| attachments       | 370            | 0.13 MB   | 0.37 KB               |
+| users             | 116            | 0.04 MB   | 0.39 KB               |
+| adrblkfilerefs    | 566,948        | 154.89 MB | 0.28 KB               |
 
-5. **Collection `submissions` Investigation:**
-    - Investigate why the `submissions` collection is empty. If it's intended to store data, ensure the application logic is correctly writing to this collection. If it's not currently used, consider if it will be needed in the future and plan accordingly.
+**Analysis:**
 
-These recommendations are based on the static database schema analysis. Further performance tuning will require dynamic analysis of query patterns, application workload, and user behavior.
+- **Large Collections:** `sysfilerefs` and `adrblkfilerefs` are significantly larger in both document count and size compared to other collections. These collections should be prioritized for performance optimization, especially in terms of indexing and query optimization.
+- **`bsblocks` Collection:** While smaller than `sysfilerefs` and `adrblkfilerefs`, `bsblocks` still holds a substantial number of documents and size, warranting attention for optimization.
+- **`submissions` Collection:**  This collection has zero documents. It's important to verify if this is expected or if there's an issue preventing data from being stored in this collection. If submissions are expected, investigate potential data flow problems. If not, consider removing the collection to simplify the database.
+- **`cases` Collection:**  Has a relatively high average document size (2.65 KB), suggesting potentially complex documents. Analyzing the structure and query patterns of this collection could reveal optimization opportunities.
 
-# 2. Critical Online Transition Timing
+## 2.3 Field Analysis and Potential Issues
+
+The field analysis for each collection provides insights into data types and occurrences. Reviewing this detailed information can reveal potential areas for schema optimization and indexing strategies.
+
+**Potential Issues Identified from Field Analysis:**
+
+- **Mixed Data Types:**  Several fields exhibit mixed data types (e.g., `tasks.user`, `eminutes.from`, `eminutes.to`). While MongoDB is schema-less, inconsistent data types within a field can complicate querying and indexing.  It's recommended to standardize data types for fields used in queries and consider schema enforcement where beneficial.
+- **High Cardinality String Fields:**  Many string fields are present across collections. For collections with a large number of documents like `sysfilerefs` and `adrblkfilerefs`, ensure that frequently queried string fields are appropriately indexed to improve search performance.
+- **Date Fields:** Date fields like `createdAt`, `updatedAt`, `createdDt`, `lastModifiedDt` are common. Indexing these fields can be beneficial for time-based queries and data archival strategies.
+- **Object and Array Types in `applications`:** The `applications` collection contains fields with `object` and `array` types (e.g., `APP13`, `RelatedPremises`, `address`).  Queries involving these complex types might require careful optimization and potentially indexing within embedded documents or arrays if frequently queried.
+
+#
+
+# 3. Critical Online Transition Timing
 
 The following matrix is the list of programs with the complexity and
 transaction type being marked.
@@ -430,6 +448,7 @@ timing.
 <th></th>
 <th></th>
 <th></th>
+<th></th>
 </tr>
 <tr class="header">
 <th></th>
@@ -454,13 +473,11 @@ timing.
 </tbody>
 </table>
 
-> \[Note: This table requires input on specific modules and programs, their complexity, transaction types, and mobile app usage to be populated. This information is not available in the database schema analysis and needs to be provided by the development team or business analysts.]
-
 #
 
 #
 
-# 3. Critical Batch Cycle Timing
+# 4. Critical Batch Cycle Timing
 
 The below are the list of batch programs. The cycle timing of the batch
 is identified in the tables below.
@@ -483,25 +500,23 @@ required to optimize.
 |                   |                  |                |            |                  |                           |                  |
 |                   |                  |                |            |                  |                           |                  |
 
-> \[Note: This table requires input on specific batch programs, their online/mobile usage, update batch nature, optimization needs, and cycle timing. This information is not available in the database schema analysis and needs to be provided by the development team.]
-
-# 4. Optimization changes
+# 5. Optimization changes
 
 The optimization will **<u>only</u>** focus the performance on programs
 and reports.
 
-## 4.1 Optimization Actions
+## 5.1 Optimization Actions
 
-### 4.1.1 Create stored procedures
+### 5.1.1 Create stored procedures
 
 All reports are created by stored procedures. Stored procedures are
 precompiled as opposed to the dynamic prepared statements that are
 compiled whenever your application code invokes a call. Once you execute
 a stored procedure, it remains in the cache, saving the execution time.
 In addition, the stored procedures are mostly using primary key for
-searching.
+searching.  *(Note: This section seems to be based on SQL Server concepts. In MongoDB context, this would relate to optimized aggregation pipelines and efficient query design.)*
 
-### 4.1.2 Create clustered indexes
+### 5.1.2 Create clustered indexes
 
 When creating a primary key constraint, a unique clustered index on the
 column or columns is automatically created if a clustered index on the
@@ -511,30 +526,24 @@ addition, when creating a unique constraint, a unique non-clustered
 index is created to enforce a unique constraint by default. When
 designing a clustered index, we have considered that the data types to
 be used as clustering keys. For instance, the primary keys are BIGINT
-data type which is the best choices as clustered index key.
+data type which is the best choices as clustered index key. *(Note: This section is also based on SQL Server terminology. In MongoDB, we use indexes. Clustered indexes are not directly applicable, but the concept of indexing for efficient data retrieval is relevant.)*
 
-| **Table ID** | **Table Name**   | **LSCP Entity** | **Key Nature** | **Index Field** |
-|------------|-----------------|-----------------|----------------|-----------------|
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
-|            |                 |                 |                |                 |
+## 5.2 Specific Optimization Recommendations
 
-> \[Note: This table requires input on specific tables, their LSCP entity, key nature, and index fields to be populated. Based on the database analysis, prioritize indexing for `sysfilerefs`, `adrblkfilerefs`, and `bsblocks` tables, focusing on fields used in common queries.]
+Based on the database analysis, the following specific optimization recommendations are proposed:
+
+| **Table Name**   | **LSCP Entity** | **Key Nature** | **Index Field**      | **Recommendation**                                                                                                                               |
+|----------------|-----------------|----------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| sysfilerefs    | File Reference  | High Cardinality | sysFileRefId         | **Index `sysFileRefId`**: Ensure an index exists on `sysFileRefId` as it seems to be a primary identifier and likely used in queries.          |
+| sysfilerefs    | Date Range      | Time-based       | createdDt, lastModifiedDt | **Index `createdDt` and `lastModifiedDt`**: Create compound indexes on date fields if time-based queries are frequent (e.g., filtering by date ranges). |
+| adrblkfilerefs | ADR Block File Ref | High Cardinality | adrBlkFileRefId      | **Index `adrBlkFileRefId`**:  Ensure an index exists on `adrBlkFileRefId` for efficient lookups.                                         |
+| adrblkfilerefs | ADR Block ID    | High Cardinality | adrBlkId           | **Index `adrBlkId`**: If `adrBlkId` is frequently used in queries, create an index.                                                              |
+| bsblocks       | Block ID        | High Cardinality | blockId            | **Index `blockId`**: Index `blockId` for faster lookups in `bsblocks` collection.                                                                 |
+| tasks          | Application     | Foreign Key    | application        | **Index `application`**: Index `application` field for efficient retrieval of tasks related to specific applications.                               |
+| tasks          | Submission Case | Foreign Key    | submissionCase     | **Index `submissionCase`**: Index `submissionCase` for efficient retrieval of tasks related to specific submission cases.                           |
+| applications   | Application No  | High Cardinality | ApplicationNo      | **Index `ApplicationNo`**: Index `ApplicationNo` for faster searching and retrieval of applications by application number.                        |
+| users          | User Login      | Unique         | osdpLoginId         | **Index `osdpLoginId` (Unique)**: Ensure a unique index on `osdpLoginId` for efficient user authentication and lookup.                             |
+| eminutes       | Submission Case | Foreign Key    | submissionCase     | **Index `submissionCase`**: Index `submissionCase` for efficient retrieval of eminutes related to specific submission cases.                        |
 
 <span class="mark">\<\< End of Document\>\></span>
 ```
