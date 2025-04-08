@@ -1,5 +1,5 @@
 ```markdown
---- hp_o1.md ---
+--- hp_i1_completed.md ---
 <img src="media/image1.jpg" style="width:2.03125in;height:1.52083in"
 alt="BDlogo" />
 
@@ -120,7 +120,7 @@ HKSAR.
 
 Production and UAT environment:
 
-<img src="media/image2.png" style="width:6.62605in;height:5.91667in" />
+<img src="media/image3.png" style="width:6.62605in;height:5.81944in" />
 
 List of machines and virtual machines:
 
@@ -144,128 +144,74 @@ List of machines and virtual machines:
 <th rowspan="2">prd-scs-admin-server-01</th>
 <th>prd-scs-vcenter-01</th>
 <th>vCenter</th>
-<th><p>192.168.10.24 /</p>
-<p>10.5.161.210</p></th>
+<th>192.168.10.24 / 10.5.161.210</th>
 </tr>
 <tr class="header">
 <th>prd-scs-log-01</th>
 <th>Kiwi Log Server</th>
-<th><p>192.168.10.11 /</p>
-<p>10.5.161.223</p></th>
+<th>192.168.10.11 / 10.5.161.223</th>
+<th></th>
 </tr>
 <tr class="odd">
 <th rowspan="3">prd-scs-admin-server-02</th>
 <th>prd-scs-backup-01</th>
 <th>Veeam Backup Server</th>
-<th><p>192.168.10.25 /</p>
-<p>10.5.161.211</p></th>
+<th>192.168.10.25 / 10.5.161.211</th>
 </tr>
 <tr class="header">
 <th>prd-scs-esetnod32</th>
 <th>NOD32 Anti-Virus Server</th>
-<th><p>192.168.10.34 /</p>
-<p>10.5.161.215</p></th>
+<th>192.168.10.34 / 10.5.161.215</th>
+<th></th>
 </tr>
 <tr class="odd">
 <th>dev-scs-admin-api-01</th>
 <th>API Server (DEV)</th>
 <th>192.168.14.10</th>
+<th></th>
 </tr>
 <tr class="header">
-<th rowspan="7">prd-scs-nas</th>
-<th>prd-scs-admin-api-01</th>
+<th rowspan="7">prd-scs-admin-server-01 & prd-scs-admin-server-02</th>
+<th>prd-scs-admin-api-01 & prd-scs-admin-api-02</th>
 <th>API Server (PRD)</th>
-<th>192.168.12.11</th>
+<th>192.168.12.11 & 192.168.12.16</th>
 </tr>
 <tr class="odd">
-<th>prd-scs-admin-frontend-01</th>
+<th>prd-scs-admin-frontend-01 & prd-scs-admin-frontend-02</th>
 <th>Frontend Server (PRD)</th>
-<th>192.168.12.12</th>
+<th>192.168.12.12 & 192.168.12.17</th>
+<th></th>
 </tr>
 <tr class="header">
-<th>prd-scs-admin-backend-01</th>
+<th>prd-scs-admin-backend-01 & prd-scs-admin-backend-02</th>
 <th>Backend Server (PRD)</th>
-<th>192.168.12.13</th>
+<th>192.168.12.13 & 192.168.12.18</th>
+<th></th>
 </tr>
 <tr class="odd">
-<th>prd-scs-db-01</th>
+<th>prd-scs-db-01 & prd-scs-db-02</th>
 <th>Database Server (PRD)</th>
-<th>192.168.12.14</th>
+<th>192.168.12.14 & 192.168.12.19</th>
+<th></th>
 </tr>
 <tr class="header">
 <th>prd-scs-filer</th>
 <th>File Server (PRD)</th>
 <th>192.168.12.20</th>
+<th></th>
 </tr>
 <tr class="odd">
 <th>prd-scs-proxy</th>
 <th>Reverse Proxy Server (PRD)</th>
-<th><p>192.168.12.15 /</p>
-<p>10.5.161.226</p></th>
+<th>192.168.12.15 / 10.5.161.226</th>
+<th></th>
 </tr>
 <tr class="header">
-<th>prd-scs-admin-api-02</th>
-<th>API Server (PRD)</th>
-<th>192.168.12.16</th>
-</tr>
-<tr class="odd">
-<th></th>
-<th>prd-scs-admin-frontend-02</th>
-<th>Frontend Server (PRD)</th>
-<th>192.168.12.17</th>
-</tr>
-<tr class="header">
-<th></th>
-<th>prd-scs-admin-backend-02</th>
-<th>Backend Server (PRD)</th>
-<th>192.168.12.18</th>
-</tr>
-<tr class="odd">
-<th></th>
-<th>prd-scs-db-02</th>
-<th>Database Server (PRD)</th>
-<th>192.168.12.19</th>
-</tr>
-<tr class="header">
-<th></th>
 <th>uat-scs-admin-api-01</th>
 <th>API Server (UAT)</th>
 <th>192.168.13.10</th>
-</tr>
-<tr class="odd">
 <th></th>
-<th>uat-scs-admin-frontend-01</th>
-<th>Frontend Server (UAT)</th>
-<th>192.168.13.11</th>
 </tr>
-<tr class="header">
-<th></th>
-<th>uat-scs-admin-backend-01</th>
-<th>Backend Server (UAT)</th>
-<th>192.168.13.12</th>
-</tr>
-<tr class="odd">
-<th></th>
-<th>uat-scs-db-01</th>
-<th>Database Server (UAT)</th>
-<th>192.168.13.13</th>
-</tr>
-<tr class="header">
-<th></th>
-<th>uat-scs-filer</th>
-<th>File Server (UAT)</th>
-<th>192.168.13.15</th>
-</tr>
-<tr class="odd">
-<th></th>
-<th>uat-scs-proxy</th>
-<th>Reverse Proxy Server (UAT)</th>
-<th><p>192.168.13.14 /</p>
-<p>10.5.161.224</p></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
 </table>
 
 DR environment:
@@ -294,8 +240,7 @@ List of machines and virtual machines:
 <th rowspan="2">dr-scs-admin-server-01</th>
 <th>dr-scs-vcenter-01</th>
 <th>vCenter</th>
-<th><p>192.168.20.18 /</p>
-<p>10.5.174.225</p></th>
+<th>192.168.20.18 / 10.5.174.225</th>
 </tr>
 <tr class="header">
 <th>dr-scs-log-01</th>
@@ -304,80 +249,76 @@ List of machines and virtual machines:
 <th></th>
 </tr>
 <tr class="odd">
-<th rowspan="7">dr-scs-nas</th>
+<th rowspan="7">dr-scs-admin-server-01</th>
 <th>dr-scs-backup-01</th>
 <th>Veeam Backup Server</th>
-<th><p>192.168.20.19 /</p>
-<p>10.5.161.224</p></th>
+<th>192.168.20.19 / 10.5.161.224</th>
 </tr>
 <tr class="header">
 <th>dr-scs-admin-api-01</th>
-<th>API Server</th>
+<th>API Server (DR)</th>
 <th>192.168.22.11</th>
 <th></th>
 </tr>
 <tr class="odd">
 <th>dr-scs-admin-frontend-01</th>
-<th>Frontend Server</th>
+<th>Frontend Server (DR)</th>
 <th>192.168.22.12</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>dr-scs-admin-backend-01</th>
-<th>Backend Server</th>
+<th>Backend Server (DR)</th>
 <th>192.168.22.13</th>
 <th></th>
 </tr>
 <tr class="odd">
 <th>dr-scs-db-01</th>
-<th>Database Server</th>
+<th>Database Server (DR)</th>
 <th>192.168.22.14</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>dr-scs-filer</th>
-<th>File Server</th>
+<th>File Server (DR)</th>
 <th>192.168.22.16</th>
 <th></th>
 </tr>
 <tr class="odd">
 <th>dr-scs-proxy</th>
-<th>Reverse Proxy Server</th>
-<th><p>192.168.22.15 /</p>
-<p>10.5.174.228</p></th>
+<th>Reverse Proxy Server (DR)</th>
+<th>192.168.22.15 / 10.5.174.228</th>
 <th></th>
 </tr>
 <tr class="header">
 <th></th>
-<th>scspwi</th>
-<th>Reverse Proxy Server (GCIS)</th>
-<th><p>192.168.0.6 /</p>
-<p>45.119.93.84</p></th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 <tr class="odd">
 <th></th>
-<th>scspwg</th>
-<th>Reverse Proxy Server (GCIS)</th>
-<th><p>192.168.4.6 /</p>
-<p>10.160.139.211</p></th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 <tr class="header">
 <th></th>
-<th>scspad</th>
-<th>Apps Server (GCIS)</th>
-<th>192.168.8.6</th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 <tr class="odd">
 <th></th>
-<th>scspdb</th>
-<th>Database Server (GCIS)</th>
-<th>192.168.8.7</th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 <tr class="header">
 <th></th>
-<th>scspbk2</th>
-<th>Veeam Backup Server (GCIS)</th>
-<th>192.168.8.9</th>
+<th></th>
+<th></th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -512,91 +453,91 @@ different areas.
 </tr>
 <tr class="odd">
 <th>Blade Servers</th>
-<th>prd-scs-admin-server-01<br>prd-scs-admin-server-02<br>dr-scs-admin-server-01</th>
-<th>192.168.10.22<br>192.168.10.23<br>192.168.20.17</th>
-<th>10.5.161.206<br>10.5.161.207<br>10.5.174.216</th>
-<th>vSphere Client</th>
-<th>administrator@vsphere.local</th>
+<th>prd-scs-admin-server-01, prd-scs-admin-server-02, dr-scs-admin-server-01</th>
+<th>192.168.10.22, 192.168.10.23, 192.168.20.17</th>
+<th>10.5.161.206, 10.5.161.207, 10.5.174.216</th>
+<th>SSH, vSphere Client</th>
+<th>administrator</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>Hypervisiors</th>
-<th>prd-scs-admin-server-01<br>prd-scs-admin-server-02<br>dr-scs-admin-server-01</th>
-<th>192.168.10.22<br>192.168.10.23<br>192.168.20.17</th>
-<th>10.5.161.206<br>10.5.161.207<br>10.5.174.216</th>
-<th>ESXi Web UI, SSH</th>
-<th>root</th>
+<th>prd-scs-admin-server-01, prd-scs-admin-server-02, dr-scs-admin-server-01</th>
+<th>192.168.10.22, 192.168.10.23, 192.168.20.17</th>
+<th>10.5.161.206, 10.5.161.207, 10.5.174.216</th>
+<th>vSphere Client</th>
+<th>administrator@vsphere.local</th>
 <th></th>
 </tr>
 <tr class="odd">
 <th>Windows Server</th>
-<th>prd-scs-nas<br>dr-scs-nas<br>prd-scs-backup-01<br>prd-scs-log-01<br>prd-scs-esetnod32<br>prd-scs-admin-api-01<br>prd-scs-admin-api-02<br>prd-scs-admin-frontend-01<br>prd-scs-admin-frontend-02<br>prd-scs-admin-backend-01<br>prd-scs-admin-backend-02<br>prd-scs-db-01<br>prd-scs-db-02<br>prd-scs-filer<br>prd-scs-proxy<br>uat-scs-admin-api-01<br>uat-scs-admin-frontend-01<br>uat-scs-admin-backend-01<br>uat-scs-db-01<br>uat-scs-filer<br>uat-scs-proxy<br>dev-scs-admin-api-01<br>dev-scs-admin-frontend-01<br>dev-scs-admin-backend-01<br>dev-scs-db-01<br>dev-scs-filer<br>dev-scs-proxy<br>dr-scs-backup-01<br>dr-scs-log-01<br>dr-scs-admin-api-01<br>dr-scs-admin-frontend-01<br>dr-scs-admin-backend-01<br>dr-scs-db-01<br>dr-scs-filer<br>dr-scs-proxy<br>scspbk2<br>scsplog<br>scspwi<br>scspwg<br>scspad<br>scspdb<br>scsuwi<br>scsuwg<br>scsuad<br>scsudb<br>scsdwi<br>scsdwg<br>scsdad<br>scsddb</th>
-<th>See Section 1</th>
-<th>See Section 1</th>
+<th>prd-scs-nas, dr-scs-nas, prd-scs-backup-01, prd-scs-log-01, prd-scs-esetnod32, prd-scs-admin-api-01/02, prd-scs-admin-frontend-01/02, prd-scs-admin-backend-01/02, prd-scs-db-01/02, prd-scs-filer, prd-scs-proxy, uat-scs-admin-api-01, uat-scs-admin-frontend-01, uat-scs-admin-backend-01, uat-scs-db-01, uat-scs-filer, uat-scs-proxy, dev-scs-admin-api-01, dev-scs-admin-frontend-01, dev-scs-admin-backend-01, dev-scs-db-01, dev-scs-filer, dev-scs-proxy, dr-scs-backup-01, dr-scs-log-01, dr-scs-admin-api-01, dr-scs-admin-frontend-01, dr-scs-admin-backend-01, dr-scs-db-01, dr-scs-filer, dr-scs-proxy, scspbk2, scsplog, scspwi, scspwg, scspad, scspdb, scsuwi, scsuwg, scsuad, scsudb, scsdwi, scsdwg, scsdad, scsddb</th>
+<th>Various, refer to Section 1</th>
+<th>Various, refer to Section 1</th>
 <th>RDP</th>
 <th>administrator</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>Hypervisior Controller</th>
-<th>prd-scs-vcenter-01<br>dr-scs-vcenter-01</th>
-<th>192.168.10.24<br>192.168.20.18</th>
-<th>10.5.161.210<br>10.5.174.225</th>
-<th>vSphere Client</th>
+<th>prd-scs-vcenter-01, dr-scs-vcenter-01</th>
+<th>192.168.10.24, 192.168.20.18</th>
+<th>10.5.161.210, 10.5.174.225</th>
+<th>Web UI (vSphere Client)</th>
 <th>administrator@vsphere.local</th>
 <th></th>
 </tr>
 <tr class="odd">
 <th>Storage Server</th>
-<th>Dell PowerStore 500T (PS500T-Cluster1, PS500T-Cluster2)<br>Dell DataDomain 3300 (prd-scs-backupstorage-01, dr-scs-backupstorage-01)</th>
-<th>192.168.10.26<br>192.168.20.20<br>192.168.10.20<br>192.168.20.25</th>
-<th>N/A</th>
-<th>Web UI</th>
+<th>Dell PowerStore 500T (PS500T-Cluster1, PS500T-Cluster2)</th>
+<th>192.168.10.26, 192.168.20.20</th>
+<th></th>
+<th>Web UI (PowerStore Manager)</th>
 <th>admin</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>Firewall</th>
-<th>PA-850-SCSPri<br>PA-850-SCSSec<br>PA-850-SCSDR</th>
-<th>192.168.10.12<br>192.168.10.13<br>192.168.20.12</th>
-<th>10.5.161.205<br>10.5.161.220<br>10.5.174.215</th>
-<th>Web UI</th>
+<th>PA-850-SCSPri, PA-850-SCSSec, PA-850-SCSDR</th>
+<th>192.168.10.12, 192.168.10.13, 192.168.20.12</th>
+<th>10.5.161.205, 10.5.161.220, 10.5.174.215</th>
+<th>Web UI (Palo Alto Networks)</th>
 <th>admin</th>
 <th></th>
 </tr>
 <tr class="odd">
 <th>Network Switch</th>
-<th>Catalyst (192.168.10.14, 192.168.10.15, 192.168.20.13)</th>
-<th>192.168.10.14<br>192.168.10.15<br>192.168.20.13</th>
-<th>N/A</th>
-<th>Web UI, Console</th>
-<th>admin</th>
+<th>Catalyst</th>
+<th>192.168.10.14, 192.168.10.15, 192.168.20.13</th>
+<th></th>
+<th>SSH, Web UI (Cisco)</th>
+<th>cisco</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>SQL Database</th>
-<th>prd-scs-db-01<br>prd-scs-db-02<br>uat-scs-db-01<br>dev-scs-db-01<br>dr-scs-db-01<br>scspdb<br>scsudb<br>scsddb</th>
-<th>See Section 1</th>
-<th>See Section 1</th>
+<th>prd-scs-db-01/02, uat-scs-db-01, dev-scs-db-01, dr-scs-db-01, scspdb, scsudb, scsddb</th>
+<th>192.168.12.14, 192.168.12.19, 192.168.13.13, 192.168.14.13, 192.168.22.14, 192.168.8.7, 192.168.8.10, 192.168.8.8</th>
+<th></th>
 <th>SQL Management Studio</th>
 <th>sa</th>
 <th></th>
 </tr>
 <tr class="odd">
-<th>Symantec Endpoint Protection Manager (SEPM) / ESET PROTECT Server</th>
+<th>Symantec Endpoint Protection Manager (SEPM)</th>
 <th>prd-scs-esetnod32</th>
 <th>192.168.10.34</th>
 <th>10.5.161.215</th>
-<th>Web UI</th>
+<th>Web UI (ESET PROTECT)</th>
 <th>administrator</th>
 <th></th>
 </tr>
 <tr class="header">
 <th>Syslog</th>
-<th>prd-scs-log-01<br>dr-scs-log-01<br>scsplog</th>
-<th>192.168.10.11<br>192.168.20.10<br>192.168.8.10</th>
-<th>10.5.161.223<br>N/A<br>N/A</th>
-<th>Web UI</th>
+<th>prd-scs-log-01, dr-scs-log-01, scsplog</th>
+<th>192.168.10.11, 192.168.20.10, 192.168.8.10</th>
+<th>10.5.161.223, N/A, N/A</th>
+<th>Web UI (Kiwi Syslog Server)</th>
 <th>admin</th>
 <th></th>
 </tr>
@@ -611,8 +552,8 @@ Administration Accounts on LSCP
 
 | Environment | User Type | User account | Password |
 |-------------|-----------|--------------|----------|
-| UAT         | BD Admin  | BDAdmin      |          |
-| PRD / DR    | BD Admin  | BDAdmin      |          |
+| UAT         | BD Admin  | BDAdminUAT   |          |
+| PRD / DR    | BD Admin  | BDAdminPRD   |          |
 |             |           |              |          |
 
 # 6. Backup
