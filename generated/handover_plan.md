@@ -1,32 +1,32 @@
-# Handover Plan - Licensing Self-Certification Portal (LSCP)
-
-## Introduction
-
-This Handover Plan outlines the transfer of the Licensing Self-Certification Portal (LSCP) system from Master Concept (Hong Kong) Limited (MC) to the Buildings Department (BD). This document serves as a comprehensive checklist of handover materials and provides essential information for the support and maintenance staff. It consolidates information from various sources and supersedes all previous drafts.
-
-<img src="media/image1.jpg" alt="BDlogo" style="width:2.03125in;height:1.52083in" />
+```markdown
+<img src="media/image1.jpg" style="width:2.03125in;height:1.52083in"
+alt="BDlogo" />
 
 **HANDOVER PLAN**
 
-**FOR**
+**<span class="smallcaps">FOR</span>**
 
-**COMBINED SYSTEM DEVELOPMENT SERVICES**
+**<span class="smallcaps">COMBINED SYSTEM DEVELOPMENT SERVICES</span>**
 
-**FOR**
+**<span class="smallcaps">FOR</span>**
 
-**LICENSING SELF-CERTIFICATION PORTAL**
+**<span class="smallcaps">LICENSING SELF-CERTIFICATION PORTAL</span>**
 
-**FOR**
+**<span class="smallcaps">FOR</span>**
 
-**BUILDINGS DEPARTMENT**
+**<span class="smallcaps">BUILDINGS DEPARTMENT</span>**
 
-**Version: 1.0**
+**Version: 0.1**
 
-**January 2025**
+**Jan 2025**
 
 ? The Government of the Hong Kong Special Administrative Region
 
-The contents of this document remain the property of, and may not be reproduced in whole or in part without the express permission of the Government of the HKSAR.
+The contents of this document remain the property of, and may not be
+reproduced in whole
+
+or in part without the express permission of the Government of the
+HKSAR.
 
 | **Distribution** |                                         |
 |------------------|-----------------------------------------|
@@ -45,242 +45,915 @@ The contents of this document remain the property of, and may not be reproduced 
 </colgroup>
 <thead>
 <tr class="header">
-<th colspan="6"><strong>Amendment History</strong></th>
+<th colspan="6"><blockquote>
+<p><strong>Amendment History</strong></p>
+</blockquote></th>
 </tr>
-<tr>
+<tr class="odd">
 <th>Change Number</th>
 <th>Revision Description</th>
-<th>Pages Affected</th>
-<th>Revision Number</th>
+<th><p>Pages</p>
+<p>Affected</p></th>
+<th><p>Revision</p>
+<p>Number</p></th>
 <th>Date</th>
 <th>Approved Reference</th>
 </tr>
-<tr>
+<tr class="header">
 <th>1</th>
-<th>1st Draft</th>
+<th>1st draft</th>
 <th>All</th>
 <th>0.1</th>
 <th>16/01/2024</th>
 <th></th>
 </tr>
-<tr>
-<th>2</th>
-<th>Final Version</th>
-<th>All</th>
-<th>1.0</th>
-<th>October 2025</th>
+<tr class="odd">
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 </tr>
 </thead>
+<tbody>
+</tbody>
 </table>
 
-## Table of Contents
+**TABLE OF CONTENTS**
 
-- [1. Environment Description](#environment-description)
-- [2. Purpose and Scope](#purpose-and-scope)
-    - [2.1 Schedule](#schedule)
-    - [2.2 Verification](#verification)
-- [3. Documentation](#documentation)
-- [4. Program Source Code](#program-source-code)
-- [5. Administration Accounts Checklist](#administration-accounts-checklist)
-- [6. Security and Backup](#security-and-backup)
-    - [6.1 Backup](#backup)
-    - [6.2 Security](#security)
-    - [6.3 Change Control](#change-control)
-    - [6.4 Disaster Recovery](#disaster-recovery)
-    - [6.5 Database Backup Strategy](#database-backup-strategy)
-- [7. Outstanding Items/Issues](#outstanding-itemsissues)
-- [8. Licensed Software](#licensed-software)
-- [9. System Summary](#system-summary)
-    - [9.1 Objective](#objective)
-    - [9.2 System Architecture](#system-architecture)
-    - [9.3 System Functions](#system-functions)
-- [10. Equipment Configuration](#equipment-configuration)
-    - [10.1 Computer Hardware](#computer-hardware)
-    - [10.2 Guest Servers Components](#guest-servers-components)
-    - [10.3 Gateway and SMTPX Configuration](#gateway-and-smtpx-configuration)
-    - [10.4 Database Configuration](#database-configuration)
-    - [10.5 Detailed Server and Network Configurations](#detailed-server-and-network-configurations)
-- [11. Software Inventories](#software-inventories)
-    - [11.1 Inventory of Application Programs](#inventory-of-application-programs)
-    - [11.2 Inventory of System Software and Software Package](#inventory-of-system-software-and-software-package)
-- [12. Database Administration](#database-administration)
-    - [12.1 Clean Database Transaction Logs](#clean-database-transaction-logs)
-    - [12.2 Database Backup](#database-backup-1)
-    - [12.3 System Constraints and Limitations](#system-constraints-and-limitations)
-- [13. Log Management](#log-management)
+[1. Environment Description](#environment-description)
 
+> [1.1 System Summary](#system-summary)
+>
+> [1.2 System Architecture](#system-architecture)
+>
+> [1.3 Equipment Configuration](#equipment-configuration)
+>
+> [1.4 Guest Servers Components](#guest-servers-components)
+>
+> [1.5 Gateway and SMTPX Configuration](#gateway-and-smtpx-configuration)
+>
+> [1.6 Detailed Server and Network Configurations](#detailed-server-and-network-configurations)
 
-## 1. Environment Description
+[2. Purpose](#purpose)
 
-The LSCP system is deployed across multiple environments, including Production, User Acceptance Testing (UAT), Development (DEV), and Disaster Recovery (DR).  These environments are distributed across on-premise infrastructure at West Kowloon Government Offices (WKGO) and the Government Cloud Infrastructure Services (GCIS).  Detailed diagrams and IP addresses for each environment will be provided separately due to security considerations.  Please refer to Appendix A for the list of machines and virtual machines.
+> [2.1 Schedule](#schedule)
+>
+> [2.2 Verification](#verification)
 
-## 2. Purpose and Scope
+[3. Documentation](#documentation)
 
-This document serves as a comprehensive checklist for the handover of the LSCP system from MC to BD. It details all deliverables and provides essential information for the support and maintenance staff.  The handover encompasses documentation, source code, administration accounts, backups, hardware specifications, and software licenses.
+[4. Program Source Code](#program-source-code)
 
-### 2.1 Schedule
+[5. Administration Accounts Checklist](#administration-accounts-checklist)
 
-| Action       | Date           | Action Parties |
-|--------------|----------------|----------------|
-| Handover     | October 26, 2025 | MC/BD          |
-| Verification | November 9, 2025  | BD             |
+[6. Backup](#backup)
 
-### 2.2 Verification
+> [6.1 VM Backup](#vm-backup)
+>
+> [6.2 Database Backup](#database-backup)
+> [6.3 Database Backup Strategy](#database-backup-strategy)
+> [6.4 Recovery](#recovery)
+> [6.5 Backup Schedule](#backup-schedule)
 
-1. **Application URL Verification:** BD will verify access to each application URL.
-2. **Login Accounts Verification:** BD will verify login credentials for applications and servers.  Credentials will be handed over through a secure, out-of-band process.
+[7. Outstanding Items/Issues](#outstanding-itemsissues)
 
-## 3. Documentation
+[8. Licensed Software](#licensed-software)
 
-The following documentation will be provided:
+[9. Database Administration](#database-administration)
+    > [9.1 Clean Database Transaction Logs](#clean-database-transaction-logs)
+    > [9.2 Database Backup Procedure](#database-backup-procedure)
+    > [9.3 System Constraints and Limitations](#system-constraints-and-limitations)
 
-| Document                             | File Name             | Version |
-|--------------------------------------|-----------------------|---------|
-| System Architecture & Design (SA&D) Report | SA&D_LSCP_v1.0.pdf    | 1.0     |
-| Project Initiation Document (PID)    | PID_LSCP_v1.0.pdf     | 1.0     |
-| ...                                 | ...                   | ...     |
-| Project Evaluation Report            | PER_LSCP_v1.0.pdf     | 1.0     |
-| System Manual                        | System_Manual_v1.0.pdf | 1.0     |
+[10. Log Management](#log-management)
 
+# 1. Environment Description
 
-## 4. Program Source Code
+## 1.1 System Summary
 
-Source code will be provided via a secure repository. Access details will be provided separately.  The repository structure will mirror the component breakdown below:
+The Licensing Self-Certification Portal (LSCP) is designed to provide an electronic platform for Buildings Department (BD) officers and public users involved in site inspection and site monitoring. The system aims to streamline the process of providing, managing, and reviewing inspection and monitoring records.
 
-| Component            |  Repository Path |
-|----------------------|-------------------|
-| Frontend Application | /frontend         |
-| Backend Application  | /backend          |
-| Mobile Application   | /mobile           |
+## 1.2 System Architecture
 
+The LSCP system is hosted across two datacenters: On-premise (WKGO) and Government Cloud Infrastructure Services (GCIS).
 
-## 5. Administration Accounts Checklist
+**WKGO (On-Premise) Environment:**
 
-Administrative account details will be provided separately through a secure, out-of-band process.  This separation ensures the confidentiality of sensitive credentials.
+The on-premise system is located behind an internal firewall and is segmented into three subnets: Production, UAT, and DEV, primarily for internal users. A reverse proxy server with load balancing enhances security and distributes incoming requests to the frontend web servers.
 
+**GCIS (Government Cloud Infrastructure Services) Environment:**
 
-## 6. Security and Backup
+The GCIS environment is divided into three subnets: Internet DMZ (iDMZ), Trusted Zone, and Gnet DMZ (gDMZ). Both iDMZ and gDMZ include a reverse proxy server and a Web Application Firewall (WAF) in front of the iDMZ for enhanced security.
 
-### 6.1 Backup
+**User Access Flow:**
 
-Backup procedures are detailed in Section 8 of the System Manual.  Key highlights include:
+*   **External Users (Public):** Access the system via the internet through the LSCP Web Application, which communicates with the Application Server via a reverse proxy. The Application Server hosts static web interface files.  System logic is handled by External Application Servers which forward requests to Web Servers in the Trusted Zone. These web servers, built with reactjs and nodeJS, interact with Database Servers (Microsoft SQL Servers) and an in-built file storage to process data and return results.
+*   **Internal Users (BD Officers):** Access the internal BDSCS application from the BD intranet, connecting to BD Web Servers in the Trusted Zone through the Departmental Portal (OSDP). These BD Web Servers perform similar functions to the External Web Servers and handle user authentication via the Departmental Portal.
 
-* **VM Backup:** Daily VM image backups are performed using Veeam Backup & Replication and stored on dedicated backup servers. Copies of production VM images are also stored in the DR environment.
-* **Database Backup:** Daily full database backups are performed on all database servers.  These backups are stored locally and also included in the VM backups.  GCIS environments leverage GCIS-provided backup services with offsite copies and replication to the DR site.
+**Supporting Servers in Trusted Zone:**
 
-### 6.2 Security
+*   **Log Server:** Stores system and application logs from various servers.
+*   **File Server:** Stores temporary and permanent files.
+*   **Database Server:** Hosts Microsoft SQL Server for system and user data.
+*   **vCenter Server:** Manages VM Hypervisors on physical servers.
+*   **Backup Server:** Manages database snapshots.
 
-Security measures are detailed in Section 8 of the System Manual.  Key highlights include:
+**System Architecture Diagrams:**
 
-* **Data Transmission Security:** All data transmission is encrypted using HTTPS over TLS.  Certificates from the Hong Kong Post and OGCIO's Intranet Server Certificate Certification Authority (ISCCA) are used.
-* **Data Storage Security:** Data at rest is encrypted and stored on SAN storage in the production environment and local storage in the DR environment. RAID configurations provide redundancy and fault tolerance.
-* **System Security:** Regular security patching and antivirus software are implemented on all servers.
-* **Access Control:** Access to the LSCP is controlled through the Departmental Portal (OSDP) for internal users and iAM Smart authentication for external users.  Role-based access control restricts user privileges within the application.
+**Production Environment:**
 
-### 6.3 Change Control
+<img src="media/image2.png" style="width:6.62605in;height:5.91667in" />
 
-All code changes are managed using Git version control.  Detailed change control procedures are outlined in the Computer Operation Procedures Manual (COPM).
+**Production and UAT Site Architecture:**
 
-### 6.4 Disaster Recovery
+<img src="media/image3.png" style="width:6.62605in;height:5.81944in" />
 
-Disaster recovery procedures are detailed in Section 8 of the System Manual.  Key highlights include:
+**Disaster Recovery Environment:**
 
-* **GCIS:** Automatic failover to GCIS P2 is implemented using VM Site Recovery Manager.
-* **On-Premise:** NGINX reverse proxy provides load balancing and failover for on-premise servers.  VM replication to the DR environment is performed using Veeam.
+<img src="media/image5.png" style="width:6.62605in;height:6.44444in" />
 
-### 6.5 Database Backup Strategy
+**Web Browser Support:**
 
-Database backup and recovery procedures are detailed in Sections 8 and 9 of the System Manual.  Daily full backups are performed, and recovery procedures are documented for various failure scenarios.
+<img src="media/image4.png" style="width:6.62605in;height:2.375in" />
 
+## 1.3 Equipment Configuration
 
-## 7. Outstanding Items/Issues
+### Hardware Components
 
-None.
-
-
-## 8. Licensed Software
-
-| Item                                      | Quantity | Expiry/License Type |
-|-------------------------------------------|----------|--------------------|
-| Windows Server 2022 Standard             |  As Required | Perpetual/Volume    |
-| SQL Server 2022 Standard                 |  As Required | Perpetual/Volume    |
-| Veeam Backup & Replication 12             |  As Required | Perpetual/Subscription |
-| ESET Server Security                      |  As Required | Subscription        |
-| Kiwi Syslog Server NG                     |  As Required | Perpetual/Subscription |
-| VMware vSphere 8                          |  As Required | Subscription        |
-| VMware vCenter 8                          |  As Required | Subscription        |
-
-
-## 9. System Summary
-
-### 9.1 Objective
-
-The LSCP aims to provide an electronic platform for BD officers and public users to manage and review site inspection and monitoring records.
-
-### 9.2 System Architecture
-
-Please refer to Section 5.2 of the System Manual for a detailed description and diagrams of the system architecture.
-
-### 9.3 System Functions
-
-Please refer to Section 5.3 of the System Manual for a comprehensive list of system functions.
-
-
-## 10. Equipment Configuration
-
-### 10.1 Computer Hardware
-
-Please refer to Section 6.1 of the System Manual for detailed hardware specifications.
-
-### 10.2 Guest Servers Components
-
-Please refer to Section 6.1.2 of the System Manual for detailed guest server configurations.
-
-### 10.3 Gateway and SMTPX Configuration
-
-Please refer to Section 6.1.3 of the System Manual for gateway and SMTPX configuration details.
-
-### 10.4 Database Configuration
-
-Please refer to Section 6.1.4 of the System Manual for database configuration details.
-
-### 10.5 Detailed Server and Network Configurations
-
-Please refer to Section 6.1.5 of the System Manual for detailed server and network configurations.
-
-
-## 11. Software Inventories
-
-### 11.1 Inventory of Application Programs
-
-Please refer to the Program Manual for details of application programs.
-
-### 11.2 Inventory of System Software and Software Package
-
-Please refer to Section 7 of the System Manual for a comprehensive software inventory.
-
-
-## 12. Database Administration
-
-### 12.1 Clean Database Transaction Logs
-
-Please refer to Section 9.1 of the System Manual for instructions on cleaning database transaction logs.
-
-### 12.2 Database Backup
-
-Please refer to Section 9.2 of the System Manual for instructions on performing database backups.
-
-### 12.3 System Constraints and Limitations
-
-Please refer to Section 9.3 of the System Manual for system constraints and limitations.
-
-
-## 13. Log Management
-
-Please refer to Section 10 of the System Manual for details on log management procedures.
-
-
-## Appendix A: List of Machines and Virtual Machines
-
-(Detailed list of machines and VMs with hostnames, purposes, and IP addresses will be provided separately due to security considerations.)
+**Configuration of Physical Servers in Production (WKGO)**
+
+|                            |                         |                             |                |                        |
+|----------------------------|-------------------------|-----------------------------|----------------|------------------------|
+| **Model**                  | **Host Name**           | **IP**                      | **Serial No.** | **Disk Configuration** |
+| Dell PowerEdge R750 Server | prd-scs-admin-server-01 | 192.168.10.22, 10.5.161.206 | F646RX3        | RAID-5                 |
+| Dell PowerEdge R750 Server | prd-scs-admin-server-02 | 192.168.10.23, 10.5.161.207 | D646RX3        | RAID-5                 |
+| Dell PowerEdge R750 Server | prd-scs-nas             | 192.168.10.35, 10.5.161.218 | ???            | ???                    |
+
+**Configuration of SAN Storage in Production (WKGO)**
+
+|             |                      |                |                       |                                                            |
+|-----------------|----------------------|----------------|-----------------------|----------------------------------------------------------|
+| **Type**    | **Model**            | **Serial No.** | **No. of hard disks** | **IP Address**                                             |
+| SAN Switch  | Dell DS6610B         | FRC1924T0CC    | N/A                   | 192.168.10.16                                              |
+| SAN Switch  | Dell DS6610B         | FRC1924T0CD    | N/A                   | 192.168.10.17                                              |
+| SAN Storage | Dell PowerStore 500T | HV1NBX3        | 11                    | 192.168.10.26, 192.168.10.27, 192.168.10.28, 192.168.10.29 |
+
+**Configuration of Backup Storage in Production (WKGO)**
+
+| **Type**         | **Model**            | **Serial No.** | **Volume Size** | **IP Address** |
+|-----------------|----------------------|----------------|-----------------|----------------|
+| Backup Appliance | Dell DataDomain 3300 | 17XMBX3        | 15TB            | 192.168.10.20  |
+
+**Configuration of Tape Library in Production (WKGO)**
+
+| **Type**     | **Model** | **Serial No.** | **No. of slots** | **IP Address** |
+|--------------|-----------|----------------|------------------|----------------|
+| Tape Library | Dell ML3  | 3555L3A7801YY0 | 35               | 192.168.10.20  |
+
+**Configuration of Firewalls in Production (WKGO)**
+
+|               |                 |                 |                  |                |
+|---------------|-----------------|-----------------|------------------|-----------------|
+| **Host Name** | **Internal IP** | **External IP** | **Model**        | **Serial No.** |
+| PA-850-SCSPri | 192.168.10.12   | 10.5.161.205    | Palo Alto PA-850 | 11901063047    |
+| PA-850-SCSSec | 192.168.10.13   | 10.5.161.220    | Palo Alto PA-850 | 11901063049    |
+
+**Configuration of Switches in Production (WKGO)**
+
+| **Host Name** | **Internal IP** | **Model** | **Serial No.** |
+|---------------|-----------------|-----------|----------------|
+|               | 192.168.10.14   | Catalyst  |                |
+|               | 192.168.10.15   | Catalyst  |                |
+
+**Configuration of KVM in Production (WKGO)**
+
+|            |                |
+|------------|----------------|
+| **Model**  | **Serial No.** |
+| Cyber View |                |
+
+**Configuration of UPS in Production (WKGO)**
+
+|                            |                      |                |
+|----------------------------|----------------------|----------------|
+| **Model**                  | **Serial No.**       | **IP Address** |
+| Vertiv? Liebert? GXT5 3000 | 2102311887222A010008 | 192.168.11.20  |
+| Vertiv? Liebert? GXT5 3000 | 2102311887222A010004 | 192.168.11.21  |
+
+**Hardware Components of Production Servers (WKGO)**
+
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 35%" />
+<col style="width: 52%" />
+<col style="width: 6%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>Item</strong></td>
+<td><strong>Hardware Component</strong></td>
+<td><strong>Configuration</strong></td>
+<td><strong>Qty</strong></td>
+</tr>
+<tr class="even">
+<td rowspan="5">1</td>
+<td rowspan="5"><p>ESXi Hypervisor Server</p>
+<p>(prd-scs-admin-server-01)</p></td>
+<td>Dell PowerEdge R750</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>32GB DDR4 Synchronous Registered (Buffered)</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>1.2TB SAS HDD</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>ESXi 8.0.3</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td rowspan="5">2</td>
+<td rowspan="5"><p>ESXi Hypervisor Server</p>
+<p>(prd-scs-admin-server-02)</p></td>
+<td>Dell PowerEdge R750</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>32GB DDR4 Synchronous Registered (Buffered)</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>1.2TB SAS HDD</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>ESXi 8.0.3</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td rowspan="5">3</td>
+<td rowspan="5"><p>NAS</p>
+<p>(prd-scs-nas)</p></td>
+<td>Dell PowerEdge R750</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>CPU???</td>
+<td>???</td>
+</tr>
+<tr class="even">
+<td>RAM???</td>
+<td>???</td>
+</tr>
+<tr class="odd">
+<td>HDD???</td>
+<td>???</td>
+</tr>
+<tr class="even">
+<td>Windows Server 2022</td>
+<td>???</td>
+</tr>
+<tr class="odd">
+<td rowspan="2">4</td>
+<td rowspan="2"><p>SAN Switch</p>
+<p>(prd-scs-sw-01)</p></td>
+<td>Dell DS6610B</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Ports</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td rowspan="2">5</td>
+<td rowspan="2"><p>SAN Switch</p>
+<p>(prd-scs-sw-02)</p></td>
+<td>Dell DS6610B</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>Ports</td>
+<td>16</td>
+</tr>
+<tr class="odd">
+<td rowspan="2">6</td>
+<td rowspan="2"><p>SAN Storage</p>
+<p>(PS500T-Cluster1)</p></td>
+<td>Dell PS500T</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>3.8TB NVME SSD</td>
+<td>11</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><p>Backup Appliance</p>
+<p>(prd-scs-backupstorage-01)</p></td>
+<td>Dell DataDomain DD3300</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Tape Library</td>
+<td>DELL ML3</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><p>Firewall</p>
+<p>(PA-850-SCSPri)</p></td>
+<td>Palo Alto PA 850</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td><p>Firewall</p>
+<p>(PA-850-SCSSec)</p></td>
+<td>Palo Alto PA 850</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td><p>Switch</p>
+<p>(???)</p></td>
+<td>Cisco ???</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td><p>Switch</p>
+<p>(???)</p></td>
+<td>Cisco ???</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>KVM</td>
+<td>CyberView</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>UPS<br />
+(???)</td>
+<td>Vertiv? Liebert? GXT5 3000</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>UPS<br />
+(???)</td>
+<td>Vertiv? Liebert? GXT5 3000</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+**Partition Configuration of Production Servers (WKGO)**
+
+| **Host Name**           | **Drive**       | **Capacity** | **Description**              |
+|-------------------------|-----------------|--------------|------------------------------|
+| prd-scs-admin-server-01 | local           | 2.4TB        | VMware?ESXi Operating system |
+| prd-scs-admin-server-02 | local           | 2.4TB        | VMware?ESXi Operating system |
+| PS500T-Cluster1         | VM_Volume01     | 20TB         | Shared pool of storage space |
+| PS500T-Cluster1         | QuorumDisk-VM-1 | 2.5GB        | Shared pool of storage space |
+| prd-scs-nas             | C:              | ???          | OS                           |
+|                         | D:              | ???          | Data                         |
+
+**Configuration of Physical Servers in DR Site (AIA)**
+
+|                           |                        |                             |                |                        |
+|---------------------------|------------------------|-----------------------------|----------------|------------------------|
+| **Model**                 | **Host Name**          | **IP**                      | **Serial No.** | **Disk Configuration** |
+| Dell PowerEdge R750Server | dr-scs-admin-server-01 | 192.168.20.17, 10.5.174.216 | G646RX3        | RAID-5                 |
+| Dell PowerEdge R750Server | dr-scs-nas             | 192.168.20.35, 10.5.174.225 | ???            | ???                    |
+
+**Configuration of SAN Storage in DR Site (AIA)**
+
+|             |                      |                |                       |                                                            |
+|-----------------|----------------------|----------------|-----------------------|----------------------------------------------------------|
+| **Type**    | **Model**            | **Serial No.** | **No. of hard disks** | **IP Address**                                             |
+| SAN Switch  | Dell DS6610B         | FRC1924T0CE    | N/A                   | 192.168.20.14                                              |
+| SAN Storage | Dell PowerStore 500T | 3W1NBX3        | 11                    | 192.168.20.20, 192.168.20.21, 192.168.20.22, 192.168.20.23 |
+
+**Configuration of Backup Storage in DR Site (AIA)**
+
+| **Type**         | **Model**            | **Serial No.** | **Volume Size** | **IP Address** |
+|-----------------|----------------------|----------------|-----------------|----------------|
+| Backup Appliance | Dell DataDomain 3300 | J6XMBX3        | 15TB            | 192.168.20.25  |
+
+**Configuration of Firewalls in DR Site (AIA)**
+
+|               |                 |                 |                  |                |
+|---------------|-----------------|-----------------|------------------|-----------------|
+| **Host Name** | **Internal IP** | **External IP** | **Model**        | **Serial No.** |
+| PA-850-SCSDR  | 192.168.20.12   | 10.5.174.215    | Palo Alto PA-850 | 011901063069   |
+
+**Configuration of Switches in DR Site (AIA)**
+
+|               |                 |              |                |
+|---------------|-----------------|--------------|----------------|
+| **Host Name** | **Internal IP** | **Model**    | **Serial No.** |
+| ???           | 192.168.20.13   | Catalyst ??? | ???            |
+
+**Configuration of UPS in DR Site (AIA)**
+
+|                            |                      |                |
+|----------------------------|----------------------|----------------|
+| **Model**                  | **Serial No.**       | **IP Address** |
+| Vertiv? Liebert? GXT5 3000 | 2102311887222A01000A | 192.168.20.11  |
+
+**Hardware Components of Disaster Recovery Servers (AIA)**
+
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 34%" />
+<col style="width: 53%" />
+<col style="width: 5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>Hardware Component</th>
+<th>Configuration</th>
+<th>Qty</th>
+</tr>
+<tr class="odd">
+<th rowspan="5">1</th>
+<th rowspan="5"><p>ESXi Hypervisor Server</p>
+<p>(dr-scs-admin-server-01)</p></th>
+<th>Dell PowerEdge R750</th>
+<th>1</th>
+</tr>
+<tr class="header">
+<th>Intel(R) Xeon(R) Gold 6326 CPU @ 2.90GHz</th>
+<th>1</th>
+</tr>
+<tr class="odd">
+<th>32GB DDR4 Synchronous Registered (Buffered)</th>
+<th>8</th>
+</tr>
+<tr class="header">
+<th>1.2TB SAS HDD</th>
+<th>3</th>
+</tr>
+<tr class="odd">
+<th>ESXi 8.0.3</th>
+<th>1</th>
+</tr>
+<tr class="header">
+<th rowspan="5">2</th>
+<th rowspan="5"><p>NAS</p>
+<p>(dr-scs-nas)</p></th>
+<th>Dell PowerEdge R750</th>
+<th>1</th>
+</tr>
+<tr class="odd">
+<th>CPU???</th>
+<th>???</th>
+</tr>
+<tr class="header">
+<th>RAM???</th>
+<th>???</th>
+</tr>
+<tr class="odd">
+<th>HDD???</th>
+<th>???</th>
+</tr>
+<tr class="header">
+<th>Windows Server 2022</th>
+<th>???</th>
+</tr>
+<tr class="odd">
+<th rowspan="2">3</th>
+<th rowspan="2"><p>SAN Switch</p>
+<p>(dr-scs-sw-01)</p></th>
+<th>Dell DS6610B</th>
+<th>1</th>
+</tr>
+<tr class="header">
+<th>Ports</th>
+<th>16</th>
+</tr>
+<tr class="odd">
+<th rowspan="2">4</th>
+<th><p>SAN Storage</p>
+<p>(PS500T-Cluster2)</p></th>
+<th>Dell PS500T</th>
+<th>1</th>
+</tr>
+<tr class="header">
+<th>DMZ Firewall 1 (CDPDZFW1)</th>
+<th>3.8TB NVME SSD</th>
+<th>11</th>
+</tr>
+<tr class="odd">
+<th>5</th>
+<th><p>Backup Appliance</p>
+<p>(dr-scs-backupstorage-01)</p></th>
+<th>Dell DataDomain DD3300</th>
+<th>1</th>
+</tr>
+<tr class="header">
+<th>6</th>
+<th><p>Firewall</p>
+<p>(PA-850-SCSPri)</p></th>
+<th>Palo Alto PA 850</th>
+<th>1</th>
+</tr>
+<tr class="odd">
+<th>7</th>
+<th><p>Switch</p>
+<p>(???)</p></th>
+<th>Cisco ???</th>
+<th>1</th>
+</tr>
+<tr class="header">
+<th>8</th>
+<th>KVM</th>
+<th>CyberView</th>
+<th>1</th>
+</tr>
+<tr class="odd">
+<th>9</th>
+<th>UPS<br />
+(???)</th>
+<th>Vertiv? Liebert? GXT5 3000</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+**Partition Configuration of DR Servers (AIA)**
+
+|                        |             |              |                              |
+|------------------------|-------------|--------------|------------------------------|
+| **Host Name**          | **Drive**   | **Capacity** | **Description**              |
+| dr-scs-admin-server-01 | local       | 2.4TB        | VMware?ESXi Operating system |
+| PS500T-Cluster2        | VM Volume01 | 20TB         | Shared pool of storage space |
+| dr-scs-nas             | C:          | ???          | OS                           |
+|                        | D:          | ???          | Data                         |
+
+## 1.4 Guest Servers Components
+
+**Production Guest Servers (WKGO)**
+
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 20%" />
+<col style="width: 10%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Role</strong></th>
+<th><strong>Host Name</strong></th>
+<th><strong>vCPU</strong></th>
+<th><strong>RAM<br />
+(GB)</strong></th>
+<th><strong>Disk<br />
+(GB)</strong></th>
+<th><strong>IP Addresses</strong></th>
+<th><strong>Data Center</strong></th>
+<th><strong>Host Server / Zone</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>vCenter</td>
+<td>prd-scs-<br />
+vcenter-01</td>
+<td>16</td>
+<td>39</td>
+<td>1.33TB</td>
+<td><p>192.168.10.24 /</p>
+<p>10.5.161.210</p></td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-01</td>
+</tr>
+<tr class="even">
+<td>Veeam Backup Server</td>
+<td>prd-scs-<br />
+backup-01</td>
+<td>8</td>
+<td>24</td>
+<td><p>300 +</p>
+<p>1TB</p></td>
+<td><p>192.168.10.25 /</p>
+<p>10.5.161.211</p></td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-02</td>
+</tr>
+<tr class="odd">
+<td>Kiwi Log<br />
+Server</td>
+<td>prd-scs-<br />
+log-01</td>
+<td>4</td>
+<td>16</td>
+<td><p>300 +</p>
+<p>500</p></td>
+<td><p>192.168.10.11 /</p>
+<p>10.5.161.223</p></td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-01</td>
+</tr>
+<tr class="even">
+<td>NOD32<br />
+Anti-Virus<br />
+Server</td>
+<td>prd-scs-<br />
+esetnod32</td>
+<td>4</td>
+<td>16</td>
+<td>300</td>
+<td><p>192.168.10.34 /</p>
+<p>10.5.161.215</p></td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-02</td>
+</tr>
+<tr class="odd">
+<td>API<br />
+Server</td>
+<td>prd-scs-<br />
+admin-<br />
+api-01</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td>192.168.12.11</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-01</td>
+</tr>
+<tr class="even">
+<td>Frontend<br />
+Server</td>
+<td>prd-scs-<br />
+admin-<br />
+frontend-01</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td>192.168.12.12</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-01</td>
+</tr>
+<tr class="odd">
+<td>Backend<br />
+Server</td>
+<td>prd-scs-<br />
+admin-<br />
+backend-01</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td>192.168.12.13</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-01</td>
+</tr>
+<tr class="even">
+<td>Database<br />
+Server</td>
+<td>prd-scs-<br />
+db-01</td>
+<td>8</td>
+<td>16</td>
+<td><p>100 +</p>
+<p>500</p></td>
+<td>192.168.12.14</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-01</td>
+</tr>
+<tr class="odd">
+<td>File<br />
+Server</td>
+<td>prd-scs-<br />
+filer</td>
+<td>2</td>
+<td>4</td>
+<td><p>100 +</p>
+<p>1TB</p></td>
+<td>192.168.12.20</td>
+<td>WKGO</td>
+<td>prd-scs-admin-server-01</td>
+</tr>
+<tr class="even">
+<td>Reverse<br />
+Proxy<br />
+Server</td>
+<td>prd-scs-<br />
+proxy</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td><p>192.168.12.15 /</p>
+<p>10.5.161.226</p></td>
+<td>WKGO</td>
+<td>prd-scs-admin-server-01</td>
+</tr>
+<tr class="odd">
+<td>API<br />
+Server</td>
+<td>prd-scs-<br />
+admin-<br />
+api-02</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td>192.168.12.16</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-02</td>
+</tr>
+<tr class="even">
+<td>Frontend<br />
+Server</td>
+<td>prd-scs-<br />
+admin-<br />
+frontend-02</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td>192.168.12.17</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-02</td>
+</tr>
+<tr class="odd">
+<td>Backend<br />
+Server</td>
+<td>prd-scs-<br />
+admin-<br />
+backend-02</td>
+<td>2</td>
+<td>4</td>
+<td>100</td>
+<td>192.168.12.18</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-02</td>
+</tr>
+<tr class="even">
+<td>Database<br />
+Server</td>
+<td>prd-scs-<br />
+db-02</td>
+<td>8</td>
+<td>16</td>
+<td><p>100 +</p>
+<p>500</p></td>
+<td>192.168.12.19</td>
+<td>WKGO</td>
+<td>prd-scs-admin-<br />
+server-02</td>
+</tr>
+<tr class="odd">
+<td>Reverse<br />
+Proxy<br />
+Server</td>
+<td>scspwi</td>
+<td>2</td>
+<td>8</td>
+<td>100</td>
+<td><p>192.168.0.6 /</p>
+<p>45.119.92.84</p></td>
+<td><p>GCIS</p>
+<p>P1</p></td>
+<td>iDMZ</td>
+</tr>
+<tr class="even">
+<td>Reverse<br />
+Proxy<br />
+Server</td>
+<td>scspwg</td>
+<td>2</td>
+<td>8</td>
+<td>100</td>
+<td><p>192.168.4.6 /</p>
+<p>10.160.11.211</p></td>
+<td><p>GCIS</p>
+<p>P1</p></td>
+<td>gDMZ</td>
+</tr>
+<tr class="odd">
+<td>Apps<br />
+Server</td>
+<td>scspad</td>
+<td>4</td>
+<td>16</td>
+<td><p>100 +</p>
+<p>500</p></td>
+<td>192.168.8.6</td>
+<td><p>GCIS</p>
+<p>P1</p></td>
+<td>Trust Zone</td>
+</tr>
+<tr class="even">
+<td>Database<br />
+Server</td>
+<td>scspdb</td>
+<td>4</td>
+<td>16</td>
+<td><p>100 +</p>
+<p>200</p></td>
+<td>192.168.8.7</td>
+<td><p>GCIS</p>
+<p>P1</p></td>
+<td>Trust Zone</td>
+</tr>
+<tr class="odd">
+<td>Veeam<br />
+Backup<br />
+Server</td>
+<td>scspbk2</td>
+<td>4</td>
+<td>16</td>
+<td><p>100 +</p>
+<p>1TB</p></td>
+<td>192.168.8.9</td>
+<td><p>GCIS</p>
+<p>P1</p></td>
+<td>Trust Zone</td>
+</tr>
+<tr class="even">
+<td>Kiwi Log<br />
+Server</td>
+<td>scsplog</td>
+<td>2</td>
+<td>8</td>
+<td><p>100 +</p>
+<p>100</p></td>
+<td>192.168.8.10</td>
+<td><p>GCIS</p>
+<p>P1</p></td>
+<td>Trust Zone</td>
+</tr>
+</tbody>
+</table>
+
+**UAT Guest Servers (WKGO)**
+
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 20%" />
+<col style="width: 10%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Role</strong></th>
+<th><strong>Host Name</strong></th>
+<th><strong>vCPU</strong></th>
+<th><strong>RAM<br />
+(GB)</strong></th>
+<th><strong>Disk<br />
+(GB)</strong></th>
+<th><strong>IP Addresses</strong></th>
+<th><strong>Data Center</strong></th>
+<th><strong>Host Server / Zone</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>API<br />
+Server</td>
+<td>uat-scs-<br />
+admin-<br />
+api-01</td>
+<td>2</td>
+<td>4
