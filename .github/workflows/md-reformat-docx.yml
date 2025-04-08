@@ -1,0 +1,514 @@
+name: Convert Markdown to DOCX
+on:
+  push:
+    paths:
+      - '**.md'  # Trigger on any Markdown file changes
+  workflow_dispatch:  # Allow manual trigger
+permissions:
+  contents: write
+  
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pypandoc python-docx
+      
+      - name: Create table adjuster script
+        run: |
+          cat > table_adjuster.py << 'EOL'
+          import docx
+          from docx.shared import Inches, Mm, Pt
+          from docx.enum.table import WD_TABLE_ALIGNMENT
+          import os
+          import sys
+
+          def get_a4_dimensions(margin_mm=25.4):
+              """Returns the dimensions of an A4 page in inches, accounting for margins."""
+              a4_width_mm = 210  # mm
+              a4_height_mm = 297  # mm
+              
+              available_width_mm = a4_width_mm - (2 * margin_mm)
+              available_height_mm = a4_height_mm - (2 * margin_mm)
+              
+              return Mm(available_width_mm), Mm(available_height_mm)
+
+          def handle_complex_table_structure(table, max_width):
+              """Handle tables with variable column counts across rows or nested structure."""
+              if not table.rows or len(table.rows) == 0:
+                  return table
+              
+              # Find the maximum number of columns in any row
+              max_cols = 0
+              for row in table.rows:
+                  max_cols = max(max_cols, len(row.cells))
+              
+              if max_cols == 0:
+                  return table
+              
+              # Check for program spec table pattern
+              if max_cols >= 3:
+                  # Check if first row has a 3-column structure with 'Program ID' and 'Mode'
+                  has_program_id_mode = False
+                  for i, row in enumerate(table.rows):
+                      if len(row.cells) >= 3:
+                          # Check for 'Program ID' text in first cell
+                          if 'program id' in row.cells[0].text.lower():
+                              # And 'Mode' in the third cell
+                              if len(row.cells) >= 3 and 'mode' in row.cells[2].text.lower():
+                                  has_program_id_mode = True
+                                  break
+                  
+                  if has_program_id_mode:
+                      # Apply special column distribution
+                      col_ratios = [3, 4, 1]
+                      total_ratio = sum(col_ratios[:max_cols])
+                      col_widths = [max_width * (ratio / total_ratio) for ratio in col_ratios[:max_cols]]
+                      
+                      for row in table.rows:
+                          cells_in_row = len(row.cells)
+                          if cells_in_row == 1:
+                              row.cells[0].width = max_width
+                          elif cells_in_row == 2:
+                              combined_last_cols = sum(col_widths[1:])
+                              row.cells[0].width = col_widths[0]
+                              row.cells[1].width = combined_last_cols
+                          elif cells_in_row >= 3:
+                              for i in range(min(cells_in_row, len(col_widths))):
+                                  row.cells[i].width = col_widths[i]
+                      return table
+              
+              # Check for amendment history table
+              has_amendment_history = False
+              for i, row in enumerate(table.rows):
+                  if i < len(table.rows) - 1 and len(row.cells) >= 1:
+                      if 'amendment history' in row.cells[0].text.lower():
+                          has_amendment_history = True
+                          break
+              
+              if has_amendment_history and max_cols >= 4:
+                  # For amendment history tables, use a specific column distribution
+                  col_ratios = [1.5, 3, 1.5, 1]
+                  while len(col_ratios) > max_cols:
+                      col_ratios.pop()
+                  
+                  total_ratio = sum(col_ratios)
+                  col_widths = [max_width * (ratio / total_ratio) for ratio in col_ratios]
+                  
+                  for row in table.rows:
+                      if len(row.cells) == max_cols:
+                          for i, cell in enumerate(row.cells):
+                              cell.width = col_widths[i]
+                      elif len(row.cells) == 1:
+                          row.cells[0].width = max_width
+                  return table
+              
+              # Default handling for other table structures
+              default_col_width = max_width / max_cols
+              
+              for row in table.rows:
+                  cells_in_row = len(row.cells)
+                  
+                  if cells_in_row == 1:
+                      row.cells[0].width = max_width
+                  elif cells_in_row == 2 and max_cols > 2:
+                      row.cells[0].width = max_width * 0.3
+                      row.cells[1].width = max_width * 0.7
+                  else:
+                      for cell in row.cells:
+                          cell.width = default_col_width
+              
+              return table
+
+          def adjust_table_size(table, max_width, column_widths=None):
+              """Adjust the table width to fit within the provided max_width."""
+              if not table.rows or len(table.rows) == 0:
+                  print("Warning: Table has no rows, skipping adjustment")
+                  return table
+              
+              # Check for complex table marker
+              if isinstance(column_widths, str) and column_widths == 'complex-program-spec':
+                  return handle_complex_table_structure(table, max_width)
+                  
+              # Count the number of columns
+              num_cols = 0
+              for row in table.rows:
+                  num_cols = max(num_cols, len(row.cells))
+              
+              if num_cols == 0:
+                  print("Warning: Table has no columns, skipping adjustment")
+                  return table
+              
+              # Check for variable column structure
+              has_variable_columns = False
+              for row in table.rows:
+                  if len(row.cells) > 0 and len(row.cells) != num_cols:
+                      has_variable_columns = True
+                      break
+              
+              # If variable column structure detected, use complex handling
+              if has_variable_columns:
+                  return handle_complex_table_structure(table, max_width)
+              
+              # Try to set table width directly
+              try:
+                  table.width = max_width
+              except AttributeError:
+                  pass
+              
+              # Ensure table is centered
+              try:
+                  table.alignment = WD_TABLE_ALIGNMENT.CENTER
+              except AttributeError:
+                  pass
+              
+              # Process column widths
+              if column_widths and len(column_widths) == num_cols:
+                  total_relative_width = sum(column_widths)
+                  absolute_widths = [max_width * (rw / total_relative_width) for rw in column_widths]
+                  
+                  for row in table.rows:
+                      for i, cell in enumerate(row.cells):
+                          if i < len(absolute_widths):
+                              try:
+                                  cell.width = absolute_widths[i]
+                              except Exception:
+                                  pass
+              else:
+                  # If no specific widths provided, distribute evenly
+                  col_width = max_width / num_cols
+                  
+                  for row in table.rows:
+                      for cell in row.cells:
+                          try:
+                              cell.width = col_width
+                          except Exception:
+                              pass
+              
+              # Set auto-fit to False
+              try:
+                  table.autofit = False
+              except AttributeError:
+                  pass
+              
+              # Format table texts
+              try:
+                  for row in table.rows:
+                      for cell in row.cells:
+                          for paragraph in cell.paragraphs:
+                              paragraph.alignment = docx.enum.text.WD_PARAGRAPH_ALIGNMENT.LEFT
+                              paragraph.paragraph_format.line_spacing = 1.0
+                              paragraph.paragraph_format.space_before = Pt(0)
+                              paragraph.paragraph_format.space_after = Pt(0)
+                              
+                              if not paragraph.runs:
+                                  continue
+                              for run in paragraph.runs:
+                                  run.font.name = 'Times New Roman'
+                                  run.font.size = Pt(12)
+              except Exception:
+                  pass
+              
+              return table
+
+          def detect_table_patterns(doc):
+              """Analyze the document and detect common table patterns to suggest column widths."""
+              suggested_widths = {}
+              
+              for i, table in enumerate(doc.tables):
+                  # Skip empty tables
+                  if not table.rows or len(table.rows) == 0:
+                      continue
+                      
+                  # Find the max number of columns in any row
+                  max_cols = 0
+                  for row in table.rows:
+                      max_cols = max(max_cols, len(row.cells))
+                  
+                  if max_cols == 0:
+                      continue
+                  
+                  # Check for variable column structure
+                  has_variable_columns = False
+                  for row in table.rows:
+                      if len(row.cells) > 0 and len(row.cells) != max_cols:
+                          has_variable_columns = True
+                          break
+                  
+                  # Check if this table has a 'Program ID' or 'Mode' cell
+                  has_program_id = False
+                  has_mode = False
+                  for row in table.rows:
+                      for cell in row.cells:
+                          text = cell.text.strip().lower()
+                          if 'program id' in text:
+                              has_program_id = True
+                          if 'mode' in text:
+                              has_mode = True
+                  
+                  # Check for amendment history section
+                  has_amendment_history = False
+                  for row in table.rows:
+                      if len(row.cells) > 0:
+                          text = row.cells[0].text.strip().lower()
+                          if 'amendment history' in text:
+                              has_amendment_history = True
+                              break
+                  
+                  # Suggest appropriate column widths based on detected patterns
+                  if has_variable_columns and has_program_id:
+                      suggested_widths[i] = 'complex-program-spec'
+                      continue
+                  
+                  if has_amendment_history and max_cols >= 3:
+                      if max_cols == 3:
+                          suggested_widths[i] = [1.5, 3, 1.5]
+                      elif max_cols >= 4:
+                          suggested_widths[i] = [1.5, 3, 1.5, 1]
+                      continue
+                      
+                  # Check if this looks like a program spec table
+                  if max_cols == 2 and not has_variable_columns:
+                      is_spec_table = False
+                      try:
+                          first_col_texts = []
+                          for row in table.rows:
+                              if len(row.cells) >= 1:
+                                  first_col_texts.append(row.cells[0].text.strip().lower())
+                          
+                          spec_keywords = ['program', 'name', 'description', 'environment', 'source', 
+                                          'language', 'compiler', 'id']
+                          
+                          keyword_matches = sum(1 for text in first_col_texts if any(kw in text for kw in spec_keywords))
+                          
+                          if keyword_matches >= 2:
+                              is_spec_table = True
+                              suggested_widths[i] = [1, 3]
+                      except Exception:
+                          pass
+                          
+                  # Check if this looks like a validation table
+                  elif max_cols == 3 and not has_variable_columns:
+                      try:
+                          if len(table.rows) > 0:
+                              header_texts = []
+                              for cell in table.rows[0].cells:
+                                  header_texts.append(cell.text.strip().lower())
+                              
+                              validation_headers = ['input', 'validation', 'remarks', 'description', 'requirement']
+                              header_matches = sum(1 for h in header_texts if any(vh in h for vh in validation_headers))
+                              
+                              if header_matches >= 2:
+                                  suggested_widths[i] = [1, 1.2, 1]
+                      except Exception:
+                          pass
+              
+              return suggested_widths
+
+          def apply_document_styles(doc):
+              """Apply consistent styling to the entire document."""
+              # Process all paragraphs in the document
+              for paragraph in doc.paragraphs:
+                  is_heading = paragraph.style.name.startswith('Heading')
+                  
+                  paragraph.paragraph_format.line_spacing = 1.0
+                  paragraph.paragraph_format.space_before = Pt(0)
+                  paragraph.paragraph_format.space_after = Pt(0)
+                  
+                  for run in paragraph.runs:
+                      run.font.name = 'Times New Roman'
+                      if is_heading:
+                          run.font.size = Pt(14)
+                      else:
+                          run.font.size = Pt(12)
+              
+              # Apply styles to text in tables
+              for table in doc.tables:
+                  for row in table.rows:
+                      for cell in row.cells:
+                          for paragraph in cell.paragraphs:
+                              paragraph.paragraph_format.line_spacing = 1.0
+                              paragraph.paragraph_format.space_before = Pt(0)
+                              paragraph.paragraph_format.space_after = Pt(0)
+                              
+                              for run in paragraph.runs:
+                                  run.font.name = 'Times New Roman'
+                                  run.font.size = Pt(12)
+              
+              # Update document styles
+              styles = doc.styles
+              for style_name in ['Normal', 'Body Text']:
+                  if style_name in styles:
+                      style = styles[style_name]
+                      style.font.name = 'Times New Roman'
+                      style.font.size = Pt(12)
+                      if hasattr(style, 'paragraph_format'):
+                          style.paragraph_format.line_spacing = 1.0
+                          style.paragraph_format.space_before = Pt(0)
+                          style.paragraph_format.space_after = Pt(0)
+              
+              # Update heading styles
+              for i in range(1, 10):
+                  heading_name = f'Heading {i}'
+                  if heading_name in styles:
+                      style = styles[heading_name]
+                      style.font.name = 'Times New Roman'
+                      style.font.size = Pt(14)
+                      if hasattr(style, 'paragraph_format'):
+                          style.paragraph_format.line_spacing = 1.0
+              
+              return doc
+
+          def fix_table_sizes(doc_path, output_path=None, margin_mm=25.4):
+              """Process a Word document, adjusting all tables to fit within A4 page size."""
+              if not output_path:
+                  filename, ext = os.path.splitext(doc_path)
+                  output_path = f"{filename}_adjusted{ext}"
+              
+              # Load the document
+              try:
+                  doc = docx.Document(doc_path)
+              except Exception as e:
+                  print(f"Error opening document: {e}")
+                  return None
+              
+              # Get A4 dimensions
+              max_width, max_height = get_a4_dimensions(margin_mm)
+              
+              # Apply document styles
+              doc = apply_document_styles(doc)
+              
+              # Auto-detect table patterns
+              table_column_widths = detect_table_patterns(doc)
+              if table_column_widths:
+                  print(f"Auto-detected table patterns for {len(table_column_widths)} tables")
+              
+              # Process all tables in the document
+              for i, table in enumerate(doc.tables):
+                  try:
+                      # Get custom column widths for this table if specified
+                      column_widths = table_column_widths.get(i) if table_column_widths else None
+                      
+                      # Adjust the table with appropriate column widths
+                      if isinstance(column_widths, str) and column_widths == 'complex-program-spec':
+                          handle_complex_table_structure(table, max_width)
+                      else:
+                          adjust_table_size(table, max_width, column_widths)
+                  except Exception as e:
+                      print(f"Warning: Error adjusting table {i}: {e}")
+              
+              # Save the modified document
+              try:
+                  doc.save(output_path)
+                  print(f"Adjusted tables in the document and saved to: {output_path}")
+                  return output_path
+              except Exception as e:
+                  print(f"Error saving document: {e}")
+                  return None
+
+          # Main functionality
+          if __name__ == "__main__":
+              if len(sys.argv) != 3:
+                  print("Usage: python table_adjuster.py <input_docx> <output_docx>")
+                  sys.exit(1)
+                  
+              input_file = sys.argv[1]
+              output_file = sys.argv[2]
+              
+              if not os.path.exists(input_file):
+                  print(f"Error: Input file '{input_file}' not found")
+                  sys.exit(1)
+              
+              result = fix_table_sizes(input_file, output_file)
+              
+              if not result:
+                  print("Failed to adjust tables")
+                  sys.exit(1)
+          EOL
+      
+      - name: Convert Markdown to DOCX
+        run: |
+          # Define the reverse lookup table as associative array
+          declare -A lookup_table
+          lookup_table=(
+            ["process_data_interface"]="Process Data Interface"
+            ["handover_plan"]="Handover Plan"
+          )
+          
+          # Get list of changed Markdown files
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep '\.md$' || true)
+          
+          if [ -n "$CHANGED_FILES" ]; then
+            while IFS= read -r file; do
+              # Skip files in .github directory and README files
+              if [[ "$file" == .github/* || "$file" == *README.md ]]; then
+                echo "Skipping $file"
+                continue
+              fi
+              
+              # Get the base filename without extension and path
+              filename=$(basename "$file" .md)
+              
+              # Get the directory path
+              dirpath=$(dirname "$file")
+              
+              # Check if the filename exists in lookup table
+              if [ "${lookup_table[$filename]+isset}" ]; then
+                # Use the mapped name from lookup table
+                output_name="${lookup_table[$filename]}"
+              else
+                # If not in lookup table, use original name
+                output_name="$filename"
+              fi
+              
+              # Create full output path
+              output_file="$dirpath/$output_name.docx"
+              temp_output_file="$dirpath/$output_name.temp.docx"
+              
+              # Create directory if it doesn't exist
+              mkdir -p "$(dirname "$output_file")"
+              
+              echo "Converting $file to $output_file"
+              pandoc -f markdown_github -t docx "$file" -o "$temp_output_file"
+              
+              # Run the table adjuster to fix tables in the docx
+              echo "Adjusting tables in $temp_output_file"
+              python table_adjuster.py "$temp_output_file" "$output_file"
+              
+              # Clean up temporary file
+              rm "$temp_output_file"
+              
+              # Add converted file to git
+              git add "$output_file"
+            done <<< "$CHANGED_FILES"
+          fi
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          if git status | grep -q "Changes to be committed"; then
+            git commit -m "Convert Markdown to DOCX"
+            git push
+          else
+            echo "No changes to commit"
+          fi
