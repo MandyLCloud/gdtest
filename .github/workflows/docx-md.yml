@@ -96,18 +96,10 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-      
-          # Switch to main branch explicitly
-          git checkout main
-      
-          # Pull latest changes to avoid non-fast-forward errors
-          git pull origin main --rebase
-      
-          # Check if there are staged changes
+
           if git status | grep -q "Changes to be committed"; then
-            git commit -m "Convert DOCX to Markdown"
-            git push origin main
+            git commit -m "Convert Markdown to DOCX"
+            git push
           else
             echo "No changes to commit"
           fi
-
