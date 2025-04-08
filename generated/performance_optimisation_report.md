@@ -89,8 +89,6 @@ Government of the HKSAR.
 > [1.4.1 Online Transaction 9](#online-transaction)
 >
 > [1.4.2 Online Reports 10](#online-reports)
->
-> [1.5 Database Overview](#database-overview)
 
 [**2. Critical online transition timing
 11**](#critical-online-transition-timing)
@@ -101,16 +99,31 @@ Government of the HKSAR.
 
 > [4.1 Optimization Actions 14](#optimization-actions)
 >
-> [4.1.1 Create stored procedures 14](#create-stored-procedures)
+> [4.1.1 Database Schema Analysis and Recommendations 14](#database-schema-analysis-and-recommendations)
 >
-> [4.1.2 Create clustered indexes 14](#create-clustered-indexes)
+> [4.1.2 Create stored procedures 15](#create-stored-procedures)
 >
-> [4.2 Database Performance Analysis](#database-performance-analysis)
+> [4.1.3 Create clustered indexes 15](#create-clustered-indexes)
+
+##
 
 ## 1. Introduction
 
+This Performance Optimization Report outlines strategies to enhance the performance of the Licensing Self-Certification Portal for the Buildings Department (BD). The optimization efforts are primarily focused on improving the system's response time for users, ensuring a smooth and efficient user experience. This report considers various factors influencing performance, including server loading, bandwidth usage, and database efficiency, based on the analysis of the system's database schema.
+
+**Database Overview:**
+
+The system utilizes a database named `bd`, which was last analyzed on 2025/3/4 ??10:10:39. Key statistics of the database are as follows:
+
+- **Database Size:** 88.10 MB
+- **Collections:** 12
+- **Total Documents:** 1,278,983
+- **Total Data Size:** 371.24 MB
+
+The database comprises 12 collections, with `sysfilerefs` and `adrblkfilerefs` being the largest in terms of document count and data size, indicating these collections may be critical for performance consideration.
+
 The performance optimization of the system could be classified into
-optimization of Online Transaction. This report outlines the performance optimization strategies for the Licensing Self-Certification Portal (LSCP) system, considering both application and database aspects.
+optimization of Online Transaction.
 
 ## 1.1 Goal of Performance Optimization
 
@@ -186,7 +199,14 @@ measures that could be taken generally:
 -   Pre-generate resource that required heavy instant server loading.
 -   Improve resourcing retrieval speed by indexing and hashing.
 -   Reduce waiting time of third-party services.
--   Archive expired records to keep the size of active datastore minimal
+-   Archive expired records to keep the size of active datastore minimal.
+
+Based on the database schema analysis, specific actions can be considered:
+
+- **Indexing:**  Given the large size of `sysfilerefs` and `adrblkfilerefs` collections, ensure appropriate indexes are in place for frequently queried fields, such as `sysFileRefId` and `adrBlkFileRefId`.  Further analysis of application query patterns is needed to identify other fields that would benefit from indexing across all collections.
+- **Data Archiving:** Implement a data archiving strategy for older records in large collections like `sysfilerefs` and `adrblkfilerefs` to reduce the active dataset size and improve query performance. Consider archiving based on `createdDt` or `lastModifiedDt` fields.
+- **Query Optimization:** Review and optimize queries, especially those targeting large collections. Utilize aggregation pipelines efficiently and avoid inefficient query patterns.
+- **Schema Review:**  While not explicitly an "action," a review of the schema can sometimes reveal opportunities for data modeling improvements that can enhance performance. For instance, embedding vs. referencing decisions can impact query performance.
 
 ## 1.3 Storage Allocation
 
@@ -203,20 +223,15 @@ various filegroup of <u>Microsoft SQL Server</u>
 <span class="mark"></span>database. The following table shows the logic
 data storage in Microsoft SQL Server database.
 
-| FileGroup | TableName      | TableSize |
-|-----------|----------------|-----------|
-| PRIMARY   | tasks          | 0.99 MB   |
-| PRIMARY   | eminutes       | 0.03 MB   |
-| PRIMARY   | submissions    | 0.00 MB   |
-| PRIMARY   | applications   | 0.36 MB   |
-| PRIMARY   | notifications  | 0.24 MB   |
-| PRIMARY   | bsblocks       | 6.40 MB   |
-| PRIMARY   | cases          | 1.17 MB   |
-| PRIMARY   | oauthtokens    | 2.29 MB   |
-| PRIMARY   | sysfilerefs    | 204.70 MB |
-| PRIMARY   | attachments    | 0.13 MB   |
-| PRIMARY   | users          | 0.04 MB   |
-| PRIMARY   | adrblkfilerefs | 154.89 MB |
+| FileGroup | TableName | TableSize |
+|-----------|-----------|-----------|
+|  *To be determined*         | *To be determined*        | *To be determined*        |
+|  *To be determined*         | *To be determined*        | *To be determined*        |
+|  *To be determined*         | *To be determined*        | *To be determined*        |
+|  *To be determined*         | *To be determined*        | *To be determined*        |
+|  *To be determined*         | *To be determined*        | *To be determined*        |
+
+_Note: The FileGroup and TableName mapping needs to be determined based on the actual Microsoft SQL Server database configuration.  The current database analysis is based on a MongoDB schema, and this section might need adjustment if the final implementation uses SQL Server as indicated._
 
 The filegroup growth size has set to meet the recommendation for below
 256 MB for data files.
@@ -277,51 +292,23 @@ Online transactions can also be classified as follows:
 | Online Enquiry Transactions | Used to retrieve records from LSCP, for example, filter site monitoring records   |
 | Full-text Search            | Used to search for records with given key words, for example, search assigned TCP |
 
+###
+
 ### 1.4.2 Online Reports
 
 The programs in the following category are classified as online reports:
 
--   XXXXXXXXXXX
+-   XXXXXXXXXXX (*To be determined based on system functionality*)
 
 As the report is a standalone internal system for BD, the measurement
 would only estimate when the concurrent users are not more than 20.
 
 | On-line Reports | Committed Response Time |
 |-----------------|-------------------------|
-|                 | \[To be defined]        |
-|                 | \[To be defined]        |
+|  *Report 1 Name (TBD)*               | *Response Time (TBD)*                         |
+|  *Report 2 Name (TBD)*               | *Response Time (TBD)*                         |
 
-### 1.5 Database Overview
-
-This section provides an overview of the database "bd" as analyzed on 2025/3/4 ??10:10:39.
-
-**Database Statistics:**
-
-- Database Size: 88.10 MB
-- Collections: 12
-- Total Documents: 1278983
-- Total Data Size: 371.24 MB
-
-**Collections Overview:**
-
-The database consists of 12 collections. The collections "sysfilerefs" and "adrblkfilerefs" are the largest in terms of size and document count, contributing significantly to the overall database size.
-
-- **Large Collections (by Document Count):**
-    - sysfilerefs: 601808 documents
-    - adrblkfilerefs: 566948 documents
-    - bsblocks: 98397 documents
-
-- **Large Collections (by Size):**
-    - sysfilerefs: 204.70 MB
-    - adrblkfilerefs: 154.89 MB
-    - bsblocks: 6.40 MB
-
-- **Collections with No Documents:**
-    - submissions: 0 documents
-
-The "submissions" collection currently contains no documents. It's important to monitor this collection in the future to understand its data growth and potential performance impact.
-
-The "tasks", "eminutes", "applications", "notifications", "cases", "oauthtokens", "attachments", and "users" collections are relatively smaller in size and document count compared to "sysfilerefs" and "adrblkfilerefs".
+#
 
 # 2. Critical Online Transition Timing
 
@@ -376,112 +363,68 @@ timing.
 <th></th>
 </tr>
 <tr class="header">
-<th>UA-01</th>
-<th>UA_CREATE</th>
-<th>Create User Account</th>
-<th>Simple</th>
-<th>?</th>
-<th></th>
+<th>*Module ID (TBD)*</th>
+<th>*Program ID (TBD)*</th>
+<th>*Create User Account (TBD)*</th>
+<th>*Simple/Medium/Complex (TBD)*</th>
+<th>Yes/No</th>
+<th>No</th>
 <th>Online Update Transactions</th>
-<th></th>
+<th>Yes/No</th>
 </tr>
 <tr class="odd">
-<th>UA-02</th>
-<th>UA_UPDATE</th>
-<th>Update User Account</th>
-<th>Medium</th>
-<th>?</th>
-<th></th>
+<th>*Module ID (TBD)*</th>
+<th>*Program ID (TBD)*</th>
+<th>*Update User Account (TBD)*</th>
+<th>*Simple/Medium/Complex (TBD)*</th>
+<th>Yes/No</th>
+<th>No</th>
 <th>Online Update Transactions</th>
-<th></th>
+<th>Yes/No</th>
 </tr>
 <tr class="header">
-<th>UA-03</th>
-<th>UA_DELETE</th>
-<th>Delete User Account</th>
-<th>Simple</th>
-<th>?</th>
+<th><th colspan="6"><strong>FORM AND RECORD MANAGEMENT PROGRAM</strong></th></th>
 <th></th>
-<th>Online Update Transactions</th>
 <th></th>
 </tr>
 <tr class="odd">
-<th>UA-04</th>
-<th>UA_SEARCH</th>
-<th>Search User Account</th>
-<th>Medium</th>
-<th>?</th>
-<th></th>
+<th>*Module ID (TBD)*</th>
+<th>*Program ID (TBD)*</th>
+<th>*Submit Application (TBD)*</th>
+<th>*Complex (TBD)*</th>
+<th>Yes</th>
+<th>No</th>
+<th>Online Update Transactions</th>
+<th>Yes</th>
+</tr>
+<tr class="header">
+<th>*Module ID (TBD)*</th>
+<th>*Program ID (TBD)*</th>
+<th>*Search Application (TBD)*</th>
+<th>*Medium (TBD)*</th>
+<th>Yes</th>
+<th>No</th>
 <th>Online Enquiry Transactions, Full-text Search</th>
-<th></th>
-</tr>
-<tr class="header">
-<th>UA-05</th>
-<th>UA_LIST</th>
-<th>List User Accounts</th>
-<th>Simple</th>
-<th>?</th>
-<th></th>
-<th>Online Enquiry Transactions</th>
-<th></th>
+<th>Yes</th>
 </tr>
 <tr class="odd">
-<th colspan="6"><strong>FORM AND RECORD MANAGEMENT PROGRAM</strong></th>
-<th></th>
-<th></th>
-</tr>
-<tr class="header">
-<th>FR-01</th>
-<th>FR_CREATE_APP</th>
-<th>Create Application Form</th>
-<th>Complex</th>
-<th>?</th>
-<th></th>
-<th>Online Update Transactions</th>
-<th>?</th>
-</tr>
-<tr class="odd">
-<th>FR-02</th>
-<th>FR_UPDATE_APP</th>
-<th>Update Application Form</th>
-<th>Complex</th>
-<th>?</th>
-<th></th>
-<th>Online Update Transactions</th>
-<th>?</th>
-</tr>
-<tr class="header">
-<th>FR-03</th>
-<th>FR_VIEW_APP</th>
-<th>View Application Form</th>
-<th>Medium</th>
-<th>?</th>
-<th></th>
-<th>Online Enquiry Transactions</th>
-<th>?</th>
-</tr>
-<tr class="odd">
-<th>FR-04</th>
-<th>FR_SEARCH_CASE</th>
-<th>Search Case Record</th>
-<th>Complex</th>
-<th>?</th>
-<th></th>
-<th>Online Enquiry Transactions, Full-text Search</th>
-<th></th>
-</tr>
-<tr class="header">
-<th>FR-05</th>
-<th>FR_LIST_CASES</th>
-<th>List Case Records</th>
-<th>Medium</th>
-<th>?</th>
-<th></th>
-<th>Online Enquiry Transactions</th>
-<th></th>
+<th>*Module ID (TBD)*</th>
+<th>*Program ID (TBD)*</th>
+<th>*Generate Application Report (TBD)*</th>
+<th>*Complex (TBD)*</th>
+<th>No</th>
+<th>Yes</th>
+<th>*Report Type (TBD)*</th>
+<th>No</th>
 </tr>
 </tbody>
 </table>
+
+_Note: This table is a template and needs to be populated with the actual program IDs, names, complexities, and transaction types based on the system's functional specifications and modules._
+
+#
+
+#
 
 # 3. Critical Batch Cycle Timing
 
@@ -495,16 +438,19 @@ of performance in these items would not affect the end user. Except, the
 generate report module, has a higher impact, thus it is the only item
 required to optimize.
 
-| **Program ID**    | **Program Name**           | **Online Web** | **Mobile** | **Update Batch** | **Require Optimization?** | **Cycle Timing** |
-|----------------|--------------------------|---------|---------|---------|---------|--------|
-| **BATCH-01**   | Daily Data Archiving     |         |            | ?       | Yes                     | Daily    |
-| **BATCH-02**   | Weekly Report Generation |         |            | ?       | Yes                     | Weekly   |
-| **BATCH-03**   | Monthly System Backup    |         |            | ?       | No                      | Monthly  |
-| **BATCH-04**   | Notification Processing  | ?       | ?          | ?       | No                      | Hourly   |
-| **BATCH-05**   | OAuth Token Cleanup      |         |            | ?       | No                      | Daily    |
-| **BATCH-06**   | SysFileRef Cleanup       |         |            | ?       | Yes                     | Daily    |
-| **BATCH-07**   | ADRBlkFileRef Cleanup    |         |            | ?       | Yes                     | Daily    |
-| **BATCH-08**   | Submission Status Update | ?       | ?          | ?       | No                      | 15 Minutes|
+| **Program ID**    | **Program Name** | **Online Web** | **Mobile** | **Update Batch** | **Require Optimization?** | **Cycle Timing** |
+|----------------|----------------|---------|---------|---------|---------|--------|
+| **BATCH PROGRAM** |                  |                |            |                  |                           |                  |
+| *Batch ID (TBD)* | *Data Archiving (TBD)* | No        | No       | Yes              | Yes                       | *Daily/Weekly (TBD)* |
+| *Batch ID (TBD)* | *Report Generation (TBD)* | No        | No       | Yes              | Yes                       | *Daily/Weekly (TBD)* |
+| *Batch ID (TBD)* | *System Maintenance (TBD)* | No        | No       | Yes              | No                        | *Daily/Weekly (TBD)* |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+
+_Note: This table is a template and needs to be populated with actual batch program details, including IDs, names, and cycle timings.  "Require Optimization?" is marked 'Yes' for Data Archiving and Report Generation as these are typically performance-sensitive batch jobs._
 
 # 4. Optimization changes
 
@@ -513,7 +459,22 @@ and reports.
 
 ## 4.1 Optimization Actions
 
-### 4.1.1 Create stored procedures
+### 4.1.1 Database Schema Analysis and Recommendations
+
+Based on the database schema analysis of the `bd` database (dated 2025/3/4), the following observations and recommendations are made:
+
+- **Large Collections:** The `sysfilerefs` and `adrblkfilerefs` collections are significantly larger than others, both in document count and size. Optimization efforts should prioritize these collections.
+    - **Recommendation:** Implement indexing strategies on frequently queried fields within these collections. Analyze query patterns to identify these fields. Consider data archiving for older records to reduce the active dataset.
+- **Indexing Opportunities:** Review existing indexes and identify potential fields for new indexes across all collections. Fields like `application`, `submissionCase`, `sysFileRefId`, `adrBlkFileRefId`, `blockId`, `ApplicationNo`, `CaseOfficer`, and `user` appear frequently in different collections and might be good candidates for indexing if they are used in query filters or sorting.
+    - **Recommendation:** Conduct query analysis to determine the most frequently used query patterns and fields. Create indexes accordingly. For example, if `sysFileRefId` is frequently used to retrieve documents from `sysfilerefs`, ensure an index exists on this field.
+- **Collection `submissions`:** The `submissions` collection is empty (0 documents).
+    - **Recommendation:** Investigate if this collection is intended to be empty or if there's an issue with data population. If intended to be empty, consider if it's still necessary in the schema. If not, investigate data population issues.
+- **Mixed Data Types:** Some fields have mixed data types (e.g., `tasks.user`, `eminutes.from`, `eminutes.to`).
+    - **Recommendation:** While MongoDB is schema-less, consider the implications of mixed data types for querying and indexing. If performance issues arise from querying these fields, consider schema adjustments or application-level data handling to ensure consistent data types for frequently queried fields.
+
+These recommendations are based on a static schema analysis. A more comprehensive performance optimization strategy requires dynamic analysis of application workload, query patterns, and performance testing.
+
+### 4.1.2 Create stored procedures
 
 All reports are created by stored procedures. Stored procedures are
 precompiled as opposed to the dynamic prepared statements that are
@@ -522,7 +483,9 @@ a stored procedure, it remains in the cache, saving the execution time.
 In addition, the stored procedures are mostly using primary key for
 searching.
 
-### 4.1.2 Create clustered indexes
+_Note: This section assumes the use of stored procedures, which is more relevant to SQL databases. If the system is primarily using MongoDB as indicated by the schema analysis, this section might need to be revised to discuss query optimization techniques specific to MongoDB, such as efficient aggregation pipelines and query construction._
+
+### 4.1.3 Create clustered indexes
 
 When creating a primary key constraint, a unique clustered index on the
 column or columns is automatically created if a clustered index on the
@@ -534,42 +497,30 @@ designing a clustered index, we have considered that the data types to
 be used as clustering keys. For instance, the primary keys are BIGINT
 data type which is the best choices as clustered index key.
 
-| **Table ID** | **Table Name**     | **LSCP Entity** | **Key Nature** | **Index Field** |
-|--------------|--------------------|-----------------|----------------|-----------------|
-| TBL-01       | tasks              | Task            | Primary Key    | _id             |
-| TBL-02       | eminutes           | E-Minute        | Primary Key    | _id             |
-| TBL-03       | submissions        | Submission      | Primary Key    | _id             |
-| TBL-04       | applications       | Application     | Primary Key    | _id             |
-| TBL-05       | notifications      | Notification    | Primary Key    | _id             |
-| TBL-06       | bsblocks           | BS Block        | Primary Key    | _id             |
-| TBL-07       | cases              | Case            | Primary Key    | _id             |
-| TBL-08       | oauthtokens        | OAuth Token     | Primary Key    | _id             |
-| TBL-09       | sysfilerefs        | Sys File Ref    | Primary Key    | _id             |
-| TBL-10       | attachments        | Attachment      | Primary Key    | _id             |
-| TBL-11       | users              | User            | Primary Key    | _id             |
-| TBL-12       | adrblkfilerefs     | ADR Blk File Ref| Primary Key    | _id             |
+_Note: The concept of "clustered indexes" is specific to SQL Server and other relational databases. In MongoDB, indexes are generally similar to non-clustered indexes in SQL. This section should be adapted to discuss index creation strategies in MongoDB, focusing on creating indexes on fields used in queries, sorting, and aggregations. Given the schema analysis, it is likely the system is using MongoDB, so this section needs revision to be relevant._
 
-## 4.2 Database Performance Analysis
+| **Table ID** | **Table Name** | **LSCP Entity** | **Key Nature** | **Index Field** |
+|--------|----------------------|---------------|--------|--------------------|
+| *TBD*    | `sysfilerefs`         | *File Reference (TBD)* | *Primary/Foreign (TBD)* | `sysFileRefId`       |
+| *TBD*    | `adrblkfilerefs`      | *Address Block File Reference (TBD)* | *Primary/Foreign (TBD)* | `adrBlkFileRefId`   |
+| *TBD*    | `tasks`              | *Task (TBD)*          | *Foreign (TBD)*         | `application`        |
+| *TBD*    | `attachments`        | *Attachment (TBD)*    | *Foreign (TBD)*         | `application`        |
+| *TBD*    | `cases`              | *Case (TBD)*          | *Foreign (TBD)*         | `application`        |
+| *TBD*    | `notifications`      | *Notification (TBD)*  | *Foreign (TBD)*         | `task`               |
+| *TBD*    | `eminutes`           | *eMinute (TBD)*       | *Foreign (TBD)*         | `submissionCase`     |
+| *TBD*    | `tasks`              | *Task (TBD)*          | *Foreign (TBD)*         | `submissionCase`     |
+| *TBD*    | `attachments`        | *Attachment (TBD)*    | *Foreign (TBD)*         | `submissionCase`     |
+| *TBD*    | `applications`       | *Application (TBD)*   | *Primary (TBD)*         | `ApplicationNo`      |
+| *TBD*    | `bsblocks`           | *Building Block (TBD)*| *Primary (TBD)*         | `blockId`            |
+| *TBD*    | `users`              | *User (TBD)*          | *Primary (TBD)*         | `osdpLoginId`        |
+| *TBD*    | `oauthtokens`        | *OAuth Token (TBD)*   | *Primary (TBD)*         | `accessToken`        |
+| *TBD*    | `cases`              | *Case (TBD)*          | *Foreign (TBD)*         | `assignedBS`         |
+| *TBD*    | `cases`              | *Case (TBD)*          | *Foreign (TBD)*         | `assignedGR`         |
+| *TBD*    | `applications`       | *Application (TBD)*   | *Foreign (TBD)*         | `assignedBS`         |
+| *TBD*    | `applications`       | *Application (TBD)*   | *Foreign (TBD)*         | `assignedGR`         |
+| *TBD*    | `users`              | *User (TBD)*          | *Secondary (TBD)*       | `email`              |
 
-Based on the database schema analysis, the following points are relevant to performance optimization:
-
-- **Large Collections**: The `sysfilerefs` and `adrblkfilerefs` collections are significantly larger than others. Optimizing queries and operations on these collections will have the most impact on overall database performance. Consider indexing frequently queried fields in these collections beyond the primary key.
-
-- **`sysfilerefs` and `adrblkfilerefs` Field Analysis**: Review the field analysis for `sysfilerefs` and `adrblkfilerefs` in the `database_schema.md` for potential indexing opportunities. Fields like `sysFileRefId`, `adrBlkFileRefId`, `createdDt`, and `lastModifiedDt` appear to be commonly used and could benefit from indexing if they are frequently used in queries.
-
-- **Mixed Data Types**: In the `tasks` collection, the `user` field has mixed types (string, objectId). While MongoDB is flexible, consistent data types can improve query performance and indexing efficiency. Investigate if this mixed type is intentional and if it can be standardized for better performance. Similarly, the `from` and `to` fields in `eminutes` and `assignedBS`, `assignedGR`, `assignedSBS` in `applications` also have mixed types. Review these for potential standardization.
-
-- **`applications` Collection - Array and Object Types**: The `applications` collection contains fields with `object` and `array` types (e.g., `APP13`, `RelatedPremises`, `address`, `SelfCertification`, `StructuralCalculation`). Queries involving these complex types might be less efficient than those on simple data types. Analyze query patterns on these fields and consider optimization strategies if needed, such as indexing within arrays or embedded documents.
-
-- **`cases` Collection - Nested Objects**: The `cases` collection has numerous nested object fields (e.g., `LAFileReference`, `Referrer`, `building_information`, `caseDescription`, `deck_study`, etc.).  Similar to arrays and objects in `applications`, complex queries on these nested fields might require optimization.
-
-- **`submissions` Collection - Zero Documents**: While currently empty, understand the purpose of the `submissions` collection and anticipate its future data volume and query patterns for proactive performance planning.
-
-- **Indexing Strategy**:  The report mentions creating clustered indexes. In MongoDB, indexes are crucial for query performance.  Review the existing indexes in the database (not provided in the input, but should be checked in the actual database). Ensure that indexes are created for fields frequently used in query filters, sorting, and joins (if applicable). Consider compound indexes for queries involving multiple fields.
-
-- **Query Optimization**: Analyze slow queries using database profiling tools. Optimize these queries by reviewing query structure, using appropriate indexes, and potentially restructuring data or queries if necessary.
-
-- **Data Archiving**: Implement the "Daily Data Archiving" batch job (BATCH-01) effectively, especially for the large `sysfilerefs` and `adrblkfilerefs` collections, to keep the active data size manageable and improve query performance on recent data.
+_Note: This table provides a starting point for index consideration based on potential primary and foreign key relationships and frequently used fields. "Table ID," "LSCP Entity," and "Key Nature" columns need to be further defined based on the system's data model.  The "Index Field" column suggests fields that are likely candidates for indexing to improve query performance. This table should be refined based on actual application usage and query patterns._
 
 <span class="mark">\<\< End of Document\>\></span>
 ```
