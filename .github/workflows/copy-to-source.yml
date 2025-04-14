@@ -20,11 +20,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.REPO_TOKEN }}
+          fetch-depth: 0
         
       - name: Set up Git user
         run: |
-          git config --global user.name "GitHub Action"
+          git config --global user.name "GitHub Action Bot"
           git config --global user.email "action@github.com"
           
       - name: Copy specific files from generated to source
@@ -61,8 +62,6 @@ jobs:
             exit 0
           fi
           
-          # Commit and push changes
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          # Commit and push changes using the token
           git commit -m "Automatically copy files from generated to source"
-          git push
+          git push https://${{ secrets.REPO_TOKEN }}@github.com/MandyLCloud/gdtest.git HEAD:main
