@@ -31,6 +31,7 @@ jobs:
             find generated/ -name "$FILE" -print0 | while IFS= read -r -d $'\0' file_path; do
               if [ -n "$file_path" ]; then
                 echo "Found: $file_path"
+
                 # Determine the destination path (same relative path in source/)
                 relative_path=$(echo "$file_path" | sed 's/^generated\///')
                 destination_path="source/$relative_path"
@@ -38,12 +39,19 @@ jobs:
                 # Ensure destination directory exists
                 destination_dir=$(dirname "$destination_path")
                 mkdir -p "$destination_dir"
+                echo "destination_dir: $destination_dir"
 
-                # Copy the file
                 echo "Copying $file_path to $destination_path"
                 cp "$file_path" "$destination_path"
+                echo "Copied $file_path to $destination_path" #ADD THIS LINE TO SEE IF CP GOES THRU
               fi
             done
           done
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
           commit_message: 'Copy specific files from generated/ to source/'
           push_options: '--force' #Optional but ensures that a failed action doesn't break the file transfer and updates GitHub history to reflect
+      - name: Check source directory
+        run: ls -l source
