@@ -1,5 +1,15 @@
-# Performance Optimization Report
-**For Licensing Self-Certification Portal of Buildings Department**
+# Performance Optimisation Report
+**FOR**
+
+**COMBINED SYSTEM DEVELOPMENT SERVICES**
+
+**FOR**
+
+**LICENSING SELF-CERTIFICATION PORTAL**
+
+**OF**
+
+**BUILDINGS DEPARTMENT**
 
 **Version 0.1**
 
@@ -11,135 +21,155 @@ The contents of this document remain the property of and may not be reproduced i
 
 ## Distribution
 
-| Copy No. | Holder                                     |
-|----------|--------------------------------------------|
-| 1        | Buildings Department (BD)                  |
+| Copy No. | Holder                                      |
+|----------|---------------------------------------------|
+| 1        | Buildings Department (BD)                   |
 | 2        | Master Concept (Hong Kong) Limited (MC) |
 
 ## Amendment History
 
-| Change Number | Revision Description | Pages Affected | Revision/Version Number | Date       |
-|---------------|----------------------|----------------|-------------------------|------------|
-| 1             | 1st draft            | All            | 0.1                     | 16/01/2025 |
-|               |                      |                |                         |            |
-|               |                      |                |                         |            |
-|               |                      |                |                         |            |
-|               |                      |                |                         |            |
+| Change Number | Revision Description | Pages Affected | Revision/ Version Number | Date       |
+|---------------|----------------------|----------------|--------------------------|------------|
+| 1             | 1st draft            | All            | 0.1                      | 16/01/2025 |
+|               |                      |                |                          |            |
+|               |                      |                |                          |            |
+|               |                      |                |                          |            |
+|               |                      |                |                          |            |
 
-## Table of Contents
+## TABLE OF CONTENTS
 
 1.  [Introduction](#introduction)
     *   [1.1 Goal of Performance Optimization](#goal-of-performance-optimization)
         *   [1.1.1 Server Loading](#server-loading)
         *   [1.1.2 Bandwidth Usage](#bandwidth-usage)
-        *   [1.1.3 Better User Experience](#better-user-experience)
-    *   [1.2 Performance Optimization Actions](#performance-optimisation-actions)
+        *   [1.1.3 Better user experience](#better-user-experience)
+    *   [1.2 Performance Optimisation Actions](#performance-optimisation-actions)
     *   [1.3 Storage Allocation](#storage-allocation)
     *   [1.4 Required Response Time](#required-response-time)
         *   [1.4.1 Online Transaction](#online-transaction)
         *   [1.4.2 Online Reports](#online-reports)
-2.  [Critical Online Transition Timing](#critical-online-transition-timing)
+2.  [Critical online transition timing](#critical-online-transition-timing)
 3.  [Critical Batch Cycle Timing](#critical-batch-cycle-timing)
-4.  [Optimization Changes](#optimization-changes)
+4.  [Optimization changes](#optimization-changes)
     *   [4.1 Optimization Actions](#optimization-actions)
-        *   [4.1.1 Create Stored Procedures](#create-stored-procedures)
-        *   [4.1.2 Create Clustered Indexes](#create-clustered-indexes)
+        *   [4.1.1 Create stored procedures](#create-stored-procedures)
+        *   [4.1.2 Create clustered indexes](#create-clustered-indexes)
 
 ## 1. Introduction
 
-The performance optimization of the system focuses on improving Online Transaction performance. This report outlines the goals, actions, storage allocation, and required response times for optimizing the Licensing Self-Certification Portal.
+The performance optimization of the system could be classified into optimization of Online Transaction.
 
-### 1.1 Goal of Performance Optimization
+## 1.1 Goal of Performance Optimization
 
-The primary goal is to improve the system's response time for users. This involves optimizing program implementation to consider server loading, bandwidth usage, and overall user experience.
+The main goal of performance optimization is to improve the response time of the system to users. In order to achieve better response time, the program implementation should take the following areas into consideration.
 
-#### 1.1.1 Server Loading
+### 1.1.1 Server Loading
 
-Server loading is a critical factor affecting response time. It is influenced by:
+The Capacity of Server Loading is a fixed variable of a system. An increase in server loading would increase the response time of the system. Server loading is affected by:
 
-1.  The number of system users.
-2.  The efficiency of the programming code.
+1.  the number of system users; and
+2.  the efficiency of the programming code.
 
-Optimizing programming code to use fewer server resources reduces server loading and improves response time.
+When the number of system users increases, the server loading increases and hence there is less resource for running programming code for each system user. The response of the program would be slower as there is less server resource for the program to utilize.
 
-#### 1.1.2 Bandwidth Usage
+On the other hand, if the programming code could use fewer server resources, there is less server loading and hence the server could respond to users quicker and serve more users simultaneously.
 
-Bandwidth usage also impacts response time. It is affected by:
+Therefore, response time could be reduced if the programming code could be optimized to use fewer server resources.
 
-1.  The number of system users.
-2.  The size of transmitting resource.
+### 1.1.2 Bandwidth Usage
 
-Reducing the size of transmitted data minimizes bandwidth usage, allowing the system to serve more users simultaneously.
+Capacity of Bandwidth Usage is a fixed variable of a system. An increase in bandwidth usage would decrease the response time of the system. Bandwidth loading is affected by:
 
-#### 1.1.3 Better User Experience
+1.  the number of system users; and
+2.  the size of transmitting resource.
 
-The application's performance directly impacts the department's image.  Good performance reflects positively on the department, while poor performance can lead to negative perceptions.
+When the number of system users increases, the bandwidth usage increases and hence there is less bandwidth resource for transmitting data to each system user. The response time would be slower as there is less bandwidth for each user to utilize.
 
-### 1.2 Performance Optimization Actions
+On the other hand, if the size of transmitting data is smaller, there is less bandwidth usage and hence the fixed network bandwidth could serve more users simultaneously.
 
-To improve response time and serve more users concurrently, the following optimization measures can be taken:
+Therefore, response time could be reduced if the size of the transmitting resource could be optimized to use less server resources.
 
-*   Optimize programming and query logic to reduce server loading.
-*   Optimize page and image sizes to reduce bandwidth burden.
-*   Improve resource retrieval speed by indexing and hashing.
+### 1.1.3 Better User Experience
+
+This application will be used by the public, in order words, it represents the department. If it performs well, the department can take credit from it, the image of the department may be affected if this application performs bad or causes other problems, for example very slow or no response.
+
+## 1.2 Performance Optimisation Actions
+
+To serve more users simultaneously with better response time, the system and the programs should be optimized to use the server loading and bandwidth resource more efficiently. The followings are the possible measures that could be taken generally:
+
+*   Optimize the programming and query logic to reduce server loading burden.
+*   Optimize the page size and image size to reduce bandwidth burden.
+*   Improve resourcing retrieval speed by indexing and hashing.
 *   Cache frequently used resources.
-*   Pre-generate resources that require heavy instant server loading.
-*   Reduce waiting time for third-party services.
-*   Archive expired records to minimize the size of the active datastore.
+*   Pre-generate resource that required heavy instant server loading.
+*   Improve resourcing retrieval speed by indexing and hashing.
+*   Reduce waiting time of third-party services.
+*   Archive expired records to keep the size of active datastore minimal.
 
-### 1.3 Storage Allocation
+## 1.3 Storage Allocation
 
-Database data will be stored as follows:
+The storage of the database data will be stored as following:
 
-*   System data: Stored in the "Database" server in the Integrated system.
-*   Textual data: Stored in the "Database" server in the Integrated system.
+i. System data ? Store in the ?Database? server in the Integrated system.
 
-All required system and textual data will be logically stored in various filegroups of the Microsoft SQL Server database.
+ii. Textual data ? Store in the ?Database? server in the Integrated system.
 
-The filegroup growth size is set to meet the recommendation of below 256 MB for data files.
+All the required system and textual data will be logical stored in various filegroup of Microsoft SQL Server database. The following table shows the logic data storage in Microsoft SQL Server database.
 
-### 1.4 Required Response Time
+| FileGroup | TableName | TableSize |
+|-----------|-----------|-----------|
+|           |           |           |
+|           |           |           |
+|           |           |           |
+|           |           |           |
+|           |           |           |
 
-Required response times are defined for two categories: Online Transactions and Online Reports. Programs and reports requiring immediate user interaction should respond within the specified timeframes.
+The filegroup growth size has set to meet the recommendation for below 256 MB for data files.
+
+## 1.4 Required Response Time
+
+The required response time is defined according to 2 pre-defined categories. They are Online Transaction and Online Report. All of the programs and reports that require to interact and provide immediate response to users are categorized. The categorized programs and reports should respond to the user within required response time. The required response time should be defined according to the complexity of the programs. The required response time and the complexity will be discussed in the coming section.
+
+For those procedures or reports that could not able to optimize to have immediate response, some part of the program that take a lot of processing time will be swapped to batch job.
 
 95% of all online functions should meet the committed response time.
 
-The committed response time is affected by the network status of the site. The testing environment should meet the following network health level:
+The committed response time is affected by the network status of the site. The environment of testing site should meet an agreed network health level. The following criteria define the agreed network health level.
 
-*   Maximum number of concurrent users: 100.
-*   Minimal bandwidth: 2Mb/s per testing machine.
-*   Maximum network round-trip latency (ping) to the Integrated system: 200ms.
-*   Remote testing sites will have a **50% mark-up** time to the committed response time.
+*   Maximum number of Concurrent users is 100.
+*   Minimal bandwidth is 2Mb/s per testing machine.
+*   Maximum network round-trip latency (ping) to the Integrated system is 200ms.
+*   Remote testing site will have **50% mark-up** time to the committed response time.
 
-#### 1.4.1 Online Transaction
+### 1.4.1 Online Transaction
 
-The following are classified as online transactions:
+The programs in the following category are classified as online transaction:
 
 *   User Account Program
 *   Form and Record Management Program
 
-Online transactions are classified into the following groups:
+Online transactions can be classified into the following groups:
 
-| Transaction Complexity | Number of Concurrent Users |            |          |
-|----------------------|--------------------------|------------|----------|
-|                        | 40                       | 80         | 100      |
-| Simple                 | < 1 sec                  | < 2 sec    | < 3 sec  |
-| Medium                 | < 2 sec                  | < 3 sec    | < 4 sec  |
-| Complex                | < 2.5 sec                | < 3.5 sec  | < 5 sec  |
+| Transaction Complexity | Number of Concurrent Users |            |          |     |
+|----------------------|---------------------------|------------|----------|-----|
+|                        | 40                        | 80         | 100      |     |
+| Simple                 | < 1 sec                   | < 2 sec    | < 3 sec  |     |
+| Medium                 | < 2 sec                   | < 3 sec    | < 4 sec  |     |
+| Complex                | < 2.5 sec                 | < 3.5 sec  | < 5 sec  |     |
 
 Online transactions can also be classified as follows:
 
 | Online transactions         | Description                                                                       |
-|-----------------------------|-----------------------------------------------------------------------------------|
+|-----------------------------|---------------------------------------------------------------------------------|
 | Online Update Transactions  | Used to update records in LSCP, for example, create supervision plan              |
 | Online Enquiry Transactions | Used to retrieve records from LSCP, for example, filter site monitoring records   |
 | Full-text Search            | Used to search for records with given key words, for example, search assigned TCP |
 
-#### 1.4.2 Online Reports
+### 1.4.2 Online Reports
 
 The programs in the following category are classified as online reports:
 
-*   [Report Types - To be defined based on system functionality]
+*   XXXXXXXXXXX
 
 As the report is a standalone internal system for BD, the measurement would only estimate when the concurrent users are not more than 20.
 
@@ -150,46 +180,48 @@ As the report is a standalone internal system for BD, the measurement would only
 
 ## 2. Critical Online Transition Timing
 
-The following matrix lists programs with their complexity and transaction type.
+The following matrix is the list of programs with the complexity and transaction type being marked.
 
-Offline modules allow users to save information locally when internet connectivity is unavailable. Once connectivity is restored, data is submitted and stored in the database. The asynchronous handling logic is included in functional testing. The data sending logic is similar to other APIs, so a separate section for offline modules is not included.
+Offline module helps users save information in local devices when Internet connectivity is not available. Once Internet connectivity is back, it will submit the data and store it in the database. The major difference between offline modules with other modules is that the offline module is asynchronous. It will not submit immediately but will wait until the Internet is available. For the asynchronous handling logic, we included it in the functional test. On the other hand, the data sending logic is no different with other API, thus we would not have a separate section for offline module in critical online transition timing.
 
 | **Module ID** | **Program ID** | **Program Name** | **Complexity (Simple / Medium / Complex)** | **Online Transaction Program** | **Report Program** | **Type of transactions** | **Mobile Apps** |
-|---------------|----------------|------------------|--------------------------------------------|------------------------------|--------------------|--------------------------|-----------------|
-|               |                |                  |                                            |                              |                    |                          |                 |
-|               |                |                  |                                            |                              |                    |                          |                 |
-|               |                |                  |                                            |                              |                    |                          |                 |
-|               |                |                  |                                            |                              |                    |                          |                 |
-|               |                |                  |                                            |                              |                    |                          |                 |
-|               |                |                  |                                            |                              |                    |                          |                 |
+|---------------|----------------|------------------|------------------------------------------|------------------------------|--------------------|--------------------------|-----------------|
+| **USER ACCOUNT PROGRAM** |                  |                  |                                          |                              |                    |                          |                 |
+|               |                |                  |                                          |                              |                    |                          |                 |
+|               |                |                  |                                          |                              |                    |                          |                 |
+|               |                |                  |                                          |                              |                    |                          |                 |
+|               |                |                  |                                          |                              |                    |                          |                 |
+|               |                |                  |                                          |                              |                    |                          |                 |
+|               |                |                  |                                          |                              |                    |                          |                 |
 
 ## 3. Critical Batch Cycle Timing
 
-The following table lists batch programs and their cycle timings. These programs differ from the modules in the previous section as they run frequently (potentially thousands of times daily), while the modules in the previous section run less often (once or twice daily). Most of these modules are scheduled jobs running in the backend, so performance fluctuations typically do not affect end users. The generate report module has a higher impact and requires optimization.
+The below are the list of batch programs. The cycle timing of the batch is identified in the tables below.
+They are different from modules in the last section whereas they will run a thousand times everyday but the modules in this section probably run once or twice daily. Moreover, most of the modules described in this section are scheduled jobs running in backend, normally, the fluctuation of performance in these items would not affect the end user. Except, the generate report module, has a higher impact, thus it is the only item required to optimize.
 
 | **Program ID** | **Program Name** | **Online Web** | **Mobile** | **Update Batch** | **Require Optimization?** | **Cycle Timing** |
-|----------------|------------------|----------------|------------|------------------|---------------------------|------------------|
+|----------------|----------------|----------------|------------|------------------|---------------------------|----------------|
 | **BATCH PROGRAM** |                  |                |            |                  |                           |                  |
-|                  |                  |                |            |                  |                           |                  |
-|                  |                  |                |            |                  |                           |                  |
-|                  |                  |                |            |                  |                           |                  |
-|                  |                  |                |            |                  |                           |                  |
-|                  |                  |                |            |                  |                           |                  |
-|                  |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
+|                   |                  |                |            |                  |                           |                  |
 
-## 4. Optimization Changes
+## 4. Optimization changes
 
-Optimization will **<u>only</u>** focus on the performance of programs and reports.
+The optimization will **<u>only</u>** focus the performance on programs and reports.
 
-### 4.1 Optimization Actions
+## 4.1 Optimization Actions
 
-#### 4.1.1 Create Stored Procedures
+### 4.1.1 Create stored procedures
 
-All reports are created using stored procedures. Stored procedures are precompiled, unlike dynamic prepared statements that are compiled each time they are invoked. Once executed, a stored procedure remains in the cache, saving execution time. Stored procedures primarily use primary keys for searching.
+All reports are created by stored procedures. Stored procedures are precompiled as opposed to the dynamic prepared statements that are compiled whenever your application code invokes a call. Once you execute a stored procedure, it remains in the cache, saving the execution time. In addition, the stored procedures are mostly using primary key for searching.
 
-#### 4.1.2 Create Clustered Indexes
+### 4.1.2 Create clustered indexes
 
-When a primary key constraint is created, a unique clustered index is automatically created on the column(s) if one does not already exist. The primary key column cannot allow NULL values. A unique non-clustered index is created by default to enforce a unique constraint. When designing a clustered index, the data types used as clustering keys are considered. For example, primary keys are BIGINT data type, which is a good choice for a clustered index key.
+When creating a primary key constraint, a unique clustered index on the column or columns is automatically created if a clustered index on the table does not already exist and you do not specify a unique non-clustered index. The primary key column cannot allow NULL values. In addition, when creating a unique constraint, a unique non-clustered index is created to enforce a unique constraint by default. When designing a clustered index, we have considered that the data types to be used as clustering keys. For instance, the primary keys are BIGINT data type which is the best choices as clustered index key.
 
 | **Table ID** | **Table Name** | **LSCP Entity** | **Key Nature** | **Index Field** |
 |--------------|----------------|-----------------|----------------|-----------------|
@@ -207,57 +239,9 @@ When a primary key constraint is created, a unique clustered index is automatica
 |              |                |                 |                |                 |
 |              |                |                 |                |                 |
 |              |                |                 |                |                 |
-
-## Database Analysis Summary and Recommendations
-
-Based on the provided `database_schema.md` file, here's a summary of the database and potential optimization areas:
-
-**Database Overview:**
-
-*   **Database Name:** bd
-*   **Size:** 88.10 MB
-*   **Collections (Tables):** 12
-*   **Total Documents (Rows):** 1,278,983
-*   **Total Data Size:** 371.24 MB
-
-**Key Observations and Recommendations:**
-
-1.  **Large Collections:** `sysfilerefs` and `adrblkfilerefs` are significantly larger than other collections, both in document count and size.
-    *   **Recommendation:** Analyze the usage patterns of these collections. Consider archiving older data to reduce their size. Ensure appropriate indexes are in place for common queries.  Review the data retention policies for these collections.
-
-2.  **Submissions Collection:** This collection is empty.
-    *   **Recommendation:** Investigate if this collection is intended to be empty or if there's an issue with data population.  If it's unused, consider removing it.
-
-3.  **Mixed Data Types:** Some fields have mixed data types (e.g., `tasks.user`, `eminutes.from`, `eminutes.to`).
-    *   **Recommendation:** Standardize data types within fields to improve query performance and data integrity.  Consider using a single data type (e.g., `objectId` or `string`) and converting data accordingly.
-
-4.  **Indexing:** The field analysis doesn't explicitly mention indexes.
-    *   **Recommendation:** Review query patterns for each collection and create indexes on frequently queried fields, especially those used in `WHERE` clauses, `JOIN` conditions, and sorting.  Pay particular attention to indexing fields used in the `sysfilerefs` and `adrblkfilerefs` collections.  Consider compound indexes for queries that use multiple fields.
-
-5.  **Average Document Size:** The `cases` collection has a relatively high average document size (2.65 KB).
-    *   **Recommendation:** Examine the structure of documents in this collection. If possible, normalize the data by moving some fields to related tables.
-
-6.  **Application Collection:** Contains many fields with null values and mixed types.
-    *   **Recommendation:** Review the schema and consider breaking down this collection into related tables for better normalization and to reduce the number of null values.
-
-7. **Eminutes Collection:** Contains fields `sysFileRefId` that could be related to the `sysfilerefs` collection.
-    * **Recommendation:** Consider creating a foreign key relationship and indexing the `sysFileRefId` field for faster lookups.
-
-8. **Tasks Collection:** Contains `application` and `submissionCase` fields that could be related to the `applications` and `cases` collections.
-    * **Recommendation:** Consider creating foreign key relationships and indexing these fields for faster lookups.
-
-**Relating Database Analysis to Performance Optimization Report:**
-
-*   **Storage Allocation:** The database analysis provides insights into the size and structure of the data, which is crucial for planning storage allocation.  The recommendations to archive data in large collections directly relate to optimizing storage usage.
-*   **Optimization Actions:** The recommendations for indexing and standardizing data types directly support the "Optimize programming and query logic to reduce server loading" action.  Using stored procedures (as mentioned in the report) is also a good practice.
-*   **Critical Online Transition Timing:** Understanding the data structure and query patterns helps in identifying the most critical online transactions that need optimization. For example, if a complex query involves joining `sysfilerefs` and `adrblkfilerefs`, optimizing those collections and the join operation is crucial.
-
-**Next Steps:**
-
-1.  **Query Analysis:**  Use database profiling tools to identify the slowest queries.
-2.  **Index Optimization:** Implement the recommended indexes and monitor their performance.
-3.  **Data Archiving:** Implement a data archiving strategy for large collections.
-4.  **Schema Refinement:** Refine the database schema based on the analysis and recommendations.
-5.  **Performance Monitoring:** Continuously monitor database performance and adjust optimization strategies as needed.
+|              |                |                 |                |                 |
+|              |                |                 |                |                 |
+|              |                |                 |                |                 |
+|              |                |                 |                |                 |
 
 << End of Document >>
