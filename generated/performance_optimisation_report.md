@@ -1,27 +1,17 @@
-# Performance Optimisation Report
-**FOR**
-**COMBINED SYSTEM DEVELOPMENT SERVICES**
-**FOR**
-**LICENSING SELF-CERTIFICATION PORTAL**
-**OF**
-**BUILDINGS DEPARTMENT**
+# Performance Optimization Report
+**For Licensing Self-Certification Portal of Buildings Department**
 
 **Version 0.1**
-
 **Jan 2025**
 
 ? The Government of the Hong Kong Special Administrative Region
 
-The contents of this document remain the property of and may not be
-reproduced in whole or in part without the express permission of the
-Government of the HKSAR.
-
 ## Distribution
 
-| Copy No. | Holder                                     |
-|----------|--------------------------------------------|
-| 1        | Buildings Department (BD)                  |
-| 2        | Master Concept (Hong Kong) Limited (MC) |
+| Copy No. | Holder                                          |
+|---------|-------------------------------------------------|
+| 1       | Buildings Department (BD)                       |
+| 2       | Master Concept (Hong Kong) Limited (MC)        |
 
 ## Amendment History
 
@@ -33,39 +23,25 @@ Government of the HKSAR.
 |               |                      |                |                          |            |
 |               |                      |                |                          |            |
 
-## TABLE OF CONTENTS
+## Table of Contents
 
-[**1. Introduction**](#introduction)
-
-> [1.1 Goal of Performance Optimization](#goal-of-performance-optimization)
->
-> [1.1.1 Server Loading](#server-loading)
->
-> [1.1.2 Bandwidth Usage](#bandwidth-usage)
->
-> [1.1.3 Better user experience](#better-user-experience)
->
-> [1.2 Performance Optimisation Actions](#performance-optimisation-actions)
->
-> [1.3 Storage Allocation](#storage-allocation)
->
-> [1.4 Required Response Time](#required-response-time)
->
-> [1.4.1 Online Transaction](#online-transaction)
->
-> [1.4.2 Online Reports](#online-reports)
-
-[**2. Critical online transition timing**](#critical-online-transition-timing)
-
-[**3. Critical Batch Cycle Timing**](#critical-batch-cycle-timing)
-
-[**4. Optimization changes**](#optimization-changes)
-
-> [4.1 Optimization Actions](#optimization-actions)
->
-> [4.1.1 Create stored procedures](#create-stored-procedures)
->
-> [4.1.2 Create clustered indexes](#create-clustered-indexes)
+1.  [Introduction](#introduction)
+    *   [1.1 Goal of Performance Optimization](#goal-of-performance-optimization)
+        *   [1.1.1 Server Loading](#server-loading)
+        *   [1.1.2 Bandwidth Usage](#bandwidth-usage)
+        *   [1.1.3 Better user experience](#better-user-experience)
+    *   [1.2 Performance Optimisation Actions](#performance-optimisation-actions)
+    *   [1.3 Storage Allocation](#storage-allocation)
+    *   [1.4 Required Response Time](#required-response-time)
+        *   [1.4.1 Online Transaction](#online-transaction)
+        *   [1.4.2 Online Reports](#online-reports)
+2.  [Critical online transition timing](#critical-online-transition-timing)
+3.  [Critical Batch Cycle Timing](#critical-batch-cycle-timing)
+4.  [Optimization changes](#optimization-changes)
+    *   [4.1 Optimization Actions](#optimization-actions)
+        *   [4.1.1 Create stored procedures](#create-stored-procedures)
+        *   [4.1.2 Create clustered indexes](#create-clustered-indexes)
+5.  [Database Analysis](#database-analysis)
 
 ## 1. Introduction
 
@@ -109,22 +85,22 @@ This application will be used by the public, in order words, it represents the d
 
 To serve more users simultaneously with better response time, the system and the programs should be optimized to use the server loading and bandwidth resource more efficiently. The followings are the possible measures that could be taken generally:
 
--   Optimize the programming and query logic to reduce server loading burden.
--   Optimize the page size and image size to reduce bandwidth burden.
--   Improve resourcing retrieval speed by indexing and hashing.
--   Cache frequently used resources.
--   Pre-generate resource that required heavy instant server loading.
--   Improve resourcing retrieval speed by indexing and hashing.
--   Reduce waiting time of third-party services.
--   Archive expired records to keep the size of active datastore minimal
+*   Optimize the programming and query logic to reduce server loading burden.
+*   Optimize the page size and image size to reduce bandwidth burden.
+*   Improve resourcing retrieval speed by indexing and hashing.
+*   Cache frequently used resources.
+*   Pre-generate resource that required heavy instant server loading.
+*   Improve resourcing retrieval speed by indexing and hashing.
+*   Reduce waiting time of third-party services.
+*   Archive expired records to keep the size of active datastore minimal
 
 ## 1.3 Storage Allocation
 
 The storage of the database data will be stored as following:
 
-i\. System data ? Store in the ?Database? server in the Integrated system.
+i. System data ? Store in the ?Database? server in the Integrated system.
 
-ii\. Textual data ? Store in the ?Database? server in the Integrated system.
+ii. Textual data ? Store in the ?Database? server in the Integrated system.
 
 All the required system and textual data will be logical stored in various filegroup of Microsoft SQL Server database. The following table shows the logic data storage in Microsoft SQL Server database.
 
@@ -148,26 +124,26 @@ For those procedures or reports that could not able to optimize to have immediat
 
 The committed response time is affected by the network status of the site. The environment of testing site should meet an agreed network health level. The following criteria define the agreed network health level.
 
--   Maximum number of Concurrent users is 100.
--   Minimal bandwidth is 2Mb/s per testing machine.
--   Maximum network round-trip latency (ping) to the Integrated system is 200ms.
--   Remote testing site will have **50% mark-up** time to the committed response time.
+*   Maximum number of Concurrent users is 100.
+*   Minimal bandwidth is 2Mb/s per testing machine.
+*   Maximum network round-trip latency (ping) to the Integrated system is 200ms.
+*   Remote testing site will have **50% mark-up** time to the committed response time.
 
 ### 1.4.1 Online Transaction
 
 The programs in the following category are classified as online transaction:
 
--   User Account Program
--   Form and Record Management Program
+*   User Account Program
+*   Form and Record Management Program
 
 Online transactions can be classified into the following groups:
 
-| Transaction Complexity | Number of Concurrent Users |            |          |
-|----------------------|---------------------------|------------|----------|
-|                        | 40                         | 80         | 100      |
-| Simple                 | < 1 sec                    | < 2 sec    | < 3 sec  |
-| Medium                 | < 2 sec                    | < 3 sec    | < 4 sec  |
-| Complex                | < 2.5 sec                  | < 3.5 sec  | < 5 sec  |
+| Transaction Complexity | Number of Concurrent Users |            |          |     |
+|----------------------|----------------------------|------------|----------|-----|
+|                        | 40                         | 80         | 100      |     |
+| Simple                 | < 1 sec                    | < 2 sec    | < 3 sec  |     |
+| Medium                 | < 2 sec                    | < 3 sec    | < 4 sec  |     |
+| Complex                | < 2.5 sec                  | < 3.5 sec  | < 5 sec  |     |
 
 Online transactions can also be classified as follows:
 
@@ -181,7 +157,7 @@ Online transactions can also be classified as follows:
 
 The programs in the following category are classified as online reports:
 
--   XXXXXXXXXXX
+*   XXXXXXXXXXX
 
 As the report is a standalone internal system for BD, the measurement would only estimate when the concurrent users are not more than 20.
 
@@ -190,23 +166,24 @@ As the report is a standalone internal system for BD, the measurement would only
 |                 |                         |
 |                 |                         |
 
-# 2. Critical Online Transition Timing
+## 2. Critical Online Transition Timing
 
 The following matrix is the list of programs with the complexity and transaction type being marked.
 
 Offline module helps users save information in local devices when Internet connectivity is not available. Once Internet connectivity is back, it will submit the data and store it in the database. The major difference between offline modules with other modules is that the offline module is asynchronous. It will not submit immediately but will wait until the Internet is available. For the asynchronous handling logic, we included it in the functional test. On the other hand, the data sending logic is no different with other API, thus we would not have a separate section for offline module in critical online transition timing.
 
 | **Module ID** | **Program ID** | **Program Name** | **Complexity (Simple / Medium / Complex)** | **Online Transaction Program** | **Report Program** | **Type of transactions** | **Mobile Apps** |
-|---------------|----------------|------------------|--------------------------------------------|--------------------------------|--------------------|--------------------------|-----------------|
-| **USER ACCOUNT PROGRAM** |                  |                  |                                             |                                |                    |                          |                 |
-|               |                |                  |                                             |                                |                    |                          |                 |
-|               |                |                  |                                             |                                |                    |                          |                 |
-|               |                |                  |                                             |                                |                    |                          |                 |
-|               |                |                  |                                             |                                |                    |                          |                 |
-|               |                |                  |                                             |                                |                    |                          |                 |
-|               |                |                  |                                             |                                |                    |                          |                 |
+|---------------|----------------|------------------|------------------------------------------|--------------------------------|--------------------|--------------------------|-----------------|
+|               |                |                  |                                          |                                |                    |                          |                 |
+| **USER ACCOUNT PROGRAM** |                  |                |            |                  |                           |                  |                           |
+|               |                |                  |                                          |                                |                    |                          |                 |
+|               |                |                  |                                          |                                |                    |                          |                 |
+|               |                |                  |                                          |                                |                    |                          |                 |
+|               |                |                  |                                          |                                |                    |                          |                 |
+|               |                |                  |                                          |                                |                    |                          |                 |
+|               |                |                  |                                          |                                |                    |                          |                 |
 
-# 3. Critical Batch Cycle Timing
+## 3. Critical Batch Cycle Timing
 
 The below are the list of batch programs. The cycle timing of the batch is identified in the tables below.
 They are different from modules in the last section whereas they will run a thousand times everyday but the modules in this section probably run once or twice daily. Moreover, most of the modules described in this section are scheduled jobs running in backend, normally, the fluctuation of performance in these items would not affect the end user. Except, the generate report module, has a higher impact, thus it is the only item required to optimize.
@@ -220,9 +197,8 @@ They are different from modules in the last section whereas they will run a thou
 |                   |                  |                |            |                  |                           |                  |
 |                   |                  |                |            |                  |                           |                  |
 |                   |                  |                |            |                  |                           |                  |
-|                   |                  |                |            |                  |                           |                  |
 
-# 4. Optimization changes
+## 4. Optimization changes
 
 The optimization will **<u>only</u>** focus the performance on programs and reports.
 
@@ -257,113 +233,267 @@ When creating a primary key constraint, a unique clustered index on the column o
 |              |                |                 |                |                 |
 |              |                |                 |                |                 |
 
-<< End of Document >>
+## 5. Database Analysis
 
----
+### Database Statistics
+- Database Name: bd
+- Last Updated: 2025/3/4 ??10:10:39
+- Database Size: 88.10 MB
+- Collections: 12
+- Total Documents: 1278983
+- Total Data Size: 371.24 MB
 
-## Appendix: Database Analysis and Potential Optimizations
+### Collections Overview
+| Collection      | Document Count | Size (MB) |
+|-----------------|----------------|-----------|
+| tasks           | 5523           | 0.99      |
+| eminutes        | 133            | 0.03      |
+| submissions     | 0              | 0.00      |
+| applications    | 381            | 0.36      |
+| notifications   | 1837           | 0.24      |
+| bsblocks        | 98397          | 6.40      |
+| cases           | 451            | 1.17      |
+| oauthtokens     | 3019           | 2.29      |
+| sysfilerefs     | 601808         | 204.70    |
+| attachments     | 370            | 0.13      |
+| users           | 116            | 0.04      |
+| adrblkfilerefs  | 566948         | 154.89    |
 
-This section provides a detailed analysis of the database schema, focusing on potential areas for performance optimization. The analysis is based on the provided `database_schema.md` file.
-
-### Database Overview
-
-- **Database Name:** bd
-- **Last Updated:** 2025/3/4 ??10:10:39
-- **Database Size:** 88.10 MB
-- **Collections:** 12
-- **Total Documents:** 1278983
-- **Total Data Size:** 371.24 MB
-
-### Key Observations and Recommendations
-
-1.  **Large Collections:** The `sysfilerefs` and `adrblkfilerefs` collections are significantly larger than the others, both in terms of document count and data size. This suggests that queries against these collections could be performance bottlenecks.
-
-    *   **Recommendation:** Ensure appropriate indexes are in place for frequently queried fields in these collections. Consider data archiving strategies to reduce the size of these collections if older data is not frequently accessed.
-
-2.  **Collection Size vs. Document Count:** Some collections have a relatively small document count but a larger size (e.g., `cases`, `applications`). This could be due to large documents or inefficient data storage.
-
-    *   **Recommendation:** Analyze the structure of documents in these collections to identify potential areas for optimization. Consider using data compression techniques if applicable.
-
-3.  **Mixed Data Types:** Several fields have mixed data types (e.g., `tasks.user`, `eminutes.from`, `eminutes.to`, `applications.AgeOfStudent`, `applications.ApplicantNameEN`, `applications.ApplicantTel`, `applications.DescriptionOfSchool`, `applications.EstimatedNoOfStudent`, `cases.ActualReplyDate`, `cases.ReceivedDate`, `cases.Nature`). This can hinder indexing and query performance.
-
-    *   **Recommendation:** Enforce consistent data types for each field. If mixed types are unavoidable, ensure that queries handle them appropriately.  Consider data cleaning and transformation to standardize data types.
-
-4.  **Null Values:** Many fields contain `null` values. While this is not inherently a problem, it can affect index performance and query optimization.
-
-    *   **Recommendation:** Understand the significance of `null` values in each field. Consider using sparse indexes if `null` values are prevalent.
-
-5.  **Submissions Collection:** The `submissions` collection is empty.
-
-    *   **Recommendation:**  Investigate if this collection is still needed. If not, consider removing it to reduce database overhead. If it's needed, investigate why it's empty and ensure data is being written to it correctly.
-
-6.  **Indexing Strategy:** The provided schema analysis doesn't include information about existing indexes.
-
-    *   **Recommendation:** Conduct a thorough review of existing indexes. Identify missing indexes for frequently executed queries. Use the database's query analyzer to identify slow queries and suggest appropriate indexes.
-
-7.  **Application Collection:** The `applications` collection has a large number of fields. Many fields have low occurrences.
-
-    *   **Recommendation:** Review the application collection to determine if the data model can be simplified.  Consider if some fields can be combined or removed.
-
-### Detailed Collection Analysis and Recommendations
+### Collection Analysis
 
 #### Collection: tasks
+- Document Count: 5523
+- Size: 0.99 MB
+- Average Document Size: 0.18 KB
 
-*   **Potential Indexing Candidates:** `application`, `submissionCase`, `taskType`, `team`, `user`, `status`, `createdAt`
-*   **Data Type Consistency:** `user` field has mixed types (string, objectId). Standardize to objectId if possible.
+**Field Analysis:**
+
+| Field          | Types              | Occurrences |
+|----------------|--------------------|-------------|
+| \_\_v          | objectId, int      | 1000        |
+| \_id           | objectId           | 1000        |
+| application    | objectId           | 998         |
+| createdAt      | date               | 1000        |
+| status         | string             | 1000        |
+| submissionCase | objectId           | 998         |
+| taskType       | string             | 998         |
+| team           | string             | 835         |
+| user           | string, objectId   | 713         |
+
+**Potential Optimization:** Consider indexing the `application`, `submissionCase` and `user` fields if they are frequently used in queries.
 
 #### Collection: eminutes
+- Document Count: 133
+- Size: 0.03 MB
+- Average Document Size: 0.24 KB
 
-*   **Potential Indexing Candidates:** `efolio`, `eminuteId`, `from`, `status`, `subject`, `submissionCase`, `sysFileRefId`, `to`, `createdAt`
-*   **Data Type Consistency:** `from` and `to` fields have mixed types (objectId, string). Standardize to objectId if possible.
+**Field Analysis:**
+
+| Field          | Types              | Occurrences |
+|----------------|--------------------|-------------|
+| \_\_v          | int                | 133         |
+| \_id           | objectId           | 133         |
+| comment        | string             | 64          |
+| content        | string             | 133         |
+| createdAt      | date               | 133         |
+| efolio         | string             | 100         |
+| eminuteId      | string             | 133         |
+| from           | objectId, string   | 133         |
+| status         | string             | 133         |
+| subject        | string             | 133         |
+| submissionCase | objectId           | 133         |
+| sysFileRefId   | string             | 65          |
+| to             | objectId, string   | 129         |
+
+**Potential Optimization:** Consider indexing `submissionCase`, `from`, and `to` fields if used in queries.
 
 #### Collection: submissions
+- Document Count: 0
+- Size: 0.00 MB
+- Average Document Size: 0.00 KB
 
-*   **Recommendation:** Investigate why this collection is empty.
+**Note:** This collection is currently empty.
 
 #### Collection: applications
+- Document Count: 381
+- Size: 0.36 MB
+- Average Document Size: 0.96 KB
 
-*   **Potential Indexing Candidates:** `ApplicationNo`, `ApplicationType`, `BlockID`, `NameOfSchoolCN`, `NameOfSchoolEN`, `assignedBS`, `assignedGR`, `assignedSBS`, `createdAt`
-*   **Data Type Consistency:** `AgeOfStudent`, `ApplicantNameEN`, `ApplicantTel`, `DescriptionOfSchool`, `EstimatedNoOfStudent` have mixed types (string, null). Standardize if possible.
+**Field Analysis:** (Partial - Showing only a few fields for brevity)
+
+| Field                     | Types               | Occurrences |
+|---------------------------|---------------------|-------------|
+| APP13                     | object, array       | 172         |
+| AddressOfPremiseCN        | string              | 267         |
+| AddressOfPremiseEN        | string              | 271         |
+| AgeOfStudent              | null, string        | 328         |
+| ApplicantAddress          | string              | 335         |
+| ApplicantEmail            | string              | 289         |
+| ApplicationNo             | null, string        | 381         |
+| ApplicationType           | string              | 356         |
+| RelatedPremises           | array               | 381         |
+| \_\_v                     | int                 | 381         |
+| \_id                      | objectId            | 381         |
+| assignedBS                | objectId, string, null| 364         |
+| createdAt                 | date                | 381         |
+| updatedAt                 | date                | 194         |
+
+**Potential Optimization:**  Indexing `ApplicationNo`, `ApplicationType`, and `assignedBS` would likely improve query performance.  Consider indexing other fields based on common search criteria.  The `RelatedPremises` array might benefit from specific indexing strategies if its contents are frequently queried.
 
 #### Collection: notifications
+- Document Count: 1837
+- Size: 0.24 MB
+- Average Document Size: 0.13 KB
 
-*   **Potential Indexing Candidates:** `eminute`, `notificationType`, `task`, `user`, `createdAt`
+**Field Analysis:**
+
+| Field            | Types        | Occurrences |
+|------------------|--------------|-------------|
+| \_\_v            | int          | 1000        |
+| \_id             | objectId     | 1000        |
+| createdAt        | date         | 1000        |
+| eminute          | objectId     | 58          |
+| notificationType | string       | 1000        |
+| requireSendEmail | bool         | 1000        |
+| task             | objectId     | 942         |
+| user             | string       | 991         |
+
+**Potential Optimization:** Indexing `task` and `user` fields is recommended.
 
 #### Collection: bsblocks
+- Document Count: 98397
+- Size: 6.40 MB
+- Average Document Size: 0.07 KB
 
-*   **Potential Indexing Candidates:** `bdgis`, `blockId`
+**Field Analysis:**
+
+| Field     | Types  | Occurrences |
+|-----------|--------|-------------|
+| \_\_v     | int    | 1000        |
+| \_id      | objectId| 1000        |
+| bdgis     | string | 1000        |
+| blockId   | string | 1000        |
+
+**Potential Optimization:** Indexing `blockId` and `bdgis` is recommended.
 
 #### Collection: cases
+- Document Count: 451
+- Size: 1.17 MB
+- Average Document Size: 2.65 KB
 
-*   **Potential Indexing Candidates:** `Category`, `Nature`, `Referrer`, `Region`, `application`, `assignedBS`, `assignedGR`, `team`, `createdAt`
-*   **Data Type Consistency:** `ActualReplyDate`, `ReceivedDate` have mixed types (date, null). Standardize if possible.
+**Field Analysis:** (Partial - Showing only a few fields for brevity)
+
+| Field               | Types        | Occurrences |
+|---------------------|--------------|-------------|
+| ActualReplyDate     | null, date   | 39          |
+| Category            | string       | 384         |
+| ReceivedDate        | date, null   | 375         |
+| \_\_v               | int          | 451         |
+| \_id                | objectId     | 451         |
+| application         | objectId     | 450         |
+| assignedBS          | objectId     | 274         |
+| assignedGR          | objectId     | 137         |
+| createdAt           | date         | 451         |
+| team                | string       | 374         |
+| updatedAt           | date         | 16          |
+
+**Potential Optimization:** Index `application`, `assignedBS`, `assignedGR`, `Category`, and `team`.
 
 #### Collection: oauthtokens
+- Document Count: 3019
+- Size: 2.29 MB
+- Average Document Size: 0.78 KB
 
-*   **Potential Indexing Candidates:** `accessToken`, `refreshToken`, `user`, `accessTokenExpiresAt`, `refreshTokenExpiresAt`
+**Field Analysis:**
+
+| Field                 | Types    | Occurrences |
+|-----------------------|----------|-------------|
+| \_\_v                 | int      | 1000        |
+| \_id                  | objectId | 1000        |
+| accessToken           | string   | 1000        |
+| accessTokenExpiresAt  | date     | 1000        |
+| client                | object   | 1000        |
+| refreshToken          | string   | 1000        |
+| refreshTokenExpiresAt | date     | 1000        |
+| user                  | objectId | 1000        |
+
+**Potential Optimization:** Index `user`, `accessToken`, and `refreshToken`.
 
 #### Collection: sysfilerefs
+- Document Count: 601808
+- Size: 204.70 MB
+- Average Document Size: 0.35 KB
 
-*   **Potential Indexing Candidates:** `sysFileRefId`, `createdDt`, `createdName`, `createdPost`, `createdSection`, `lastModifiedDt`, `lastModifiedName`, `lastModifiedPost`, `lastModifiedSection`
+**Field Analysis:** (Partial - Showing only a few fields for brevity)
+
+| Field            | Types       | Occurrences |
+|------------------|-------------|-------------|
+| \_\_v            | int         | 1000        |
+| \_id             | objectId    | 1000        |
+| createdDt        | date        | 1000        |
+| createdName      | null, string| 1000        |
+| sysFileRefId     | string      | 1000        |
+
+**Potential Optimization:** Index `sysFileRefId`. Consider indexing `createdDt` and `createdName` based on query patterns.
 
 #### Collection: attachments
+- Document Count: 370
+- Size: 0.13 MB
+- Average Document Size: 0.37 KB
 
-*   **Potential Indexing Candidates:** `application`, `efolio`, `file`, `submissionCase`, `sysFileRefId`, `type`, `receivedDate`, `createdAt`
+**Field Analysis:**
+
+| Field          | Types              | Occurrences |
+|----------------|--------------------|-------------|
+| \_\_v          | int                | 370         |
+| \_id           | objectId           | 370         |
+| application    | objectId           | 364         |
+| createdAt      | date               | 370         |
+| efolio         | null, string       | 351         |
+| file           | object, string     | 247         |
+| submissionCase | objectId           | 350         |
+| sysFileRefId   | string             | 67          |
+| type           | string             | 348         |
+
+**Potential Optimization:** Index `application`, `submissionCase`, `type`, and `sysFileRefId`.
 
 #### Collection: users
+- Document Count: 116
+- Size: 0.04 MB
+- Average Document Size: 0.39 KB
 
-*   **Potential Indexing Candidates:** `bdgis`, `email`, `name`, `osdpEmail`, `osdpLoginId`, `position`, `role`, `team`, `userType`
+**Field Analysis:** (Partial - Showing only a few fields for brevity)
+
+| Field             | Types  | Occurrences |
+|-------------------|--------|-------------|
+| \_\_v             | int    | 116         |
+| \_id              | objectId| 116         |
+| department        | string | 116         |
+| email             | string | 109         |
+| osdpLoginId       | string | 102         |
+| role              | string | 112         |
+| userType          | string | 116         |
+
+**Potential Optimization:** Index `email`, `osdpLoginId`, and `role`.
 
 #### Collection: adrblkfilerefs
+- Document Count: 566948
+- Size: 154.89 MB
+- Average Document Size: 0.28 KB
 
-*   **Potential Indexing Candidates:** `adrBlkFileRefId`, `adrBlkId`, `sysFileRefId`, `createdDt`, `createdName`, `createdPost`, `createdSection`, `lastModifiedDt`, `lastModifiedName`, `lastModifiedPost`, `lastModifiedSection`
+**Field Analysis:**
 
-### General Database Optimizations
+| Field             | Types  | Occurrences |
+|-------------------|--------|-------------|
+| \_\_v             | int    | 1000        |
+| \_id              | objectId| 1000        |
+| adrBlkFileRefId   | string | 1000        |
+| adrBlkId          | string | 1000        |
+| createdDt         | date   | 1000        |
+| createdName       | null, string| 1000        |
+| createdPost       | string | 1000        |
+| sysFileRefId      | string | 1000        |
 
-*   **Regular Database Maintenance:** Implement regular database maintenance tasks such as index rebuilding and statistics updates.
-*   **Connection Pooling:** Use connection pooling to reduce the overhead of establishing database connections.
-*   **Query Optimization:** Use the database's query analyzer to identify and optimize slow-running queries.
-*   **Data Archiving:** Implement a data archiving strategy to move older, less frequently accessed data to a separate storage location.
-*   **Database Monitoring:** Implement database monitoring tools to track performance metrics and identify potential issues.
+**Potential Optimization:** Index `adrBlkFileRefId`, `adrBlkId`, and `sysFileRefId`.
 
-This report provides a starting point for performance optimization. A more in-depth analysis, including query profiling and index analysis, is recommended to identify specific areas for improvement.
+\<End of Document\>
