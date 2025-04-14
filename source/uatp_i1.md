@@ -1,275 +1,598 @@
-<img src="media/image1.jpg" style="width:2.03125in;height:1.52083in"
-alt="BDlogo" />
+# User Acceptance Test Plan
+# For Self-Certification System (SCS)
 
-**USER ACCEPTANCE TEST PLAN**
+## Table of Contents
+1. [Introduction](#1-introduction)
+2. [Testing Environment](#2-testing-environment)
+3. [Test Cases for Web Interface](#3-test-cases-for-web-interface)
+4. [Test Cases for Mobile Interface](#4-test-cases-for-mobile-interface)
+5. [Test Results](#5-test-results)
 
-**<span class="smallcaps">FOR</span>**
+## 1. Introduction
 
-**<span class="smallcaps">COMBINED SYSTEM DEVELOPMENT SERVICES</span>**
+### 1.1 Objectives of UAT
+- Verify delivered functionality works in BD's specific domain
+- Confirm all required functionality has been delivered
+- Validate functionality works according to specified requirements
+- Ensure integration with other systems works as specified
 
-**<span class="smallcaps">FOR</span>**
+### 1.2 Schedule
 
-**<span class="smallcaps">LICENSING SELF-CERTIFICATION PORTAL</span>**
+| Items | Planned | Actual |
+|-------|---------|--------|
+| Test Plan | | |
+| Round 1 | | |
+| Round 1 Fix | | |
+| Round 2 | | |
+| Round 2 Fix | | |
+| Round 3 | | |
+| Round 3 Fix | | |
+| Round 4 | | |
+| Round 4 Fix | | |
+| Round 5 | | |
+| Round 5 Fix | | |
+| UAT Acceptance | | |
 
-**<span class="smallcaps">OF</span>**
+## 2. Testing Environment
 
-**<span class="smallcaps">BUILDINGS DEPARTMENT</span>**
+### 2.1 Testing Location
+The User Acceptance Test will be performed at BD's premises under the UAT environment located in BD office at WKGO.
 
-**Version 0.1**
+### 2.2 Hardware and Software Requirements
+Hardware and software of non-production environments should be used for UAT:
 
-**Jan 2025**
+- Browsers supported:
+  - Microsoft Edge (Windows 10/11)
+  - Safari (MacOS, iOS)
+  - Mozilla Firefox (All platforms)
+  - Google Chrome (All platforms)
+- Mobile devices:
+  - iOS devices
+  - Android devices
+- Network access to:
+  - GCIS
+  - BD internal systems
+  - Internet (for public access testing)
 
-© The Government of the Hong Kong Special Administrative Region
+## 3. Test Cases for Web Interface
 
-The contents of this document remain the property of and may not be
-reproduced in whole or in part without the express permission of the
-Government of the HKSAR.
+### 3.1 User Management and Authentication
 
-| **Distribution** |                                         |
-|------------------|-----------------------------------------|
-| Copy No.         | Holder                                  |
-| 1                | Buildings Department (BD)               |
-| 2                | Master Concept (Hong Kong) Limited (MC) |
+#### 3.1.1 User Login
 
-| **Amendment History** |                      |                                      |                           |            |                    |
-|----------|-----------|-----------------|-------------|------------|-----------|
-| Change Number         | Revision Description | Pages Affected on Respective Version | Revision / Version Number | Date       | Approval Reference |
-| 1                     | 1st draft            | All                                  | 0.1                       | 16/01/2025 |                    |
-|                       |                      |                                      |                           |            |                    |
-|                       |                      |                                      |                           |            |                    |
-|                       |                      |                                      |                           |            |                    |
-|                       |                      |                                      |                           |            |                    |
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.1.1 |  |  | Successful login with valid credentials |  |
 
-<table>
-<colgroup>
-<col style="width: 47%" />
-<col style="width: 52%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p>Prepared By:</p>
-<p>Master Concept (Hong Kong) Limited</p></th>
-<th><p>Endorsed By: .</p>
-<p>Buildings Department</p></th>
-</tr>
-<tr class="odd">
-<th>Date:</th>
-<th>Date:</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+*   **Timecode for Screenshot:** 0:00
+*   **Test Data Input:**
+    *   Username: `ccywong.bd`
+    *   Password:  `<valid password>`
+*   **Test Case:**
+    1.  Navigate to the LSCP login page.
+    2.  Enter a valid username and password.
+    3.  Click the "Login" button.
+*   **Expected Result:**
+    *   User is successfully logged in and redirected to the dashboard (0:04).
 
-**TABLE OF CONTENTS**
+#### 3.1.2 User Login - Invalid Username
 
-[1. Introduction 5](#_heading=h.3znysh7)
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.2.1 |  |  | Unsuccessful login with invalid username |  |
 
-> [1.1 Objectives of the UAT 5](#objectives-of-the-uat)
->
-> [1.2 Schedule 5](#schedule)
+*   **Timecode for Screenshot:** 0:00
+*   **Test Data Input:**
+    *   Username: `<invalid username>`
+    *   Password: `<any password>`
+*   **Test Case:**
+    1.  Navigate to the LSCP login page.
+    2.  Enter an invalid username and password.
+    3.  Click the "Login" button.
+*   **Expected Result:**
+    *   The system displays an error message indicating invalid credentials.
 
-[2. Testing Environment 6](#testing-environment)
+#### 3.1.3 User Login - Invalid Password
 
-> [2.1 Testing Location 6](#testing-location)
->
-> [2.2 Hardware and Software Requirement
-> 6](#hardware-and-software-requirement)
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.3.1 |  |  | Unsuccessful login with invalid password |  |
 
-[3. Test Case for Web 7](#test-case-for-web)
+*   **Timecode for Screenshot:** 0:00
+*   **Test Data Input:**
+    *   Username: `<valid username>`
+    *   Password: `<invalid password>`
+*   **Test Case:**
+    1.  Navigate to the LSCP login page.
+    2.  Enter a valid username and an invalid password.
+    3.  Click the "Login" button.
+*   **Expected Result:**
+    *   The system displays an error message indicating invalid credentials.
 
-> [3.1 User Management 7](#user-management)
->
-> [3.1.1 Public User registration 7](#public-user-registration)
+#### 3.1.4 Single Sign On Integration (REQ-GR-07)
 
-[4. Test Case for Mobile 8](#test-case-for-mobile)
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.1.4.1 | BD User | | Login through BD OSDP | |
+| 3.1.4.2 | EDB User | | Login through EDB OSDP | |
+| 3.1.4.3 | SWD User | | Login through SWD OSDP | |
 
-> [4.1 User Management 8](#user-management-1)
->
-> [4.1.1 Public User registration 8](#public-user-registration-1)
+**Test Data Input:**
+- Valid OSDP credentials
+- Invalid OSDP credentials
+- Expired credentials
+- Multiple concurrent sessions
 
-[5. User Acceptance Test Results 9](#user-acceptance-test-results)
+**Test Steps:**
+1. Access respective OSDP portal
+2. Enter login credentials
+3. Navigate to SCS
+4. Verify automatic login to SCS
+5. Test session timeout after 30 minutes of inactivity
+6. Test concurrent session handling
+7. Verify audit logging
 
-# 
+**Expected Results:**
+- Successful automatic login to SCS through OSDP
+- Proper role and access rights assignment
+- Session timeout after inactivity
+- Login audit trail created
+- Proper handling of concurrent sessions
+- Correct error messages for invalid credentials
 
-#  1. Introduction
+#### 3.1.5 Add New User for User Management
 
-This document is the User Acceptance Test Plan (UATP) for Combined
-System Development Services for Licensing Self-Certification Portal
-(LSCP) of the Buildings Department.
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.5.1 |  |  | Successfully add new user and data is saved |  |
 
-## 1.1 Objectives of the UAT
+*   **Timecode for Screenshot:** 3:20
+*   **Test Data Input:**
+    * Fill up the Name, OSDP Login ID, Password, User Type, OSDP Email, Email, Notification Email, Department, Role, LU Post Name, BDGIS, Post, English Name on BD Letter, Chinese Name on BD Letter, Post on BD Letter, Post on BD Letter (Long Form), Post on BD Letter (Long Form) (Chinese)
+*   **Test Case:**
+    1.  Navigate to the "User Management" section.
+    2.  Click on create New User then fill up necessary data
+    3.  Click the "Submit" button.
+*   **Expected Result:**
+    *   A new User with filled data will be created successfully.
 
-It is helpful to know the definition of UAT and the purpose of it.
-Therefore, the objectives of the User Acceptance Test should be agreed
-upon in advance. The objectives of the UAT are
+### 3.2 Dashboard Functionality
 
--   Checking that the delivered functionality works in BD’s specific
-    domain.
+#### 3.2.1 Search Case by File Reference
 
--   Checking that all functionality required has been delivered.
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.2.1.1 |  |  | Successful search using a valid File Reference |  |
 
--   Checking that the delivered functionality works according to
-    specified and approved scope and requirements.
+*   **Timecode for Screenshot:** 0:06
+*   **Test Data Input:**
+    *   Search Case: File Reference
+    *   File Reference: `12/2494/54`
+*   **Test Case:**
+    1.  Navigate to the LSCP dashboard.
+    2.  In the "Search Case" field, select "File Reference" from dropdown
+    3.  Enter a valid file reference.
+    4.  Click the search icon (magnifying glass).
+*   **Expected Result:**
+    *   The system displays the case details associated with the entered file reference. In this case the application details are shown (0:21)
 
-## 1.2 Schedule
+### 3.3 Application/Case Management
 
-| Items          | Planned |     | Actual |     |
-|----------------|---------|-----|--------|-----|
-| Test Plan      |         |     |        |     |
-| Round 1        |         |     |        |     |
-| Round 1 Fix    |         |     |        |     |
-| Round 2        |         |     |        |     |
-| Round2 Fix     |         |     |        |     |
-| Round 3        |         |     |        |     |
-| Round 3 Fix    |         |     |        |     |
-| Round 4        |         |     |        |     |
-| Round 4 Fix    |         |     |        |     |
-| Round 5        |         |     |        |     |
-| Round 5 Fix    |         |     |        |     |
-|                |         |     |        |     |
-| UAT Acceptance |         |     |        |     |
+#### 3.3.1 View Application Details
 
-#  
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.3.1.1 |  |  | Successfully viewing application details |  |
 
-# 2. Testing Environment
+*   **Timecode for Screenshot:** 0:19
+*   **Test Data Input:**
+    *   Application No.: `1234`
+*   **Test Case:**
+    1.  Navigate to the LSCP dashboard.
+    2.  Locate and click on an "Application No." link in the table.
+*   **Expected Result:**
+    *   The system displays the full application details (0:21). Ensure all data fields are populated correctly.
 
-## 2.1 Testing Location
+#### 3.3.2 Create Application/Case
 
-The User Acceptance Test will be performed at BD’s premises under the
-UAT environment located in BD office at WKGO.
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.3.2.1 |  |  | Create New Application |  |
 
-## 
+*   **Timecode for Screenshot:** 1:23
+*   **Test Data Input:**
+    *  New Application, Next
+*   **Test Case:**
+    1.  Navigate to "Create Application/Case"
+    2.  Select "New Application" then click "Next"
+*   **Expected Result:**
+    *   The system displays create new application form (1:30). All required data fields available and functioning properly.
 
-## 2.2 Hardware and Software Requirement
+#### 3.3.3 Document Management (REQ-GR-08, REQ-GR-09, REQ-GR-10)
 
-Hardware and software of non-production environments should be used for
-UAT.
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.3.3.1 | BD User | | Document Upload and Management | |
+| 3.3.3.2 | BD User | | Document Preview and Print | |
 
-#  
+**Test Data Input:**
+- PDF files (< 25MB)
+- Image files (JPEG, PNG, TIFF)
+- Files with valid digital signatures
+- Oversized files
+- Files without required signatures
+- Corrupted files
+- Files with malware
 
-# 3. Test Case for Web
+**Test Steps:**
+1. Upload various document types
+2. Preview uploaded documents in browser
+3. Test file size restrictions
+4. Verify digital signature validation
+5. Test document printing functionality
+6. Attempt upload of oversized/invalid files
+7. Test virus scanning
+8. Verify file versioning
 
-## 3.1 User Management
+**Expected Results:**
+- Successful upload of valid documents
+- Preview functionality works in browser
+- Print function works properly
+- System rejects files > 25MB
+- Proper validation of digital signatures
+- Error messages for invalid uploads
+- Malware detection working
+- Version control maintained
 
-### 3.1.1 Public User registration
+#### 3.3.4 New Application Submission (REQ-GR-17)
 
-<table>
-<colgroup>
-<col style="width: 13%" />
-<col style="width: 8%" />
-<col style="width: 9%" />
-<col style="width: 52%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Acceptance ID</th>
-<th>Tester</th>
-<th>Test Date Time</th>
-<th>Functionality</th>
-<th>Success or Fail</th>
-</tr>
-<tr class="odd">
-<th>3.1.1.1</th>
-<th></th>
-<th></th>
-<th><blockquote>
-<p>successful case for registering new account</p>
-</blockquote></th>
-<th>Successful</th>
-</tr>
-<tr class="header">
-<th colspan="5">Test Data Input</th>
-</tr>
-<tr class="odd">
-<th colspan="5">N/A</th>
-</tr>
-<tr class="header">
-<th colspan="5">Test Case</th>
-</tr>
-<tr class="odd">
-<th colspan="5"><ol type="1">
-<li><blockquote>
-<p>Tester clicks the “Register” button on the system login page.</p>
-</blockquote></li>
-</ol></th>
-</tr>
-<tr class="header">
-<th colspan="5">Expected Result</th>
-</tr>
-<tr class="odd">
-<th colspan="5">Tester registered the new account successfully</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.3.4.1 | Applicant | | Submit New EP Certificate Application | |
+| 3.3.4.2 | Applicant | | Submit New CCC Certificate Application | |
 
-#  
+**Test Data Input:**
+- Complete application form data
+- Building safety documents
+- Layout plans
+- Supporting documents
+- AP/RSE information
+- Incomplete applications
+- Invalid data formats
 
-# 4. Test Case for Mobile
+**Test Steps:**
+1. Create new application
+2. Fill all required sections
+3. Upload required documents
+4. Verify form validation
+5. Submit application
+6. Test save draft functionality
+7. Test application withdrawal
+8. Verify reference number generation
+9. Check notification system
 
-## 
+**Expected Results:**
+- Application submitted successfully
+- Reference number generated correctly
+- Confirmation email/SMS sent
+- Documents properly stored
+- Draft saved correctly
+- Withdrawal processed correctly
+- Proper validation messages
+- Notifications sent to relevant parties
 
-## 4.1 User Management
+#### 3.3.5 Application Review and Processing (REQ-GR-13)
 
-### 4.1.1 Public User registration
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.3.5.1 | BS/SBS | | Process Application Review | |
+| 3.3.5.2 | BS/SBS | | Building Safety Requirements Check | |
 
-<table>
-<colgroup>
-<col style="width: 15%" />
-<col style="width: 9%" />
-<col style="width: 13%" />
-<col style="width: 45%" />
-<col style="width: 16%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Acceptance ID</th>
-<th>Tester</th>
-<th>Test Date Time</th>
-<th>Functionality</th>
-<th>Success or Fail</th>
-</tr>
-<tr class="odd">
-<th>4.1.1.1</th>
-<th><blockquote>
-<p>AP/RSE/RGE/AS</p>
-</blockquote></th>
-<th></th>
-<th><blockquote>
-<p>successful case for registering new account</p>
-</blockquote></th>
-<th>Successful</th>
-</tr>
-<tr class="header">
-<th colspan="5">Test Data Input</th>
-</tr>
-<tr class="odd">
-<th colspan="5">N/A</th>
-</tr>
-<tr class="header">
-<th colspan="5">Test Case</th>
-</tr>
-<tr class="odd">
-<th colspan="5">Remark: AP tests on behalf of AP, RSE, RGE and AS</th>
-</tr>
-<tr class="header">
-<th colspan="5">Expected Result</th>
-</tr>
-<tr class="odd">
-<th colspan="5">AP registers a new account in LSCP as Head of Stream
-successfully and receives an email with Account Activation Email
-Notification and an activation link</th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
+**Test Data Input:**
+- Application details
+- Building safety review data
+- Inspection reports
+- Review comments
+- 3-tier BSR checklist
+- Supporting documentation
 
-#  
+**Test Steps:**
+1. Access assigned application
+2. Review submitted documents
+3. Record building safety assessment
+4. Generate inspection checklist
+5. Document review findings
+6. Make recommendation
+7. Process approval/rejection
+8. Verify BSR tier classification
+9. Test workflow routing
 
-# 5. User Acceptance Test Results
+**Expected Results:**
+- Review properly recorded
+- Documents accessible to relevant parties
+- Status updates reflected correctly
+- Notifications sent appropriately
+- Audit trail maintained
+- BSR assessment accurate
+- Workflow routing correct
 
-pending
+### 3.4 Report Functionality
+
+#### 3.4.1 Download Report
+
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.4.1.1 |  |  | Successfully download "Total received cases per month" report |  |
+
+*   **Timecode for Screenshot:** 2:32
+*   **Test Data Input:**
+    *   From: `<Valid Date>`
+    *   To: `<Valid Date>`
+*   **Test Case:**
+    1.  Navigate to the "Report" section.
+    2.  Select "From" and "To" date
+    3.  Click the "Download File" button for the "Total received cases per month" report.
+*   **Expected Result:**
+    *   The system generates and downloads the "Total received cases per month" report as a file (e.g., CSV, Excel).
+
+#### 3.4.2 Management Statistics (REQ-GR-11)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.4.2.1 | BD Officer | | Generate Statistical Reports | |
+| 3.4.2.2 | BD Officer | | Export Report Data | |
+
+**Test Data Input:**
+- Date ranges
+- Report parameters
+- Report types
+- Filter criteria
+- Sort options
+- Export formats
+
+**Test Steps:**
+1. Access reporting module
+2. Generate standard reports:
+   - Total Received Cases
+   - Total Replied Cases
+   - Total Outstanding Cases
+   - Total Overdue Cases
+   - Total Audit Cases
+   - E-submission vs Paper submission stats
+3. Apply filters and sorting
+4. Export in different formats
+5. Test report scheduling
+6. Verify data accuracy
+
+**Expected Results:**
+- Reports generated accurately
+- All statistics calculated correctly
+- Export functions work properly
+- Data properly formatted
+- Scheduled reports delivered
+- PDF generation successful
+- Excel export formatted correctly
+
+### 3.5 E-Folio Search
+
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.5.1.1 |  |  | Successfully search existing E-Folio |  |
+
+*   **Timecode for Screenshot:** 2:41
+*   **Test Data Input:**
+    * File Reference ID: `<Valid File Reference ID>`
+*   **Test Case:**
+    1.  Navigate to the "E-Folio Search" section.
+    2.  Enter a valid file reference ID
+    3.  Click the "Search" button.
+*   **Expected Result:**
+    *   The system searches for the results with File part number, File Reference, Received Date, and TYPE of the document is displayed.
+
+### 3.6 Random Audit Selection Process
+
+#### 3.6.1 Audit Case Selection (REQ-WR-13)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.6.1.1 | BD Officer | | Random Audit Selection | |
+| 3.6.1.2 | BD Officer | | Audit Process Management | |
+
+**Test Data Input:**
+- Selection criteria
+- Audit probability (60%)
+- Audit period
+- Sample size
+- Previous audit history
+
+**Test Steps:**
+1. Configure audit selection criteria
+2. Run random selection process
+3. Verify selection probability
+4. Review selected cases
+5. Schedule audit inspections
+6. Test override scenarios
+7. Verify notification system
+8. Check audit history tracking
+
+**Expected Results:**
+- Random selection performed correctly
+- 60% selection rate maintained
+- Audit cases properly identified
+- Notifications generated
+- Schedule created properly
+- Override properly documented
+- History accurately maintained
+
+### 3.7 Interface Testing
+
+#### 3.7.1 BCIS Integration (REQ-IR-01)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 3.7.1.1 | System Admin | | BCIS Data Exchange | |
+| 3.7.1.2 | System Admin | | BCIS Error Handling | |
+
+**Test Data Input:**
+- Address data
+- File references
+- Master data
+- Application data
+- Invalid data formats
+- Connection failures
+
+**Test Steps:**
+1. Test daily data synchronization
+2. Verify address lookup
+3. Test case creation in BCIS
+4. Verify data updates
+5. Test reference linking
+6. Check statistics transfer
+7. Simulate connection failures
+8. Test error recovery
+
+**Expected Results:**
+- Data synced correctly
+- Addresses properly mapped
+- Cases created successfully
+- Updates processed
+- Links working properly
+- Errors handled gracefully
+- Recovery procedures working
+
+## 4. Test Cases for Mobile Interface
+
+### 4.1 Mobile Responsiveness (REQ-UR-01)
+
+#### 4.1.1 Mobile Interface Compatibility
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 4.1.1.1 | Applicant | | Mobile Interface Testing | |
+| 4.1.1.2 | Applicant | | Mobile Device Compatibility | |
+
+**Test Data Input:**
+- Various mobile devices
+- Different screen sizes
+- Different orientations
+- Different OS versions
+- Different browsers
+
+**Test Steps:**
+1. Access system on multiple devices
+2. Test responsive layout
+3. Verify all functions work on mobile
+4. Test different orientations
+5. Verify touch interactions
+6. Test offline functionality
+7. Check performance metrics
+
+**Expected Results:**
+- Interface adapts to screen size
+- All functions work properly
+- No horizontal scrolling needed
+- Touch interactions work correctly
+- Offline mode functions
+- Performance meets requirements
+
+### 4.2 Mobile Document Management
+
+#### 4.2.1 Mobile Document Upload (REQ-GR-10)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 4.2.1.1 | Applicant | | Mobile Document Upload | |
+| 4.2.1.2 | Applicant | | Mobile Camera Integration | |
+
+**Test Data Input:**
+- PDF documents
+- Mobile camera photos
+- Document metadata
+- Large files
+- Different image formats
+
+**Test Steps:**
+1. Upload document from mobile storage
+2. Take and upload photos directly
+3. Test file size limits
+4. Verify upload progress indication
+5. Test document preview
+6. Check image compression
+7. Verify metadata preservation
+
+**Expected Results:**
+- Documents upload successfully
+- Photos properly compressed
+- Progress clearly shown
+- Size limits enforced
+- Preview works on mobile
+- Metadata preserved
+- Camera integration working
+
+### 4.3 Mobile Security Features
+
+#### 4.3.1 Mobile Authentication and Security
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|--------------|--------|----------------|---------------|--------------|
+| 4.3.1.1 | Security Admin | | Mobile Security Controls | |
+| 4.3.1.2 | Security Admin | | Data Protection | |
+
+**Test Data Input:**
+- Security credentials
+- Session data
+- Authentication tokens
+- Device information
+- Encryption keys
+
+**Test Steps:**
+1. Test secure connections
+2. Verify data encryption
+3. Test session management
+4. Check device compatibility
+5. Verify security controls
+6. Test timeout functions
+7. Verify data sanitization
+
+**Expected Results:**
+- Secure connections established
+- Data properly encrypted
+- Sessions managed correctly
+- Compatible devices working
+- Security controls enforced
+- Timeouts function properly
+- Data properly protected
+
+## 5. Test Results
+
+### 5.1 Test Execution Summary
+
+| Test Category | Total Cases | Passed | Failed | Pending |
+|--------------|-------------|---------|---------|----------|
+| User Management | | | | |
+| Document Management | | | | |
+| Application Processing | | | | |
+| Statistical Reporting | | | | |
+| Mobile Interface | | | | |
+| Security Features | | | | |
+
+### 5.2 Defect Summary
+
+| Severity | Count | Fixed | Pending |
+|----------|-------|-------|----------|
+| Critical | | | |
+| High | | | |
+| Medium | | | |
+| Low | | | |
+
+### 5.3 Recommendations
+
+[To be completed after test execution]
+
+### 5.4 Sign-off
+
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Test Manager | | | |
+| BD Representative | | | |
+| System Owner | | | |
