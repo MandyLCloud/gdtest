@@ -20,14 +20,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.REPO_TOKEN }}
+          persist-credentials: false
           fetch-depth: 0
-        
-      - name: Set up Git user
-        run: |
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "action@github.com"
-          
+      
       - name: Copy specific files from generated to source
         run: |
           # Create source directory if it doesn't exist
@@ -50,18 +45,10 @@ jobs:
           # List all files in source directory after copying
           echo "Files in source directory after copying:"
           ls -la source/
-          
-      - name: Commit and push changes if any files were copied
-        run: |
-          # Force add all files in source directory (including new files)
-          git add -f source/
-          
-          # Check if there are any changes to commit
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-          
-          # Commit and push changes using the token
-          git commit -m "Automatically copy files from generated to source"
-          git push https://${{ secrets.REPO_TOKEN }}@github.com/MandyLCloud/gdtest.git HEAD:main
+      
+      - name: Commit and push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.REPO_TOKEN }}
+          message: "Automatically copy files from generated to source"
+          branch: main
