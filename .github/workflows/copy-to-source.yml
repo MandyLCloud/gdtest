@@ -22,17 +22,28 @@ jobs:
 
       - name: Copy specific files if they exist in generated/
         run: |
-          FILES_TO_COPY="computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md"
+          FILES_TO_COPY="computer_operation_procedure_manual.md
+                         data_catalogue.md
+                         program_spec.md
+                         program_manual.md"
           for FILE in $FILES_TO_COPY; do
-            if echo "${{ steps.changed-files.outputs.files }}" | grep -q "generated/$FILE"; then
-              echo "Copying generated/$FILE to source/$FILE"
-              mkdir -p source # Create source directory if it doesn's exist
-              cp "generated/$FILE" "source/$FILE"
-            fi
-          done
+            # Find the file(s) within generated/
+            find generated/ -name "$FILE" -print0 | while IFS= read -r -d $'\0' file_path; do
+              if [ -n "$file_path" ]; then
+                echo "Found: $file_path"
+                # Determine the destination path (same relative path in source/)
+                relative_path=$(echo "$file_path" | sed 's/^generated\///')
+                destination_path="source/$relative_path"
 
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
+                # Ensure destination directory exists
+                destination_dir=$(dirname "$destination_path")
+                mkdir -p "$destination_dir"
+
+                # Copy the file
+                echo "Copying $file_path to $destination_path"
+                cp "$file_path" "$destination_path"
+              fi
+            done
+          done
           commit_message: 'Copy specific files from generated/ to source/'
           push_options: '--force' #Optional but ensures that a failed action doesn't break the file transfer and updates GitHub history to reflect
