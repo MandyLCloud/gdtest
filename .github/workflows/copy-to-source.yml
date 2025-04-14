@@ -1,57 +1,50 @@
-name: Copy Specific Files on New Upload
+name: Copy Generated Files to Source
 
 on:
   push:
     branches:
-      - main # Or your main branch name
+      - main
     paths:
-      - 'generated/**'
+      - 'generated/computer_operation_procedure_manual.md'
+      - 'generated/data_catalogue.md'
+      - 'generated/program_spec.md'
+      - 'generated/program_manual.md'
 
 jobs:
   copy_files:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Get changed files
-        id: changed-files
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Set up Git user
         run: |
-          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          echo "::set-output name=files::$CHANGED_FILES"
-
-      - name: Copy specific files if they exist in generated/
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          
+      - name: Copy specific files from generated to source
         run: |
-          FILES_TO_COPY="computer_operation_procedure_manual.md
-                         data_catalogue.md
-                         program_spec.md
-                         program_manual.md"
-          for FILE in $FILES_TO_COPY; do
-            # Find the file(s) within generated/
-            find generated/ -name "$FILE" -print0 | while IFS= read -r -d $'\0' file_path; do
-              if [ -n "$file_path" ]; then
-                echo "Found: $file_path"
-
-                # Determine the destination path (same relative path in source/)
-                relative_path=$(echo "$file_path" | sed 's/^generated\///')
-                destination_path="source/$relative_path"
-
-                # Ensure destination directory exists
-                destination_dir=$(dirname "$destination_path")
-                mkdir -p "$destination_dir"
-                echo "destination_dir: $destination_dir"
-
-                echo "Copying $file_path to $destination_path"
-                cp "$file_path" "$destination_path"
-                echo "Copied $file_path to $destination_path" #ADD THIS LINE TO SEE IF CP GOES THRU
-              fi
-            done
+          # Create source directory if it doesn't exist
+          mkdir -p source
+          
+          # Check if each file exists in generated folder and copy to source
+          for file in computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md; do
+            if [ -f "generated/$file" ]; then
+              echo "Copying $file to source folder"
+              cp "generated/$file" "source/$file"
+            fi
           done
-
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'Copy specific files from generated/ to source/'
-          push_options: '--force' #Optional but ensures that a failed action doesn't break the file transfer and updates GitHub history to reflect
-      - name: Check source directory
-        run: ls -l source
+          
+      - name: Commit and push changes if any files were copied
+        run: |
+          # Check if there are any changes
+          if git diff --quiet source/; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          # Stage, commit and push changes
+          git add source/
+          git commit -m "Automatically copy files from generated to source"
+          git push
