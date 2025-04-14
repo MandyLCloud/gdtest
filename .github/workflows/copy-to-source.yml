@@ -13,10 +13,14 @@ on:
 jobs:
   copy_files:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Set up Git user
         run: |
@@ -58,5 +62,7 @@ jobs:
           fi
           
           # Commit and push changes
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           git commit -m "Automatically copy files from generated to source"
           git push
