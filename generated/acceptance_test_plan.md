@@ -1,556 +1,868 @@
-## Table Formatting and UAT Plan Generation
+## Processed Text:
 
-Here's the output, including the formatted tables and the generated UAT plan:
-
-**code.txt (No changes needed)**
-
-This file does not contain tables requiring markdown formatting.
-
-**urs_a1.md (No changes needed)**
-
-This file does not contain tables requiring markdown formatting.
-
-**uatp_i2.md (Tables formatted, UAT plan generated below)**
+Here's the UAT plan and the code file with tables formatted in Markdown:
 
 ```markdown
-<img src="media/image1.jpg" style="width:2.03125in;height:1.52083in"
-alt="BDlogo" />
-
-**USER ACCEPTANCE TEST PLAN**
-
-**FOR**
-
-**COMBINED SYSTEM DEVELOPMENT SERVICES**
-
-**FOR PILOT PROJECT OF**
-
-**COMMON DIGITAL PLATFORM FOR SITE SUPERVISION
-(CDPSS)**
-
-**FOR THE**
-
-**BUILDINGS DEPARTMENT**
-
-Version 1.0
-
-**April 2024**
-
-? The Government of the Hong Kong Special Administrative Region
-
-The contents of this document remain the property of and may not be
-reproduced in whole or in part without the express permission of the
-Government of the HKSAR
-
-| **Distribution** |                                    |
-|------------------|------------------------------------|
-| Copy No.         | Holder                             |
-| 1                | Buildings Department (BD)          |
-| 2                | Master Concept (Hong Kong) Limited |
-
-| **Amendment History** |                      |                                      |                           |           |                    |
-|-----------------------|----------------------|---------------------------------------|---------------------------|-----------|--------------------|
-| Change Number         | Revision Description | Pages Affected on Respective Version | Revision / Version Number | Date      | Approval Reference |
-| 1                     | Baseline             |                                      | 1.0                       | 16/4/2024 |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-|                       |                      |                                      |                           |           |                    |
-
-|                   |                                           |
-|-------------------|-------------------------------------------|
-| Prepared By:      | Endorsed By:                            |
-| Kenny Lam         | .                                         |
-| Project Manager   | Buildings Department                      |
-| Master Concept    |                                           |
-| Date: 16/4/2024 | Date:                                     |
-
-**TABLE OF CONTENTS**
-
-[1 Introduction [9](#introduction)](#introduction)
-
-[1.1. Objectives of the UAT [9](#_Toc159861217)](#_Toc159861217)
-
-[1.2. Schedule [9](#_Toc159861218)](#_Toc159861218)
-
-[2 Testing Environment [9](#_Toc159861219)](#_Toc159861219)
-
-[2.1 Testing Location [9](#_Toc159861220)](#_Toc159861220)
-
-[2.2 Hardware and Software Requirement
-[9](#_Toc159861221)](#_Toc159861221)
-
-[3 Test Case for Web [10](#test-case-for-web)](#test-case-for-web)
-
-[3.1 User Management [10](#user-management)](#user-management)
-
-[3.1.1 Public User registration
-[10](#public-user-registration)](#public-user-registration)
-
-[3.1.2 Public login [13](#public-login)](#public-login)
-
-[3.1.3 User Management - Others
-[19](#user-management---others)](#user-management---others)
-
-[3.2 Site Projects and Supervision Plan Management
-[20](#site-projects-and-supervision-plan-management)](#site-projects-and-supervision-plan-management)
-
-[3.2.1 Search Responsible Site Project
-[20](#search-responsible-site-project)](#search-responsible-site-project)
-
-[3.2.2 Create new Site Project
-[22](#create-new-site-project)](#create-new-site-project)
-
-[3.2.3 Edit and update Site Project Detail
-[24](#edit-and-update-site-project-detail)](#edit-and-update-site-project-detail)
-
-[3.2.4 List out Site Project
-[25](#list-out-site-project)](#list-out-site-project)
-
-[3.2.5 View Site Project Detail
-[25](#view-site-project-detail)](#view-site-project-detail)
-
-[3.2.6 Supervision Plan Detail View
-[26](#supervision-plan-detail-view)](#supervision-plan-detail-view)
-
-[3.2.7 Supervision Plan Detail Management
-[28](#supervision-plan-detail-management)](#supervision-plan-detail-management)
-
-[3.3 TCP management [30](#tcp-management)](#tcp-management)
-
-[3.3.1 Assign TCPs [30](#assign-tcps)](#assign-tcps)
-
-[3.3.2 Request TCP acceptance
-[32](#request-tcp-acceptance)](#request-tcp-acceptance)
-
-[3.3.3 Unassign TCPs [33](#unassign-tcps)](#unassign-tcps)
-
-[3.3.4 Temporary replacement of TCP
-[34](#temporary-replacement-of-tcp)](#temporary-replacement-of-tcp)
-
-[3.4 Form A [35](#form-a)](#form-a)
-
-[3.4.1 Create Form A template
-[35](#create-form-a-template)](#create-form-a-template)
-
-[3.4.2 Create Form A [36](#create-form-a)](#create-form-a)
-
-[3.4.3 Fill Form A [38](#fill-form-a)](#fill-form-a)
-
-[3.4.4 Upload PDF, PNG on Form A and Quality Supervision Form (PNAP
-APP-158 Appendix B) ("Form APP-158?)
-[42](#upload-pdf-png-on-form-a-and-quality-supervision-form-pnap-app-158-appendix-b-form-app-158)](#upload-pdf-png-on-form-a-and-quality-supervision-form-pnap-app-158-appendix-b-form-app-158)
-
-[3.4.5 View Form A Result and History
-[43](#_Toc159861245)](#_Toc159861245)
-
-[3.4.6 Download, Import and Export Records
-[44](#download-import-and-export-records)](#download-import-and-export-records)
-
-[3.5 Form B [46](#form-b)](#form-b)
-
-[3.5.1 Create Form B [46](#create-form-b)](#create-form-b)
-
-[3.5.3 Save Form B Part 1 as Draft
-[49](#save-form-b-part-1-as-draft)](#save-form-b-part-1-as-draft)
-
-[3.5.5 Upload attachments when Form B Part 1 is Saved as Draft
-[52](#upload-attachments-when-form-b-part-1-is-saved-as-draft)](#upload-attachments-when-form-b-part-1-is-saved-as-draft)
-
-[3.5.6 Complete Form B Part 1 [53](#_Toc159861251)](#_Toc159861251)
-
-[3.5.7 Upload attachments when Form B Part 1 is Completed
-[54](#upload-attachments-when-form-b-part-1-is-completed)](#upload-attachments-when-form-b-part-1-is-completed)
-
-[3.5.8 Save Response to Form B Part 1 as Draft
-[54](#save-response-to-form-b-part-1-as-draft)](#save-response-to-form-b-part-1-as-draft)
-
-[3.5.9 Complete Response to Form B Part 1
-[55](#complete-response-to-form-b-part-1)](#complete-response-to-form-b-part-1)
-
-[3.5.11 Report Imminent Danger to BD in Form B Part 1
-[57](#report-imminent-danger-to-bd-in-form-b-part-1)](#report-imminent-danger-to-bd-in-form-b-part-1)
-
-[3.5.12 Save Form B Part 2 as Draft
-[58](#save-form-b-part-2-as-draft)](#save-form-b-part-2-as-draft)
-
-[3.5.13 Report RC fail to comply and Material Concern to BD
-[59](#report-rc-fail-to-comply-and-material-concern-to-bd)](#report-rc-fail-to-comply-and-material-concern-to-bd)
-
-[3.5.14 Upload attachment when Form B Part 2 is Saved as Draft
-[61](#upload-attachment-when-form-b-part-2-is-saved-as-draft)](#upload-attachment-when-form-b-part-2-is-saved-as-draft)
-
-[3.5.15 Complete Form B Part 2
-[62](#complete-form-b-part-2)](#complete-form-b-part-2)
-
-[3.5.16 Save Response to Form B Part 2 as Draft
-[63](#save-response-to-form-b-part-2-as-draft)](#save-response-to-form-b-part-2-as-draft)
-
-[3.5.17 Complete Response to Form B Part 2
-[64](#complete-response-to-form-b-part-2)](#complete-response-to-form-b-part-2)
-
-[3.5.18 Report Imminent Danger to BD in Form B Part 2
-[65](#report-imminent-danger-to-bd-in-form-b-part-2)](#report-imminent-danger-to-bd-in-form-b-part-2)
-
-[3.6 PNAP APP-158 Appendix B (Record of Quality Supervision)
-[66](#pnap-app-158-appendix-b-record-of-quality-supervision)](#pnap-app-158-appendix-b-record-of-quality-supervision)
-
-[3.6.1 Create PNAP APP-158 template
-[67](#create-pnap-app-158-template)](#create-pnap-app-158-template)
-
-[3.6.3 Create PNAP APP-158 Draft
-[69](#create-pnap-app-158-draft)](#create-pnap-app-158-draft)
-
-[3.6.5 File PNAP APP-158 [71](#file-pnap-app-158)](#file-pnap-app-158)
-
-[3.6.6 Upload PDF, PNG on PNAP APP-158
-[71](#upload-pdf-png-on-pnap-app-158)](#upload-pdf-png-on-pnap-app-158)
-
-[3.6.8 View PNAP APP-158 Result and History
-[75](#view-pnap-app-158-result-and-history)](#view-pnap-app-158-result-and-history)
-
-[3.6.9 Download PNAP APP-158 Import Template
-[77](#download-pnap-app-158-import-template)](#download-pnap-app-158-import-template)
-
-[3.6.10 Import PNAP APP-158 Records
-[79](#import-pnap-app-158-records)](#import-pnap-app-158-records)
-
-[3.8 Users Details Management
-[83](#users-details-management)](#users-details-management)
-
-[3.8.1 Search Public User
-[83](#search-public-user)](#search-public-user)
-
-[3.8.2 Edit Public User [84](#edit-public-user)](#edit-public-user)
-
-[3.8.3 Inactivate Public User
-[85](#inactivate-public-user)](#inactivate-public-user)
-
-[3.8.4 Activate Public User
-[87](#activate-public-user)](#activate-public-user)
-
-[3.8.6 View Public User responsible site projects as Head of Stream
-[89](#view-public-user-responsible-site-projects-as-head-of-stream)](#view-public-user-responsible-site-projects-as-head-of-stream)
-
-[3.8.8 Removal of Head of Stream by BD admin due to resignation or
-removal from Register
-[91](#removal-of-head-of-stream-by-bd-admin-due-to-resignation-or-removal-from-register)](#removal-of-head-of-stream-by-bd-admin-due-to-resignation-or-removal-from-register)
-
-[3.9 Site-monitoring [92](#_Toc159861278)](#_Toc159861278)
-
-[3.9.1 Create site-monitoring scheme
-[93](#create-site-monitoring-scheme)](#create-site-monitoring-scheme)
-
-[3.9.2 Edit Site-monitoring scheme (3A level)
-[95](#edit-site-monitoring-scheme-3a-level)](#edit-site-monitoring-scheme-3a-level)
-
-[3.9.3 Edit Site-monitoring scheme (adding monitoring points)
-[97](#edit-site-monitoring-scheme-adding-monitoring-points)](#edit-site-monitoring-scheme-adding-monitoring-points)
-
-[3.9.4 Edit Site-monitoring scheme (adding monitoring points)
-[97](#edit-site-monitoring-scheme-adding-monitoring-points-1)](#edit-site-monitoring-scheme-adding-monitoring-points-1)
-
-[3.9.5 Save measurement records as Draft
-[98](#save-measurement-records-as-draft)](#save-measurement-records-as-draft)
-
-[3.9.6 Download the import measurement template
-[101](#download-the-import-measurement-template)](#download-the-import-measurement-template)
-
-[3.9.7 Import the measurement records
-[102](#import-the-measurement-records)](#import-the-measurement-records)
-
-[3.9.8 File/amend measurement records
-[103](#fileamend-measurement-records)](#fileamend-measurement-records)
-
-[3.9.9 View site-monitoring measurement record results
-[106](#view-site-monitoring-measurement-record-results)](#view-site-monitoring-measurement-record-results)
-
-[3.9.10 Filter on Site-monitoring records view
-[106](#filter-on-site-monitoring-records-view)](#filter-on-site-monitoring-records-view)
-
-[3.9.11 View measurement record history
-[107](#view-measurement-record-history)](#view-measurement-record-history)
-
-[3.10 BD Internal Login as BD Officer
-[109](#bd-internal-login-as-bd-officer)](#bd-internal-login-as-bd-officer)
-
-[3.10.1 Departmental Login
-[109](#departmental-login)](#departmental-login)
-
-[3.10.2 BD Internal User Detail Management
-[111](#bd-internal-user-detail-management)](#bd-internal-user-detail-management)
-
-[3.11 BD Internal Users Details Management
-[113](#bd-internal-users-details-management)](#bd-internal-users-details-management)
-
-[3.11.1 Search BD Internal Users
-[113](#search-bd-internal-users)](#search-bd-internal-users)
-
-[3.11.2 Create BD Internal User
-[114](#create-bd-internal-user)](#create-bd-internal-user)
-
-[3.11.3 Edit BD Internal User
-[115](#edit-bd-internal-user)](#edit-bd-internal-user)
-
-[3.12 iAM Smart Integration
-[117](#iam-smart-integration)](#iam-smart-integration)
-
-[3.12.1 Login via iAM Smart
-[117](#login-via-iam-smart)](#login-via-iam-smart)
-
-[3.13 Notification [119](#notification)](#notification)
-
-[3.13.1 View Notification List
-[119](#view-notification-list)](#view-notification-list)
-
-[3.13.2 View Notification Details
-[121](#view-notification-details)](#view-notification-details)
-
-[3.13.4 Clickable Link in Notification
-[122](#clickable-link-in-notification)](#clickable-link-in-notification)
-
-[3.13.6 Manage and opt-out email notification
-[123](#manage-and-opt-out-email-notification)](#manage-and-opt-out-email-notification)
-
-[3.14 Information Reports
-[125](#information-reports)](#information-reports)
-
-[3.14.1 Report for List of Heads of Stream and their Responsible Sites
-[125](#report-for-list-of-heads-of-stream-and-their-responsible-sites)](#report-for-list-of-heads-of-stream-and-their-responsible-sites)
-
-[3.14.2 Report for List of TCPs and assigned sites/supervision plans
-[127](#report-for-list-of-tcps-and-assigned-sitessupervision-plans)](#report-for-list-of-tcps-and-assigned-sitessupervision-plans)
-
-[3.14.3 Report for List of non-conformities (Form B)
-[128](#report-for-list-of-non-conformities-form-b)](#report-for-list-of-non-conformities-form-b)
-
-[3.14.4 Report for List of inspection records of Form APP-158
-[129](#report-for-list-of-inspection-records-of-form-app-158)](#report-for-list-of-inspection-records-of-form-app-158)
-
-[3.14.5 Report for List of inspection records of Form A
-[130](#report-for-list-of-inspection-records-of-form-a)](#report-for-list-of-inspection-records-of-form-a)
-
-[3.14.6 Report for List of Supervision Plans (SP)
-[131](#report-for-list-of-supervision-plans-sp)](#report-for-list-of-supervision-plans-sp)
-
-[3.14.7 Report for List of Sites
-[133](#report-for-list-of-sites)](#report-for-list-of-sites)
-
-[3.14.8 Report for List of site-monitoring records with 3A levels filter
-[134](#report-for-list-of-site-monitoring-records-with-3a-levels-filter)](#report-for-list-of-site-monitoring-records-with-3a-levels-filter)
-
-[3.15 Activities Reports
-[135](#activities-reports)](#activities-reports)
-
-[3.15.1 Report for Monitoring Point
-[135](#report-for-monitoring-point)](#report-for-monitoring-point)
-
-[3.15.2 Report for 3A level changes
-[136](#report-for-3a-level-changes)](#report-for-3a-level-changes)
-
-[3.15.3 Report for List of site-monitoring activities
-[136](#report-for-list-of-site-monitoring-activities)](#report-for-list-of-site-monitoring-activities)
-
-[3.15.4 Report for List of inspection item checklist changes
-[137](#report-for-list-of-inspection-item-checklist-changes)](#report-for-list-of-inspection-item-checklist-changes)
-
-[3.15.5 Report for List of site activities
-[138](#report-for-list-of-site-activities)](#report-for-list-of-site-activities)
-
-[3.16 Notification reports
-[139](#notification-reports)](#notification-reports)
-
-[3.16.1 Report for List of site inspection reminders
-[139](#report-for-list-of-site-inspection-reminders)](#report-for-list-of-site-inspection-reminders)
-
-[3.16.2 Report for list of site inspection notifications
-[139](#report-for-list-of-site-inspection-notifications)](#report-for-list-of-site-inspection-notifications)
-
-[3.16.3 Report for List of site-monitoring alerts
-[140](#report-for-list-of-site-monitoring-alerts)](#report-for-list-of-site-monitoring-alerts)
-
-[3.17 Unfiled Record Reminder
-[141](#unfiled-record-reminder)](#unfiled-record-reminder)
-
-[3.17.1 Unfiled Record Reminder for Level 5 Frequency of Inspection
-[141](#unfiled-record-reminder-for-level-5-frequency-of-inspection)](#unfiled-record-reminder-for-level-5-frequency-of-inspection)
-
-[3.18 Batch file for site monitoring records
-[142](#batch-file-for-site-monitoring-records)](#batch-file-for-site-monitoring-records)
-
-[3.18.1 Unfiled Record Reminder for Level 5 Frequency of Inspection
-[142](#unfiled-record-reminder-for-level-5-frequency-of-inspection-1)](#unfiled-record-reminder-for-level-5-frequency-of-inspection-1)
-
-[3.19 Create, Update and Remove BD Officer from Site Project
-[143](#create-update-and-remove-bd-officer-from-site-project)](#create-update-and-remove-bd-officer-from-site-project)
-
-[3.20 New Type of Monitoring for Site Monitoring
-[145](#new-type-of-monitoring-for-site-monitoring)](#new-type-of-monitoring-for-site-monitoring)
-
-[4. Test Case for Mobile
-[146](#test-case-for-mobile)](#test-case-for-mobile)
-
-[4.1. User Management [146](#user-management-1)](#user-management-1)
-
-[4.1.1. Public User registration
-[146](#public-user-registration-1)](#public-user-registration-1)
-
-[4.1.2. Public login [155](#public-login-1)](#public-login-1)
-
-[4.1.3. User Management - Others
-[162](#user-management---others-1)](#user-management---others-1)
-
-[4.2. Site Projects and Supervision Plan management
-[170](#site-projects-and-supervision-plan-management-1)](#site-projects-and-supervision-plan-management-1)
-
-[4.2.1. Search responsible Site Project
-[170](#search-responsible-site-project-1)](#search-responsible-site-project-1)
-
-[4.2.2. Create Site Project from submitted Supervision plan
-[171](#create-site-project-from-submitted-supervision-plan)](#create-site-project-from-submitted-supervision-plan)
-
-[4.2.3. Edit and update Site Project Detail
-[172](#edit-and-update-site-project-detail-1)](#edit-and-update-site-project-detail-1)
-
-[4.2.4. Create Supervision Plan under a Site Project
-[175](#_Toc159861338)](#_Toc159861338)
-
-[4.2.5. Supervision Plan Detail View
-[177](#_Toc159861339)](#_Toc159861339)
-
-[4.3. Form A [179](#form-a-1)](#form-a-1)
-
-[4.3.1. Create Form A template
-[179](#create-form-a-template-1)](#create-form-a-template-1)
-
-[4.3.2. Create Form A [182](#create-form-a-1)](#create-form-a-1)
-
-[4.3.3. File Form A [185](#file-form-a)](#file-form-a)
-
-[4.4. Form B [189](#form-b-1)](#form-b-1)
-
-[4.4.1. Create Form B [189](#create-form-b-1)](#create-form-b-1)
-
-[4.4.2. Save Form B Part 1 as Draft
-[192](#save-form-b-part-1-as-draft-1)](#save-form-b-part-1-as-draft-1)
-
-[4.4.3. Upload attachments when Form B Part 1 is Saved as Draft
-[195](#upload-attachments-when-form-b-part-1-is-saved-as-draft-1)](#upload-attachments-when-form-b-part-1-is-saved-as-draft-1)
-
-[4.4.4. Complete Form B Part 1 [196](#_Toc159861348)](#_Toc159861348)
-
-[4.4.5. Upload attachments when Form B Part 1 is Completed
-[198](#upload-attachments-when-form-b-part-1-is-completed-1)](#upload-attachments-when-form-b-part-1-is-completed-1)
-
-[4.4.6. Save Response to Form B Part 1 as Draft
-[199](#save-response-to-form-b-part-1-as-draft-1)](#save-response-to-form-b-part-1-as-draft-1)
-
-[4.4.7. Complete Response to Form B Part 1
-[201](#complete-response-to-form-b-part-1-1)](#complete-response-to-form-b-part-1-1)
-
-[4.4.8. Report Imminent Danger to BD in Form B Part 1
-[203](#report-imminent-danger-to-bd-in-form-b-part-1-1)](#report-imminent-danger-to-bd-in-form-b-part-1-1)
-
-[4.4.9. Save Form B Part 2 as Draft
-[204](#_Toc159861353)](#_Toc159861353)
-
-[4.4.10. Report RC fail to comply and Material Concern to BD
-[207](#report-rc-fail-to-comply-and-material-concern-to-bd-1)](#report-rc-fail-to-comply-and-material-concern-to-bd-1)
-
-[4.4.11. Upload attachment when Form B Part 2 is Saved as Draft
-[209](#upload-attachment-when-form-b-part-2-is-saved-as-draft-1)](#upload-attachment-when-form-b-part-2-is-saved-as-draft-1)
-
-[4.4.12. Complete Form B Part 2
-[210](#complete-form-b-part-2-1)](#complete-form-b-part-2-1)
-
-[4.4.13. Save Response to Form B Part 2 as Draft
-[211](#save-response-to-form-b-part-2-as-draft-1)](#save-response-to-form-b-part-2-as-draft-1)
-
-[4.4.14. Complete Response to Form B Part 2
-[212](#complete-response-to-form-b-part-2-1)](#complete-response-to-form-b-part-2-1)
-
-[4.4.15. Report Imminent Danger to BD in Form B Part 2
-[214](#report-imminent-danger-to-bd-in-form-b-part-2-1)](#report-imminent-danger-to-bd-in-form-b-part-2-1)
-
-[4.5. PNAP APP-158 Appendix B (Record of Quality Supervision)
-[215](#pnap-app-158-appendix-b-record-of-quality-supervision-1)](#pnap-app-158-appendix-b-record-of-quality-supervision-1)
-
-[4.5.1. Create PNAP APP-158 template
-[216](#create-pnap-app-158-template-1)](#create-pnap-app-158-template-1)
-
-[4.5.2. Create PNAP APP-158 Draft
-[219](#create-pnap-app-158-draft-1)](#create-pnap-app-158-draft-1)
-
-[4.5.3. File PNAP APP-158
-[222](#file-pnap-app-158-1)](#file-pnap-app-158-1)
-
-[4.5.4. Upload PDF, PNG on PNAP APP-158
-[223](#_Toc159861364)](#_Toc159861364)
-
-[4.5.5. View PNAP APP-158 Result and History
-[225](#view-pnap-app-158-result-and-history-1)](#view-pnap-app-158-result-and-history-1)
-
-[4.6. Site-monitoring [226](#site-monitoring-1)](#site-monitoring-1)
-
-[4.6.1. Create site-monitoring scheme
-[226](#create-site-monitoring-scheme-1)](#create-site-monitoring-scheme-1)
-
-[4.6.2. Edit Site-monitoring scheme (3A level)
-[229](#edit-site-monitoring-scheme-3a-level-1)](#edit-site-monitoring-scheme-3a-level-1)
-
-[4.6.3. Edit Site-monitoring scheme (adding monitoring points)
-[230](#_Toc159861369)](#_Toc159861369)
-
-[4.6.4. Edit Site-monitoring scheme (adding monitoring points)
-[231](#_Toc159861370)](#_Toc159861370)
-
-[4.6.5. Save measurement records as Draft
-[232](#save-measurement-records-as-draft-1)](#save-measurement-records-as-draft-1)
-
-[4.6.6. File/amend measurement records
-[235](#_Toc159861372)](#_Toc159861372)
-
-[4.6.7. View site-monitoring measurement record results
-[237](#view-site-monitoring-measurement-record-results-1)](#view-site-monitoring-measurement-record-results-1)
-
-[4.6.8. Filter on Site-monitoring records view
-[238](#filter-on-site-monitoring-records-view-1)](#filter-on-site-monitoring-records-view-1)
-
-[4.6.9. View measurement record history
-[240](#view-measurement-record-history-1)](#view-measurement-record-history-1)
-
-[4.7. BD Internal Login as BD Officer
-[242](#bd-internal-login-as-bd-officer-1)](#bd-internal-login-as-bd-officer-1)
-
-[4.7.1. Login with Time-based One Time Password
-[242](#login-with-time-based-one-time-password)](#login-with-time-based-one-time-password)
-
-[4.8. iAM Smart Integration
-[243](#iam-smart-integration-1)](#iam-smart-integration-1)
-
-[4.8.1. Login via iAM Smart
-[243](#login-via-iam-smart-1)](#login-via-iam-smart-1)
-
-[4.9. Notification [248](#notification-1)](#notification-1)
-
-[4.9.1. View Notification List
-[248](#view-notification-list-1)](#view-notification-list-1)
-
-[4.9.2. View Notification Details
-[251](#view-notification-details-1)](#view-notification-details-1)
-
-[4.9.3. Clickable Link in Notification
-[253](#clickable-link-in-notification-1)](#clickable-link-in-notification-1)
-
-[4.9.4. Manage and opt-out email notification
-[255](#manage-and-opt-out-email-notification-1)](#manage-and-opt-out-email-notification-1)
-
-[4.10. Information Reports
-[257](#information-reports-1)](#information-reports-1)
-
-[4.10.1. Report for List of Heads of Stream and their Responsible Sites
-[257](#report-for-
+# User Acceptance Test Plan
+
+## 1. Review Source Materials
+
+*   Backend Code: `code.txt`
+*   User Requirements Specification: `urs_a1.md`
+*   Reference Test Plans: `uatp_i2.md`
+*   System Template: `uatp_tem.md`
+
+## 2. Test Case Categories
+
+### a) Web Application Tests
+
+*   User Management
+*   Application Processing
+*   Document Management
+*   System Administration
+*   Backend Integration
+
+### b) Mobile Application Tests
+
+*   Mobile Interface
+*   Mobile Authentication
+*   Document Handling
+*   Status Checking
+
+## 3. Test Case Format
+
+Each test case will follow this format:
+
+```
+[Test Case Details]
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+[Acceptance ID] | [Tester Role] | [Date and Time] | [Description] | [Pass/Fail]
+```
+
+Each test case will also include:
+
+*   **Test Data Input Section:**  Specific data required for the test.
+*   **Test Case Steps:** (Numbered list of actions to perform).
+*   **Expected Results:**  What the system should do if the test passes.
+
+## 4. Required Test Areas
+
+*   User Registration & Authentication
+*   Application Submission
+*   Document Upload/Management
+*   Backend System Integration
+*   Mobile Responsiveness
+*   Security Features
+*   Performance Requirements
+*   Business Process Validation
+
+## 5. Testing Considerations
+
+*   Normal Scenarios
+*   Edge Cases
+*   Error Conditions
+*   Security Aspects
+*   Integration Points
+*   Mobile-Specific Features
+*   Performance Requirements
+
+## Test Cases
+
+### Web Application Tests - User Management
+
+#### 1.1 User Registration - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.1.1 | Public User | 2025-02-01 10:00 | Register a new user account with valid data |
+```
+
+*   **Test Data Input:**
+    *   Family Name: Smith
+    *   Given Name: John
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+    *   Confirm Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Navigate to the registration page.
+    2.  Enter the test data into the registration form.
+    3.  Click the "Register" button.
+*   **Expected Results:**
+    *   The system should create a new user account.
+    *   The user should be redirected to a confirmation page.
+    *   A confirmation email should be sent to the provided email address.
+
+#### 1.2 User Registration - Edge Cases
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.2.1 | Public User | 2025-02-01 10:15 | Attempt to register with an existing email address |
+```
+
+*   **Test Data Input:**
+    *   Family Name: Smith
+    *   Given Name: John
+    *   Email: john.smith@example.com (already registered)
+    *   Password: SecureP@sswOrd1
+    *   Confirm Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Navigate to the registration page.
+    2.  Enter the test data into the registration form.
+    3.  Click the "Register" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the email address is already in use.
+    *   The user account should not be created.
+
+#### 1.3 User Registration - Error Conditions
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.3.1 | Public User | 2025-02-01 10:30 | Attempt to register with mismatched passwords |
+```
+
+*   **Test Data Input:**
+    *   Family Name: Smith
+    *   Given Name: John
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+    *   Confirm Password: WrongPassword
+*   **Test Case Steps:**
+    1.  Navigate to the registration page.
+    2.  Enter the test data into the registration form.
+    3.  Click the "Register" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the passwords do not match.
+    *   The user account should not be created.
+
+#### 1.4 User Authentication - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.4.1 | Public User | 2025-02-01 10:45 | Log in with valid credentials |
+```
+
+*   **Test Data Input:**
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Navigate to the login page.
+    2.  Enter the test data into the login form.
+    3.  Click the "Login" button.
+*   **Expected Results:**
+    *   The system should authenticate the user.
+    *   The user should be redirected to the application's home page.
+
+#### 1.5 User Authentication - Error Conditions
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.5.1 | Public User | 2025-02-01 11:00 | Attempt to log in with invalid credentials |
+```
+
+*   **Test Data Input:**
+    *   Email: john.smith@example.com
+    *   Password: WrongPassword
+*   **Test Case Steps:**
+    1.  Navigate to the login page.
+    2.  Enter the test data into the login form.
+    3.  Click the "Login" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the credentials are invalid.
+    *   The user should not be authenticated.
+
+### Web Application Tests - Application Processing
+
+#### 2.1 Application Submission - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.1.1 | Registered User | 2025-02-01 11:15 | Submit a new application with valid data |
+```
+
+*   **Test Data Input:**
+    *   Application Type: NEWSCH
+    *   All required fields in the application form.
+*   **Test Case Steps:**
+    1.  Log in to the system.
+    2.  Navigate to the "Submit Application" page.
+    3.  Select "NEWSCH" as the application type.
+    4.  Fill in all required fields with valid data.
+    5.  Upload necessary documents.
+    6.  Click the "Submit" button.
+*   **Expected Results:**
+    *   The system should create a new application with the provided data.
+    *   The system should generate a unique Application Number.
+    *   The user should receive a confirmation message.
+
+#### 2.2 Application Submission - Edge Cases
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.2.1 | Registered User | 2025-02-01 11:30 | Submit an application with missing required fields |
+```
+
+*   **Test Data Input:**
+    *   Application Type: NEWSCH
+    *   Missing one or more required fields in the application form.
+*   **Test Case Steps:**
+    1.  Log in to the system.
+    2.  Navigate to the "Submit Application" page.
+    3.  Select "NEWSCH" as the application type.
+    4.  Fill in the application form, leaving one or more required fields blank.
+    5.  Click the "Submit" button.
+*   **Expected Results:**
+    *   The system should display error messages indicating the missing required fields.
+    *   The application should not be submitted.
+
+#### 2.3 Application Submission - Error Conditions
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.3.1 | Registered User | 2025-02-01 11:45 | Submit an application with an invalid file format |
+```
+
+*   **Test Data Input:**
+    *   Application Type: NEWSCH
+    *   All required fields in the application form.
+    *   Upload a document with an invalid file format (e.g., .exe).
+*   **Test Case Steps:**
+    1.  Log in to the system.
+    2.  Navigate to the "Submit Application" page.
+    3.  Select "NEWSCH" as the application type.
+    4.  Fill in all required fields with valid data.
+    5.  Attempt to upload a document with an invalid file format.
+    6.  Click the "Submit" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the file format is invalid.
+    *   The application should not be submitted.
+
+### Web Application Tests - Document Management
+
+#### 3.1 Document Upload - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.1.1 | Authorized User | 2025-02-01 12:00 | Upload a valid document to an application |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+    *   File: [Valid .pdf or image file within size limits]
+*   **Test Case Steps:**
+    1.  Log in to the system as an authorized user.
+    2.  Navigate to the application details page.
+    3.  Click the "Upload Document" button.
+    4.  Select a valid file.
+    5.  Click the "Upload" button.
+*   **Expected Results:**
+    *   The system should upload the document successfully.
+    *   The document should be listed in the application's document list.
+
+#### 3.2 Document Download - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.2.1 | Authorized User | 2025-02-01 12:15 | Download an uploaded document |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+    *   Document: [Uploaded document from previous test case]
+*   **Test Case Steps:**
+    1.  Log in to the system as an authorized user.
+    2.  Navigate to the application details page.
+    3.  Locate the uploaded document in the document list.
+    4.  Click the "Download" button next to the document.
+*   **Expected Results:**
+    *   The system should download the document to the user's computer.
+
+#### 3.3 Document Deletion - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.3.1 | Authorized User | 2025-02-01 12:30 | Delete an uploaded document |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+    *   Document: [Uploaded document from previous test case]
+*   **Test Case Steps:**
+    1.  Log in to the system as an authorized user.
+    2.  Navigate to the application details page.
+    3.  Locate the uploaded document in the document list.
+    4.  Click the "Delete" button next to the document.
+    5.  Confirm the deletion.
+*   **Expected Results:**
+    *   The system should delete the document successfully.
+    *   The document should no longer be listed in the application's document list.
+
+### Web Application Tests - System Administration
+
+#### 4.1 User Management - Create User - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+4.1.1 | System Admin | 2025-02-01 13:00 | Create a new system user with valid data |
+```
+
+*   **Test Data Input:**
+    *   All required fields for a new user account (e.g., username, password, role, department).
+*   **Test Case Steps:**
+    1.  Log in to the system as a system administrator.
+    2.  Navigate to the "User Management" page.
+    3.  Click the "Create User" button.
+    4.  Fill in all required fields with valid data.
+    5.  Click the "Save" button.
+*   **Expected Results:**
+    *   The system should create a new user account.
+    *   The new user should be listed in the user list.
+
+#### 4.2 User Management - Edit User - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+4.2.1 | System Admin | 2025-02-01 13:15 | Edit an existing system user's information |
+```
+
+*   **Test Data Input:**
+    *   User ID: [Valid User ID]
+    *   Updated information for one or more fields (e.g., role, department).
+*   **Test Case Steps:**
+    1.  Log in to the system as a system administrator.
+    2.  Navigate to the "User Management" page.
+    3.  Locate the user to be edited in the user list.
+    4.  Click the "Edit" button next to the user.
+    5.  Modify the user's information.
+    6.  Click the "Save" button.
+*   **Expected Results:**
+    *   The system should update the user's information successfully.
+    *   The updated information should be reflected in the user list.
+
+#### 4.3 System Parameter Configuration - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+4.3.1 | System Admin | 2025-02-01 13:30 | Modify a system parameter (e.g., timeout value) |
+```
+
+*   **Test Data Input:**
+    *   Parameter Name: [Name of the system parameter to be modified]
+    *   New Value: [New value for the parameter]
+*   **Test Case Steps:**
+    1.  Log in to the system as a system administrator.
+    2.  Navigate to the "System Configuration" page.
+    3.  Locate the parameter to be modified.
+    4.  Enter the new value.
+    5.  Click the "Save" button.
+*   **Expected Results:**
+    *   The system should update the parameter value successfully.
+    *   The new parameter value should be reflected in the system's behavior.
+
+### Web Application Tests - Backend Integration
+
+#### 5.1 BCIS Integration - Data Synchronization
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+5.1.1 | System Admin | 2025-02-01 14:00 | Verify that data is synchronized from BCIS to the system |
+```
+
+*   **Test Data Input:**
+    *   N/A (Data is expected to be automatically synchronized)
+*   **Test Case Steps:**
+    1.  Log in to the system as a system administrator.
+    2.  Navigate to a page that displays data from BCIS (e.g., address list, AP/RSE information).
+    3.  Verify that the data is up-to-date with the latest information in BCIS.
+*   **Expected Results:**
+    *   The system should display the latest data synchronized from BCIS.
+
+#### 5.2 Email Notification - Successful Sending
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+5.2.1 | System Admin | 2025-02-01 14:15 | Verify that email notifications are sent successfully |
+```
+
+*   **Test Data Input:**
+    *   Trigger an event that generates an email notification (e.g., application submission, task assignment).
+*   **Test Case Steps:**
+    1.  Perform an action that triggers an email notification.
+    2.  Check the recipient's email inbox.
+*   **Expected Results:**
+    *   The recipient should receive an email notification related to the triggered event.
+    *   The email content should be accurate and informative.
+
+### Mobile Application Tests - Mobile Interface
+
+#### 1.1 Login - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.1.1 | Public User | 2025-02-01 10:00 | Log in with valid credentials on the mobile app |
+```
+
+*   **Test Data Input:**
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Open the mobile application.
+    2.  Enter the test data into the login form.
+    3.  Click the "Login" button.
+*   **Expected Results:**
+    *   The system should authenticate the user.
+    *   The user should be redirected to the application's home screen.
+
+#### 1.2 Navigation - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.2.1 | Public User | 2025-02-01 10:15 | Navigate between different sections of the mobile app |
+```
+
+*   **Test Data Input:**
+    *   N/A
+*   **Test Case Steps:**
+    1.  Log in to the mobile application.
+    2.  Use the navigation menu to access different sections of the app (e.g., "Submit Application", "View Applications", "Profile").
+*   **Expected Results:**
+    *   The user should be able to navigate seamlessly between different sections of the app.
+    *   The UI elements should be responsive and adapt to the mobile screen size.
+
+#### 1.3 Responsiveness - Different Devices
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.3.1 | Public User | 2025-02-01 10:30 | Verify responsiveness on different mobile devices (screen sizes) |
+```
+
+*   **Test Data Input:**
+    *   N/A
+*   **Test Case Steps:**
+    1.  Log in to the mobile application.
+    2.  Access the application using different mobile devices with varying screen sizes (e.g., smartphones, tablets).
+*   **Expected Results:**
+    *   The UI elements should be responsive and adapt to each device's screen size.
+    *   All features should be accessible and functional on all tested devices.
+
+### Mobile Application Tests - Mobile Authentication
+
+#### 2.1 Biometric Authentication - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.1.1 | Public User | 2025-02-01 11:00 | Authenticate using fingerprint or facial recognition |
+```
+
+*   **Test Data Input:**
+    *   Enable biometric authentication in the app settings.
+*   **Test Case Steps:**
+    1.  Open the mobile application.
+    2.  Select the option to log in using fingerprint or facial recognition.
+    3.  Authenticate using the device's biometric sensor.
+*   **Expected Results:**
+    *   The system should authenticate the user using biometric data.
+    *   The user should be redirected to the application's home screen.
+
+#### 2.2 Two-Factor Authentication - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.2.1 | Public User | 2025-02-01 11:15 | Authenticate using two-factor authentication (OTP) |
+```
+
+*   **Test Data Input:**
+    *   Enable two-factor authentication in the app settings.
+*   **Test Case Steps:**
+    1.  Open the mobile application.
+    2.  Enter the user's email and password.
+    3.  The system should prompt for an OTP.
+    4.  Enter the OTP received via email or SMS.
+    5.  Click the "Verify" button.
+*   **Expected Results:**
+    *   The system should authenticate the user using the OTP.
+    *   The user should be redirected to the application's home screen.
+
+### Mobile Application Tests - Document Handling
+
+#### 3.1 Document Upload - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.1.1 | Authorized User | 2025-02-01 12:00 | Upload a valid document from the mobile device |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+    *   File: [Valid .pdf or image file within size limits stored on the mobile device]
+*   **Test Case Steps:**
+    1.  Log in to the mobile application as an authorized user.
+    2.  Navigate to the application details page.
+    3.  Click the "Upload Document" button.
+    4.  Select a valid file from the mobile device's storage.
+    5.  Click the "Upload" button.
+*   **Expected Results:**
+    *   The system should upload the document successfully.
+    *   The document should be listed in the application's document list.
+
+#### 3.2 Document Download - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.2.1 | Authorized User | 2025-02-01 12:15 | Download an uploaded document to the mobile device |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+    *   Document: [Uploaded document from previous test case]
+*   **Test Case Steps:**
+    1.  Log in to the mobile application as an authorized user.
+    2.  Navigate to the application details page.
+    3.  Locate the uploaded document in the document list.
+    4.  Click the "Download" button next to the document.
+*   **Expected Results:**
+    *   The system should download the document to the mobile device's storage.
+
+#### 3.3 Document Preview - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.3.1 | Authorized User | 2025-02-01 12:30 | Preview an uploaded document within the mobile app |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+    *   Document: [Uploaded document from previous test case]
+*   **Test Case Steps:**
+    1.  Log in to the mobile application as an authorized user.
+    2.  Navigate to the application details page.
+    3.  Locate the uploaded document in the document list.
+    4.  Click the "Preview" button next to the document.
+*   **Expected Results:**
+    *   The system should display the document within the mobile app (if supported).
+    *   The user should be able to scroll through the document.
+
+### Mobile Application Tests - Status Checking
+
+#### 4.1 Application Status - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+4.1.1 | Registered User | 2025-02-01 13:00 | Check the status of a submitted application |
+```
+
+*   **Test Data Input:**
+    *   Application ID: [Valid Application ID]
+*   **Test Case Steps:**
+    1.  Log in to the mobile application.
+    2.  Navigate to the "View Applications" page.
+    3.  Locate the application to be checked.
+*   **Expected Results:**
+    *   The system should display the current status of the application (e.g., "Submitted", "In Review", "Approved", "Rejected").
+
+#### 4.2 Task List - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+4.2.1 | Authorized User | 2025-02-01 13:15 | View the list of assigned tasks |
+```
+
+*   **Test Data Input:**
+    *   User Role: [Valid user role with assigned tasks]
+*   **Test Case Steps:**
+    1.  Log in to the mobile application as an authorized user.
+    2.  Navigate to the "Task List" page.
+*   **Expected Results:**
+    *   The system should display a list of tasks assigned to the user.
+    *   Each task should display relevant information (e.g., task type, application ID, due date).
+
+## 5. User Acceptance Test Results
+
+To be completed after the UAT execution.
+
+## Appendix 1 - User Acceptance Test Incident Report
+
+To be completed after the UAT execution.
+```
+
+## Response:
+
+Okay, I've processed the input and created the comprehensive UAT plan and formatted the `code.txt` file to include Markdown tables.
+
+```markdown
+# User Acceptance Test Plan
+
+## 1. Review Source Materials
+
+*   Backend Code: `code.txt`
+*   User Requirements Specification: `urs_a1.md`
+*   Reference Test Plans: `uatp_i2.md`
+*   System Template: `uatp_tem.md`
+
+## 2. Test Case Categories
+
+### a) Web Application Tests
+
+*   User Management
+*   Application Processing
+*   Document Management
+*   System Administration
+*   Backend Integration
+
+### b) Mobile Application Tests
+
+*   Mobile Interface
+*   Mobile Authentication
+*   Document Handling
+*   Status Checking
+
+## 3. Test Case Format
+
+Each test case will follow this format:
+
+```
+[Test Case Details]
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+[Acceptance ID] | [Tester Role] | [Date and Time] | [Description] | [Pass/Fail]
+```
+
+Each test case will also include:
+
+*   **Test Data Input Section:**  Specific data required for the test.
+*   **Test Case Steps:** (Numbered list of actions to perform).
+*   **Expected Results:**  What the system should do if the test passes.
+
+## 4. Required Test Areas
+
+*   User Registration & Authentication
+*   Application Submission
+*   Document Upload/Management
+*   Backend System Integration
+*   Mobile Responsiveness
+*   Security Features
+*   Performance Requirements
+*   Business Process Validation
+
+## 5. Testing Considerations
+
+*   Normal Scenarios
+*   Edge Cases
+*   Error Conditions
+*   Security Aspects
+*   Integration Points
+*   Mobile-Specific Features
+*   Performance Requirements
+
+## Test Cases
+
+### Web Application Tests - User Management
+
+#### 1.1 User Registration - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.1.1 | Public User | 2025-02-01 10:00 | Register a new user account with valid data |  
+```
+
+*   **Test Data Input:**
+    *   Family Name: Smith
+    *   Given Name: John
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+    *   Confirm Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Navigate to the registration page.
+    2.  Enter the test data into the registration form.
+    3.  Click the "Register" button.
+*   **Expected Results:**
+    *   The system should create a new user account.
+    *   The user should be redirected to a confirmation page.
+    *   A confirmation email should be sent to the provided email address.
+
+#### 1.2 User Registration - Edge Cases
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.2.1 | Public User | 2025-02-01 10:15 | Attempt to register with an existing email address |  
+```
+
+*   **Test Data Input:**
+    *   Family Name: Smith
+    *   Given Name: John
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+    *   Confirm Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Navigate to the registration page.
+    2.  Enter the test data into the registration form.
+    3.  Click the "Register" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the email address is already in use.
+    *   The user account should not be created.
+
+#### 1.3 User Registration - Error Conditions
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.3.1 | Public User | 2025-02-01 10:30 | Attempt to register with mismatched passwords |  
+```
+
+*   **Test Data Input:**
+    *   Family Name: Smith
+    *   Given Name: John
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+    *   Confirm Password: WrongPassword
+*   **Test Case Steps:**
+    1.  Navigate to the registration page.
+    2.  Enter the test data into the registration form.
+    3.  Click the "Register" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the passwords do not match.
+    *   The user account should not be created.
+
+#### 1.4 User Authentication - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.4.1 | Public User | 2025-02-01 10:45 | Log in with valid credentials |  
+```
+
+*   **Test Data Input:**
+    *   Email: john.smith@example.com
+    *   Password: SecureP@sswOrd1
+*   **Test Case Steps:**
+    1.  Navigate to the login page.
+    2.  Enter the test data into the login form.
+    3.  Click the "Login" button.
+*   **Expected Results:**
+    *   The system should authenticate the user.
+    *   The user should be redirected to the application's home page.
+
+#### 1.5 User Authentication - Error Conditions
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+1.5.1 | Public User | 2025-02-01 11:00 | Attempt to log in with invalid credentials |  
+```
+
+*   **Test Data Input:**
+    *   Email: john.smith@example.com
+    *   Password: WrongPassword
+*   **Test Case Steps:**
+    1.  Navigate to the login page.
+    2.  Enter the test data into the login form.
+    3.  Click the "Login" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the credentials are invalid.
+    *   The user should not be authenticated.
+
+### Web Application Tests - Application Processing
+
+#### 2.1 Application Submission - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.1.1 | Registered User | 2025-02-01 11:15 | Submit a new application with valid data |  
+```
+
+*   **Test Data Input:**
+    *   Application Type: NEWSCH
+    *   All required fields in the application form.
+*   **Test Case Steps:**
+    1.  Log in to the system.
+    2.  Navigate to the "Submit Application" page.
+    3.  Select "NEWSCH" as the application type.
+    4.  Fill in all required fields with valid data.
+    5.  Upload necessary documents.
+    6.  Click the "Submit" button.
+*   **Expected Results:**
+    *   The system should create a new application with the provided data.
+    *   The system should generate a unique Application Number.
+    *   The user should receive a confirmation message.
+
+#### 2.2 Application Submission - Edge Cases
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.2.1 | Registered User | 2025-02-01 11:30 | Submit an application with missing required fields |  
+```
+
+*   **Test Data Input:**
+    *   Application Type: NEWSCH
+    *   Missing one or more required fields in the application form.
+*   **Test Case Steps:**
+    1.  Log in to the system.
+    2.  Navigate to the "Submit Application" page.
+    3.  Select "NEWSCH" as the application type.
+    4.  Fill in the application form, leaving one or more required fields blank.
+    5.  Click the "Submit" button.
+*   **Expected Results:**
+    *   The system should display error messages indicating the missing required fields.
+    *   The application should not be submitted.
+
+#### 2.3 Application Submission - Error Conditions
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+2.3.1 | Registered User | 2025-02-01 11:45 | Submit an application with an invalid file format |  
+```
+
+*   **Test Data Input:**
+    *   Application Type: NEWSCH
+    *   All required fields in the application form.
+    *   Upload a document with an invalid file format (e.g., .exe).
+*   **Test Case Steps:**
+    1.  Log in to the system.
+    2.  Navigate to the "Submit Application" page.
+    3.  Select "NEWSCH" as the application type.
+    4.  Fill in all required fields with valid data.
+    5.  Attempt to upload a document with an invalid file format.
+    6.  Click the "Submit" button.
+*   **Expected Results:**
+    *   The system should display an error message indicating that the file format is invalid.
+    *   The application should not be submitted.
+
+### Web Application Tests - Document Management
+
+#### 3.1 Document Upload - Normal Scenario
+
+```
+Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
+---|---|---|---|---
+3.1.1 | Authorized User | 2025-02-01 12:00 |
