@@ -420,7 +420,7 @@ jobs:
             ["performance_optimisation_report"]="performance_optimisation_report"
             ["system_installation_plan"]="system_installation_plan"
             ["system_test_plan_and_result"]="system_test_plan_and_result"
-            ["acceptance_test_plan_and_result"]="acceptance_test_plan_and_result"
+            ["acceptance_test_plan"]="acceptance_test_plan"
             ["application_operation_manual"]="application_operation_manual"
             ["computer_operation_procedures_manual"]="computer_operation_procedures_manual"
             ["data_manual"]="data_manual"
