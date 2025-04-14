@@ -1,868 +1,630 @@
-## Processed Text:
-
-Here's the UAT plan and the code file with tables formatted in Markdown:
+Okay, here's the completed `uatp_i1.md` file, incorporating test cases based on the provided `urs_a1.md` and information from `code.txt`. I've also formatted the tables correctly.
 
 ```markdown
 # User Acceptance Test Plan
+# For Self-Certification System (SCS)
 
-## 1. Review Source Materials
+## Table of Contents
+1.  [Introduction](#1-introduction)
+2.  [Testing Environment](#2-testing-environment)
+3.  [Test Cases for Web Interface](#3-test-cases-for-web-interface)
+    *   [3.1 User Management and Authentication](#31-user-management-and-authentication)
+    *   [3.2 Dashboard Functionality](#32-dashboard-functionality)
+    *   [3.3 Application/Case Management](#33-applicationcase-management)
+    *   [3.4 Report Functionality](#34-report-functionality)
+    *   [3.5 E-Folio Search](#35-e-folio-search)
+    *   [3.6 Random Audit Selection Process](#36-random-audit-selection-process)
+    *   [3.7 Interface Testing](#37-interface-testing)
+4.  [Test Cases for Mobile Interface](#4-test-cases-for-mobile-interface)
+    *   [4.1 Mobile Responsiveness](#41-mobile-responsiveness)
+    *   [4.2 Mobile Document Management](#42-mobile-document-management)
+    *   [4.3 Mobile Security Features](#43-mobile-security-features)
+5.  [Test Results](#5-test-results)
 
-*   Backend Code: `code.txt`
-*   User Requirements Specification: `urs_a1.md`
-*   Reference Test Plans: `uatp_i2.md`
-*   System Template: `uatp_tem.md`
+## 1. Introduction
 
-## 2. Test Case Categories
+### 1.1 Objectives of UAT
+-   Verify delivered functionality works in BD's specific domain
+-   Confirm all required functionality has been delivered
+-   Validate functionality works according to specified requirements
+-   Ensure integration with other systems works as specified
 
-### a) Web Application Tests
+### 1.2 Schedule
 
-*   User Management
-*   Application Processing
-*   Document Management
-*   System Administration
-*   Backend Integration
+| Items | Planned | Actual |
+|---|---|---|
+| Test Plan | 2025-02-01 |  |
+| Round 1 | 2025-02-08 |  |
+| Round 1 Fix | 2025-02-15 |  |
+| Round 2 | 2025-02-22 |  |
+| Round 2 Fix | 2025-03-01 |  |
+| Round 3 | 2025-03-08 |  |
+| Round 3 Fix | 2025-03-15 |  |
+| Round 4 | 2025-03-22 |  |
+| Round 4 Fix | 2025-03-29 |  |
+| Round 5 | 2025-04-05 |  |
+| Round 5 Fix | 2025-04-12 |  |
+| UAT Acceptance | 2025-04-19 |  |
 
-### b) Mobile Application Tests
+## 2. Testing Environment
 
-*   Mobile Interface
-*   Mobile Authentication
-*   Document Handling
-*   Status Checking
+### 2.1 Testing Location
+The User Acceptance Test will be performed at BD's premises under the UAT environment located in BD office at WKGO.
 
-## 3. Test Case Format
+### 2.2 Hardware and Software Requirements
+Hardware and software of non-production environments should be used for UAT:
 
-Each test case will follow this format:
+-   Browsers supported:
+    -   Microsoft Edge (Windows 10/11)
+    -   Safari (MacOS, iOS)
+    -   Mozilla Firefox (All platforms)
+    -   Google Chrome (All platforms)
+-   Mobile devices:
+    -   iOS devices
+    -   Android devices
+-   Network access to:
+    -   GCIS
+    -   BD internal systems
+    -   Internet (for public access testing)
 
-```
-[Test Case Details]
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-[Acceptance ID] | [Tester Role] | [Date and Time] | [Description] | [Pass/Fail]
-```
+## 3. Test Cases for Web Interface
 
-Each test case will also include:
+### 3.1 User Management and Authentication
 
-*   **Test Data Input Section:**  Specific data required for the test.
-*   **Test Case Steps:** (Numbered list of actions to perform).
-*   **Expected Results:**  What the system should do if the test passes.
+#### 3.1.1 User Login
 
-## 4. Required Test Areas
-
-*   User Registration & Authentication
-*   Application Submission
-*   Document Upload/Management
-*   Backend System Integration
-*   Mobile Responsiveness
-*   Security Features
-*   Performance Requirements
-*   Business Process Validation
-
-## 5. Testing Considerations
-
-*   Normal Scenarios
-*   Edge Cases
-*   Error Conditions
-*   Security Aspects
-*   Integration Points
-*   Mobile-Specific Features
-*   Performance Requirements
-
-## Test Cases
-
-### Web Application Tests - User Management
-
-#### 1.1 User Registration - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.1.1 | Public User | 2025-02-01 10:00 | Register a new user account with valid data |
-```
-
-*   **Test Data Input:**
-    *   Family Name: Smith
-    *   Given Name: John
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-    *   Confirm Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Navigate to the registration page.
-    2.  Enter the test data into the registration form.
-    3.  Click the "Register" button.
-*   **Expected Results:**
-    *   The system should create a new user account.
-    *   The user should be redirected to a confirmation page.
-    *   A confirmation email should be sent to the provided email address.
-
-#### 1.2 User Registration - Edge Cases
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.2.1 | Public User | 2025-02-01 10:15 | Attempt to register with an existing email address |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.1.1 |  |  | Successful login with valid credentials |  |
 
 *   **Test Data Input:**
-    *   Family Name: Smith
-    *   Given Name: John
-    *   Email: john.smith@example.com (already registered)
-    *   Password: SecureP@sswOrd1
-    *   Confirm Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Navigate to the registration page.
-    2.  Enter the test data into the registration form.
-    3.  Click the "Register" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the email address is already in use.
-    *   The user account should not be created.
-
-#### 1.3 User Registration - Error Conditions
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.3.1 | Public User | 2025-02-01 10:30 | Attempt to register with mismatched passwords |
-```
-
-*   **Test Data Input:**
-    *   Family Name: Smith
-    *   Given Name: John
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-    *   Confirm Password: WrongPassword
-*   **Test Case Steps:**
-    1.  Navigate to the registration page.
-    2.  Enter the test data into the registration form.
-    3.  Click the "Register" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the passwords do not match.
-    *   The user account should not be created.
-
-#### 1.4 User Authentication - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.4.1 | Public User | 2025-02-01 10:45 | Log in with valid credentials |
-```
-
-*   **Test Data Input:**
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Navigate to the login page.
-    2.  Enter the test data into the login form.
+    *   Username: `ccywong.bd`
+    *   Password:  `<valid password>`
+*   **Test Case:**
+    1.  Navigate to the LSCP login page.
+    2.  Enter a valid username and password.
     3.  Click the "Login" button.
-*   **Expected Results:**
-    *   The system should authenticate the user.
-    *   The user should be redirected to the application's home page.
+*   **Expected Result:**
+    *   User is successfully logged in and redirected to the dashboard.
 
-#### 1.5 User Authentication - Error Conditions
+#### 3.1.2 User Login - Invalid Username
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.5.1 | Public User | 2025-02-01 11:00 | Attempt to log in with invalid credentials |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.2.1 |  |  | Unsuccessful login with invalid username |  |
 
 *   **Test Data Input:**
-    *   Email: john.smith@example.com
-    *   Password: WrongPassword
-*   **Test Case Steps:**
-    1.  Navigate to the login page.
-    2.  Enter the test data into the login form.
+    *   Username: `<invalid username>`
+    *   Password: `<any password>`
+*   **Test Case:**
+    1.  Navigate to the LSCP login page.
+    2.  Enter an invalid username and password.
     3.  Click the "Login" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the credentials are invalid.
-    *   The user should not be authenticated.
+*   **Expected Result:**
+    *   The system displays an error message indicating invalid credentials.
 
-### Web Application Tests - Application Processing
+#### 3.1.3 User Login - Invalid Password
 
-#### 2.1 Application Submission - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.1.1 | Registered User | 2025-02-01 11:15 | Submit a new application with valid data |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.3.1 |  |  | Unsuccessful login with invalid password |  |
 
 *   **Test Data Input:**
-    *   Application Type: NEWSCH
-    *   All required fields in the application form.
-*   **Test Case Steps:**
-    1.  Log in to the system.
-    2.  Navigate to the "Submit Application" page.
-    3.  Select "NEWSCH" as the application type.
-    4.  Fill in all required fields with valid data.
-    5.  Upload necessary documents.
-    6.  Click the "Submit" button.
-*   **Expected Results:**
-    *   The system should create a new application with the provided data.
-    *   The system should generate a unique Application Number.
-    *   The user should receive a confirmation message.
-
-#### 2.2 Application Submission - Edge Cases
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.2.1 | Registered User | 2025-02-01 11:30 | Submit an application with missing required fields |
-```
-
-*   **Test Data Input:**
-    *   Application Type: NEWSCH
-    *   Missing one or more required fields in the application form.
-*   **Test Case Steps:**
-    1.  Log in to the system.
-    2.  Navigate to the "Submit Application" page.
-    3.  Select "NEWSCH" as the application type.
-    4.  Fill in the application form, leaving one or more required fields blank.
-    5.  Click the "Submit" button.
-*   **Expected Results:**
-    *   The system should display error messages indicating the missing required fields.
-    *   The application should not be submitted.
-
-#### 2.3 Application Submission - Error Conditions
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.3.1 | Registered User | 2025-02-01 11:45 | Submit an application with an invalid file format |
-```
-
-*   **Test Data Input:**
-    *   Application Type: NEWSCH
-    *   All required fields in the application form.
-    *   Upload a document with an invalid file format (e.g., .exe).
-*   **Test Case Steps:**
-    1.  Log in to the system.
-    2.  Navigate to the "Submit Application" page.
-    3.  Select "NEWSCH" as the application type.
-    4.  Fill in all required fields with valid data.
-    5.  Attempt to upload a document with an invalid file format.
-    6.  Click the "Submit" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the file format is invalid.
-    *   The application should not be submitted.
-
-### Web Application Tests - Document Management
-
-#### 3.1 Document Upload - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.1.1 | Authorized User | 2025-02-01 12:00 | Upload a valid document to an application |
-```
-
-*   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-    *   File: [Valid .pdf or image file within size limits]
-*   **Test Case Steps:**
-    1.  Log in to the system as an authorized user.
-    2.  Navigate to the application details page.
-    3.  Click the "Upload Document" button.
-    4.  Select a valid file.
-    5.  Click the "Upload" button.
-*   **Expected Results:**
-    *   The system should upload the document successfully.
-    *   The document should be listed in the application's document list.
-
-#### 3.2 Document Download - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.2.1 | Authorized User | 2025-02-01 12:15 | Download an uploaded document |
-```
-
-*   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-    *   Document: [Uploaded document from previous test case]
-*   **Test Case Steps:**
-    1.  Log in to the system as an authorized user.
-    2.  Navigate to the application details page.
-    3.  Locate the uploaded document in the document list.
-    4.  Click the "Download" button next to the document.
-*   **Expected Results:**
-    *   The system should download the document to the user's computer.
-
-#### 3.3 Document Deletion - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.3.1 | Authorized User | 2025-02-01 12:30 | Delete an uploaded document |
-```
-
-*   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-    *   Document: [Uploaded document from previous test case]
-*   **Test Case Steps:**
-    1.  Log in to the system as an authorized user.
-    2.  Navigate to the application details page.
-    3.  Locate the uploaded document in the document list.
-    4.  Click the "Delete" button next to the document.
-    5.  Confirm the deletion.
-*   **Expected Results:**
-    *   The system should delete the document successfully.
-    *   The document should no longer be listed in the application's document list.
-
-### Web Application Tests - System Administration
-
-#### 4.1 User Management - Create User - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-4.1.1 | System Admin | 2025-02-01 13:00 | Create a new system user with valid data |
-```
-
-*   **Test Data Input:**
-    *   All required fields for a new user account (e.g., username, password, role, department).
-*   **Test Case Steps:**
-    1.  Log in to the system as a system administrator.
-    2.  Navigate to the "User Management" page.
-    3.  Click the "Create User" button.
-    4.  Fill in all required fields with valid data.
-    5.  Click the "Save" button.
-*   **Expected Results:**
-    *   The system should create a new user account.
-    *   The new user should be listed in the user list.
-
-#### 4.2 User Management - Edit User - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-4.2.1 | System Admin | 2025-02-01 13:15 | Edit an existing system user's information |
-```
-
-*   **Test Data Input:**
-    *   User ID: [Valid User ID]
-    *   Updated information for one or more fields (e.g., role, department).
-*   **Test Case Steps:**
-    1.  Log in to the system as a system administrator.
-    2.  Navigate to the "User Management" page.
-    3.  Locate the user to be edited in the user list.
-    4.  Click the "Edit" button next to the user.
-    5.  Modify the user's information.
-    6.  Click the "Save" button.
-*   **Expected Results:**
-    *   The system should update the user's information successfully.
-    *   The updated information should be reflected in the user list.
-
-#### 4.3 System Parameter Configuration - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-4.3.1 | System Admin | 2025-02-01 13:30 | Modify a system parameter (e.g., timeout value) |
-```
-
-*   **Test Data Input:**
-    *   Parameter Name: [Name of the system parameter to be modified]
-    *   New Value: [New value for the parameter]
-*   **Test Case Steps:**
-    1.  Log in to the system as a system administrator.
-    2.  Navigate to the "System Configuration" page.
-    3.  Locate the parameter to be modified.
-    4.  Enter the new value.
-    5.  Click the "Save" button.
-*   **Expected Results:**
-    *   The system should update the parameter value successfully.
-    *   The new parameter value should be reflected in the system's behavior.
-
-### Web Application Tests - Backend Integration
-
-#### 5.1 BCIS Integration - Data Synchronization
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-5.1.1 | System Admin | 2025-02-01 14:00 | Verify that data is synchronized from BCIS to the system |
-```
-
-*   **Test Data Input:**
-    *   N/A (Data is expected to be automatically synchronized)
-*   **Test Case Steps:**
-    1.  Log in to the system as a system administrator.
-    2.  Navigate to a page that displays data from BCIS (e.g., address list, AP/RSE information).
-    3.  Verify that the data is up-to-date with the latest information in BCIS.
-*   **Expected Results:**
-    *   The system should display the latest data synchronized from BCIS.
-
-#### 5.2 Email Notification - Successful Sending
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-5.2.1 | System Admin | 2025-02-01 14:15 | Verify that email notifications are sent successfully |
-```
-
-*   **Test Data Input:**
-    *   Trigger an event that generates an email notification (e.g., application submission, task assignment).
-*   **Test Case Steps:**
-    1.  Perform an action that triggers an email notification.
-    2.  Check the recipient's email inbox.
-*   **Expected Results:**
-    *   The recipient should receive an email notification related to the triggered event.
-    *   The email content should be accurate and informative.
-
-### Mobile Application Tests - Mobile Interface
-
-#### 1.1 Login - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.1.1 | Public User | 2025-02-01 10:00 | Log in with valid credentials on the mobile app |
-```
-
-*   **Test Data Input:**
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Open the mobile application.
-    2.  Enter the test data into the login form.
+    *   Username: `<valid username>`
+    *   Password: `<invalid password>`
+*   **Test Case:**
+    1.  Navigate to the LSCP login page.
+    2.  Enter a valid username and an invalid password.
     3.  Click the "Login" button.
-*   **Expected Results:**
-    *   The system should authenticate the user.
-    *   The user should be redirected to the application's home screen.
+*   **Expected Result:**
+    *   The system displays an error message indicating invalid credentials.
 
-#### 1.2 Navigation - Normal Scenario
+#### 3.1.4 Single Sign On Integration (REQ-GR-07)
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.2.1 | Public User | 2025-02-01 10:15 | Navigate between different sections of the mobile app |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.4.1 |  |  | Login through BD OSDP |  |
+| 3.1.4.2 |  |  | Login through EDB OSDP |  |
+| 3.1.4.3 |  |  | Login through SWD OSDP |  |
 
-*   **Test Data Input:**
-    *   N/A
-*   **Test Case Steps:**
-    1.  Log in to the mobile application.
-    2.  Use the navigation menu to access different sections of the app (e.g., "Submit Application", "View Applications", "Profile").
-*   **Expected Results:**
-    *   The user should be able to navigate seamlessly between different sections of the app.
-    *   The UI elements should be responsive and adapt to the mobile screen size.
+**Test Data Input:**
+- Valid OSDP credentials
+- Invalid OSDP credentials
+- Expired credentials
+- Multiple concurrent sessions
 
-#### 1.3 Responsiveness - Different Devices
+**Test Steps:**
+1. Access respective OSDP portal
+2. Enter login credentials
+3. Navigate to SCS
+4. Verify automatic login to SCS
+5. Test session timeout after 30 minutes of inactivity
+6. Test concurrent session handling
+7. Verify audit logging
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.3.1 | Public User | 2025-02-01 10:30 | Verify responsiveness on different mobile devices (screen sizes) |
-```
+**Expected Results:**
+- Successful automatic login to SCS through OSDP
+- Proper role and access rights assignment
+- Session timeout after inactivity
+- Login audit trail created
+- Proper handling of concurrent sessions
+- Correct error messages for invalid credentials
 
-*   **Test Data Input:**
-    *   N/A
-*   **Test Case Steps:**
-    1.  Log in to the mobile application.
-    2.  Access the application using different mobile devices with varying screen sizes (e.g., smartphones, tablets).
-*   **Expected Results:**
-    *   The UI elements should be responsive and adapt to each device's screen size.
-    *   All features should be accessible and functional on all tested devices.
+#### 3.1.5 Add New User for User Management
 
-### Mobile Application Tests - Mobile Authentication
-
-#### 2.1 Biometric Authentication - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.1.1 | Public User | 2025-02-01 11:00 | Authenticate using fingerprint or facial recognition |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.1.5.1 |  |  | Successfully add new user and data is saved |  |
 
 *   **Test Data Input:**
-    *   Enable biometric authentication in the app settings.
-*   **Test Case Steps:**
-    1.  Open the mobile application.
-    2.  Select the option to log in using fingerprint or facial recognition.
-    3.  Authenticate using the device's biometric sensor.
-*   **Expected Results:**
-    *   The system should authenticate the user using biometric data.
-    *   The user should be redirected to the application's home screen.
+    * Fill up the Name, OSDP Login ID, Password, User Type, OSDP Email, Email, Notification Email, Department, Role, LU Post Name, BDGIS, Post, English Name on BD Letter, Chinese Name on BD Letter, Post on BD Letter, Post on BD Letter (Long Form), Post on BD Letter (Long Form) (Chinese)
+*   **Test Case:**
+    1.  Navigate to the "User Management" section.
+    2.  Click on create New User then fill up necessary data
+    3.  Click the "Submit" button.
+*   **Expected Result:**
+    *   A new User with filled data will be created successfully.
 
-#### 2.2 Two-Factor Authentication - Normal Scenario
+### 3.2 Dashboard Functionality
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.2.1 | Public User | 2025-02-01 11:15 | Authenticate using two-factor authentication (OTP) |
-```
+#### 3.2.1 Search Case by File Reference
 
-*   **Test Data Input:**
-    *   Enable two-factor authentication in the app settings.
-*   **Test Case Steps:**
-    1.  Open the mobile application.
-    2.  Enter the user's email and password.
-    3.  The system should prompt for an OTP.
-    4.  Enter the OTP received via email or SMS.
-    5.  Click the "Verify" button.
-*   **Expected Results:**
-    *   The system should authenticate the user using the OTP.
-    *   The user should be redirected to the application's home screen.
-
-### Mobile Application Tests - Document Handling
-
-#### 3.1 Document Upload - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.1.1 | Authorized User | 2025-02-01 12:00 | Upload a valid document from the mobile device |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.2.1.1 |  |  | Successful search using a valid File Reference |  |
 
 *   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-    *   File: [Valid .pdf or image file within size limits stored on the mobile device]
-*   **Test Case Steps:**
-    1.  Log in to the mobile application as an authorized user.
-    2.  Navigate to the application details page.
-    3.  Click the "Upload Document" button.
-    4.  Select a valid file from the mobile device's storage.
-    5.  Click the "Upload" button.
-*   **Expected Results:**
-    *   The system should upload the document successfully.
-    *   The document should be listed in the application's document list.
+    *   Search Case: File Reference
+    *   File Reference: `12/2494/54`
+*   **Test Case:**
+    1.  Navigate to the LSCP dashboard.
+    2.  In the "Search Case" field, select "File Reference" from dropdown
+    3.  Enter a valid file reference.
+    4.  Click the search icon (magnifying glass).
+*   **Expected Result:**
+    *   The system displays the case details associated with the entered file reference.
 
-#### 3.2 Document Download - Normal Scenario
+### 3.3 Application/Case Management
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.2.1 | Authorized User | 2025-02-01 12:15 | Download an uploaded document to the mobile device |
-```
+#### 3.3.1 View Application Details
+
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.3.1.1 |  |  | Successfully viewing application details |  |
 
 *   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-    *   Document: [Uploaded document from previous test case]
-*   **Test Case Steps:**
-    1.  Log in to the mobile application as an authorized user.
-    2.  Navigate to the application details page.
-    3.  Locate the uploaded document in the document list.
-    4.  Click the "Download" button next to the document.
-*   **Expected Results:**
-    *   The system should download the document to the mobile device's storage.
+    *   Application No.: `1234`
+*   **Test Case:**
+    1.  Navigate to the LSCP dashboard.
+    2.  Locate and click on an "Application No." link in the table.
+*   **Expected Result:**
+    *   The system displays the full application details. Ensure all data fields are populated correctly.
 
-#### 3.3 Document Preview - Normal Scenario
+#### 3.3.2 Create Application/Case
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.3.1 | Authorized User | 2025-02-01 12:30 | Preview an uploaded document within the mobile app |
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.3.2.1 |  |  | Create New Application |  |
 
 *   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-    *   Document: [Uploaded document from previous test case]
-*   **Test Case Steps:**
-    1.  Log in to the mobile application as an authorized user.
-    2.  Navigate to the application details page.
-    3.  Locate the uploaded document in the document list.
-    4.  Click the "Preview" button next to the document.
-*   **Expected Results:**
-    *   The system should display the document within the mobile app (if supported).
-    *   The user should be able to scroll through the document.
+    *  New Application, Next
+*   **Test Case:**
+    1.  Navigate to "Create Application/Case"
+    2.  Select "New Application" then click "Next"
+*   **Expected Result:**
+    *   The system displays create new application form. All required data fields available and functioning properly.
 
-### Mobile Application Tests - Status Checking
+#### 3.3.3 Document Management (REQ-GR-08, REQ-GR-09, REQ-GR-10)
 
-#### 4.1 Application Status - Normal Scenario
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 3.3.3.1 |  |  | Document Upload and Management |  |
+| 3.3.3.2 |  |  | Document Preview and Print |  |
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-4.1.1 | Registered User | 2025-02-01 13:00 | Check the status of a submitted application |
-```
+**Test Data Input:**
+- PDF files (< 25MB)
+- Image files (JPEG, PNG, TIFF)
+- Files with valid digital signatures
+- Oversized files
+- Files without required signatures
+- Corrupted files
+- Files with malware
 
-*   **Test Data Input:**
-    *   Application ID: [Valid Application ID]
-*   **Test Case Steps:**
-    1.  Log in to the mobile application.
-    2.  Navigate to the "View Applications" page.
-    3.  Locate the application to be checked.
-*   **Expected Results:**
-    *   The system should display the current status of the application (e.g., "Submitted", "In Review", "Approved", "Rejected").
+**Test Steps:**
+1. Upload various document types
+2. Preview uploaded documents in browser
+3. Test file size restrictions
+4. Verify digital signature validation
+5. Test document printing functionality
+6. Attempt upload of oversized/invalid files
+7. Test virus scanning
+8. Verify file versioning
 
-#### 4.2 Task List - Normal Scenario
+**Expected Results:**
+- Successful upload of valid documents
+- Preview functionality works in browser
+- Print function works properly
+- System rejects files > 25MB
+- Proper validation of digital signatures
+- Error messages for invalid uploads
+- Malware detection working
+- Version control maintained
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-4.2.1 | Authorized User | 2025-02-01 13:15 | View the list of assigned tasks |
-```
+#### 3.3.4 New Application Submission (REQ-GR-17)
 
-*   **Test Data Input:**
-    *   User Role: [Valid user role with assigned tasks]
-*   **Test Case Steps:**
-    1.  Log in to the mobile application as an authorized user.
-    2.  Navigate to the "Task List" page.
-*   **Expected Results:**
-    *   The system should display a list of tasks assigned to the user.
-    *   Each task should display relevant information (e.g., task type, application ID, due date).
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 3.3.4.1 |  |  | Submit New EP Certificate Application |  |
+| 3.3.4.2 |  |  | Submit New CCC Certificate Application |  |
 
-## 5. User Acceptance Test Results
+**Test Data Input:**
+- Complete application form data
+- Building safety documents
+- Layout plans
+- Supporting documents
+- AP/RSE information
+- Incomplete applications
+- Invalid data formats
 
-To be completed after the UAT execution.
+**Test Steps:**
+1. Create new application
+2. Fill all required sections
+3. Upload required documents
+4. Verify form validation
+5. Submit application
+6. Test save draft functionality
+7. Test application withdrawal
+8. Verify reference number generation
+9. Check notification system
 
-## Appendix 1 - User Acceptance Test Incident Report
+**Expected Results:**
+- Application submitted successfully
+- Reference number generated correctly
+- Confirmation email/SMS sent
+- Documents properly stored
+- Draft saved correctly
+- Withdrawal processed correctly
+- Proper validation messages
+- Notifications sent to relevant parties
 
-To be completed after the UAT execution.
-```
+#### 3.3.5 Application Review and Processing (REQ-GR-13)
 
-## Response:
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 3.3.5.1 |  |  | Process Application Review |  |
+| 3.3.5.2 |  |  | Building Safety Requirements Check |  |
 
-Okay, I've processed the input and created the comprehensive UAT plan and formatted the `code.txt` file to include Markdown tables.
+**Test Data Input:**
+- Application details
+- Building safety review data
+- Inspection reports
+- Review comments
+- 3-tier BSR checklist
+- Supporting documentation
 
-```markdown
-# User Acceptance Test Plan
+**Test Steps:**
+1. Access assigned application
+2. Review submitted documents
+3. Record building safety assessment
+4. Generate inspection checklist
+5. Document review findings
+6. Make recommendation
+7. Process approval/rejection
+8. Verify BSR tier classification
+9. Test workflow routing
 
-## 1. Review Source Materials
+**Expected Results:**
+- Review properly recorded
+- Documents accessible to relevant parties
+- Status updates reflected correctly
+- Notifications sent appropriately
+- Audit trail maintained
+- BSR assessment accurate
+- Workflow routing correct
 
-*   Backend Code: `code.txt`
-*   User Requirements Specification: `urs_a1.md`
-*   Reference Test Plans: `uatp_i2.md`
-*   System Template: `uatp_tem.md`
+### 3.4 Report Functionality
 
-## 2. Test Case Categories
+#### 3.4.1 Download Report
 
-### a) Web Application Tests
-
-*   User Management
-*   Application Processing
-*   Document Management
-*   System Administration
-*   Backend Integration
-
-### b) Mobile Application Tests
-
-*   Mobile Interface
-*   Mobile Authentication
-*   Document Handling
-*   Status Checking
-
-## 3. Test Case Format
-
-Each test case will follow this format:
-
-```
-[Test Case Details]
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-[Acceptance ID] | [Tester Role] | [Date and Time] | [Description] | [Pass/Fail]
-```
-
-Each test case will also include:
-
-*   **Test Data Input Section:**  Specific data required for the test.
-*   **Test Case Steps:** (Numbered list of actions to perform).
-*   **Expected Results:**  What the system should do if the test passes.
-
-## 4. Required Test Areas
-
-*   User Registration & Authentication
-*   Application Submission
-*   Document Upload/Management
-*   Backend System Integration
-*   Mobile Responsiveness
-*   Security Features
-*   Performance Requirements
-*   Business Process Validation
-
-## 5. Testing Considerations
-
-*   Normal Scenarios
-*   Edge Cases
-*   Error Conditions
-*   Security Aspects
-*   Integration Points
-*   Mobile-Specific Features
-*   Performance Requirements
-
-## Test Cases
-
-### Web Application Tests - User Management
-
-#### 1.1 User Registration - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.1.1 | Public User | 2025-02-01 10:00 | Register a new user account with valid data |  
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.4.1.1 |  |  | Successfully download "Total received cases per month" report |  |
 
 *   **Test Data Input:**
-    *   Family Name: Smith
-    *   Given Name: John
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-    *   Confirm Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Navigate to the registration page.
-    2.  Enter the test data into the registration form.
-    3.  Click the "Register" button.
-*   **Expected Results:**
-    *   The system should create a new user account.
-    *   The user should be redirected to a confirmation page.
-    *   A confirmation email should be sent to the provided email address.
+    *   From: `<Valid Date>`
+    *   To: `<Valid Date>`
+*   **Test Case:**
+    1.  Navigate to the "Report" section.
+    2.  Select "From" and "To" date
+    3.  Click the "Download File" button for the "Total received cases per month" report.
+*   **Expected Result:**
+    *   The system generates and downloads the "Total received cases per month" report as a file (e.g., CSV, Excel).
 
-#### 1.2 User Registration - Edge Cases
+#### 3.4.2 Management Statistics (REQ-GR-11)
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.2.1 | Public User | 2025-02-01 10:15 | Attempt to register with an existing email address |  
-```
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 3.4.2.1 |  |  | Generate Statistical Reports |  |
+| 3.4.2.2 |  |  | Export Report Data |  |
 
-*   **Test Data Input:**
-    *   Family Name: Smith
-    *   Given Name: John
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-    *   Confirm Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Navigate to the registration page.
-    2.  Enter the test data into the registration form.
-    3.  Click the "Register" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the email address is already in use.
-    *   The user account should not be created.
+**Test Data Input:**
+- Date ranges
+- Report parameters
+- Report types
+- Filter criteria
+- Sort options
+- Export formats
 
-#### 1.3 User Registration - Error Conditions
+**Test Steps:**
+1. Access reporting module
+2. Generate standard reports:
+   - Total Received Cases
+   - Total Replied Cases
+   - Total Outstanding Cases
+   - Total Overdue Cases
+   - Total Audit Cases
+   - E-submission vs Paper submission stats
+3. Apply filters and sorting
+4. Export in different formats
+5. Test report scheduling
+6. Verify data accuracy
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.3.1 | Public User | 2025-02-01 10:30 | Attempt to register with mismatched passwords |  
-```
+**Expected Results:**
+- Reports generated accurately
+- All statistics calculated correctly
+- Export functions work properly
+- Data properly formatted
+- Scheduled reports delivered
+- PDF generation successful
+- Excel export formatted correctly
 
-*   **Test Data Input:**
-    *   Family Name: Smith
-    *   Given Name: John
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-    *   Confirm Password: WrongPassword
-*   **Test Case Steps:**
-    1.  Navigate to the registration page.
-    2.  Enter the test data into the registration form.
-    3.  Click the "Register" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the passwords do not match.
-    *   The user account should not be created.
+### 3.5 E-Folio Search
 
-#### 1.4 User Authentication - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.4.1 | Public User | 2025-02-01 10:45 | Log in with valid credentials |  
-```
+| Acceptance ID | Tester | Test Date/Time | Functionality | Success or Fail |
+|---|---|---|---|---|
+| 3.5.1.1 |  |  | Successfully search existing E-Folio |  |
 
 *   **Test Data Input:**
-    *   Email: john.smith@example.com
-    *   Password: SecureP@sswOrd1
-*   **Test Case Steps:**
-    1.  Navigate to the login page.
-    2.  Enter the test data into the login form.
-    3.  Click the "Login" button.
-*   **Expected Results:**
-    *   The system should authenticate the user.
-    *   The user should be redirected to the application's home page.
+    * File Reference ID: `<Valid File Reference ID>`
+*   **Test Case:**
+    1.  Navigate to the "E-Folio Search" section.
+    2.  Enter a valid file reference ID
+    3.  Click the "Search" button.
+*   **Expected Result:**
+    *   The system searches for the results with File part number, File Reference, Received Date, and TYPE of the document is displayed.
 
-#### 1.5 User Authentication - Error Conditions
+### 3.6 Random Audit Selection Process
 
+#### 3.6.1 Audit Case Selection (REQ-WR-13)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 3.6.1.1 |  |  | Random Audit Selection |  |
+| 3.6.1.2 |  |  | Audit Process Management |  |
+
+**Test Data Input:**
+- Selection criteria
+- Audit probability (60%)
+- Audit period
+- Sample size
+- Previous audit history
+
+**Test Steps:**
+1. Configure audit selection criteria
+2. Run random selection process
+3. Verify selection probability
+4. Review selected cases
+5. Schedule audit inspections
+6. Test override scenarios
+7. Verify notification system
+8. Check audit history tracking
+
+**Expected Results:**
+- Random selection performed correctly
+- 60% selection rate maintained
+- Audit cases properly identified
+- Notifications generated
+- Schedule created properly
+- Override properly documented
+- History accurately maintained
+
+### 3.7 Interface Testing
+
+#### 3.7.1 BCIS Integration (REQ-IR-01)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 3.7.1.1 |  |  | BCIS Data Exchange |  |
+| 3.7.1.2 |  |  | BCIS Error Handling |  |
+
+**Test Data Input:**
+- Address data
+- File references
+- Master data
+- Application data
+- Invalid data formats
+- Connection failures
+
+**Test Steps:**
+1. Test daily data synchronization
+2. Verify address lookup
+3. Test case creation in BCIS
+4. Verify data updates
+5. Test reference linking
+6. Check statistics transfer
+7. Simulate connection failures
+8. Test error recovery
+
+**Expected Results:**
+- Data synced correctly
+- Addresses properly mapped
+- Cases created successfully
+- Updates processed
+- Links working properly
+- Errors handled gracefully
+- Recovery procedures working
+
+## 4. Test Cases for Mobile Interface
+
+### 4.1 Mobile Responsiveness (REQ-UR-01)
+
+#### 4.1.1 Mobile Interface Compatibility
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 4.1.1.1 |  |  | Mobile Interface Testing |  |
+| 4.1.1.2 |  |  | Mobile Device Compatibility |  |
+
+**Test Data Input:**
+- Various mobile devices
+- Different screen sizes
+- Different orientations
+- Different OS versions
+- Different browsers
+
+**Test Steps:**
+1. Access system on multiple devices
+2. Test responsive layout
+3. Verify all functions work on mobile
+4. Test different orientations
+5. Verify touch interactions
+6. Test offline functionality
+7. Check performance metrics
+
+**Expected Results:**
+- Interface adapts to screen size
+- All functions work properly
+- No horizontal scrolling needed
+- Touch interactions work correctly
+- Offline mode functions
+- Performance meets requirements
+
+### 4.2 Mobile Document Management
+
+#### 4.2.1 Mobile Document Upload (REQ-GR-10)
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 4.2.1.1 |  |  | Mobile Document Upload |  |
+| 4.2.1.2 |  |  | Mobile Camera Integration |  |
+
+**Test Data Input:**
+- PDF documents
+- Mobile camera photos
+- Document metadata
+- Large files
+- Different image formats
+
+**Test Steps:**
+1. Upload document from mobile storage
+2. Take and upload photos directly
+3. Test file size limits
+4. Verify upload progress indication
+5. Test document preview
+6. Check image compression
+7. Verify metadata preservation
+
+**Expected Results:**
+- Documents upload successfully
+- Photos properly compressed
+- Progress clearly shown
+- Size limits enforced
+- Preview works on mobile
+- Metadata preserved
+- Camera integration working
+
+### 4.3 Mobile Security Features
+
+#### 4.3.1 Mobile Authentication and Security
+
+| Acceptance ID | Tester | Test Date Time | Functionality | Success/Fail |
+|---|---|---|---|---|
+| 4.3.1.1 |  |  | Mobile Security Controls |  |
+| 4.3.1.2 |  |  | Data Protection |  |
+
+**Test Data Input:**
+- Security credentials
+- Session data
+- Authentication tokens
+- Device information
+- Encryption keys
+
+**Test Steps:**
+1. Test secure connections
+2. Verify data encryption
+3. Test session management
+4. Check device compatibility
+5. Verify security controls
+6. Test timeout functions
+7. Verify data sanitization
+
+**Expected Results:**
+- Secure connections established
+- Data properly encrypted
+- Sessions managed correctly
+- Compatible devices working
+- Security controls enforced
+- Timeouts function properly
+- Data properly protected
+
+## 5. Test Results
+
+### 5.1 Test Execution Summary
+
+| Test Category | Total Cases | Passed | Failed | Pending |
+|---|---|---|---|---|
+| User Management | 5 |  |  |  |
+| Dashboard Functionality | 1 |  |  |  |
+| Application/Case Management | 5 |  |  |  |
+| Report Functionality | 2 |  |  |  |
+| E-Folio Search | 1 |  |  |  |
+| Random Audit Selection Process | 2 |  |  |  |
+| Interface Testing | 2 |  |  |  |
+| Mobile Interface | 2 |  |  |  |
+| Mobile Document Management | 2 |  |  |  |
+| Mobile Security Features | 2 |  |  |  |
+
+### 5.2 Defect Summary
+
+| Severity | Count | Fixed | Pending |
+|---|---|---|---|
+| Critical |  |  |  |
+| High |  |  |  |
+| Medium |  |  |  |
+| Low |  |  |  |
+
+### 5.3 Recommendations
+
+[To be completed after test execution]
+
+### 5.4 Sign-off
+
+| Role | Name | Signature | Date |
+|---|---|---|---|
+| Test Manager |  |  |  |
+| BD Representative |  |  |  |
+| System Owner |  |  |  |
 ```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-1.5.1 | Public User | 2025-02-01 11:00 | Attempt to log in with invalid credentials |  
-```
 
-*   **Test Data Input:**
-    *   Email: john.smith@example.com
-    *   Password: WrongPassword
-*   **Test Case Steps:**
-    1.  Navigate to the login page.
-    2.  Enter the test data into the login form.
-    3.  Click the "Login" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the credentials are invalid.
-    *   The user should not be authenticated.
+Key improvements and explanations:
 
-### Web Application Tests - Application Processing
+*   **Introduction**:  Added a brief overview of the UAT objectives.
+*   **Schedule Table**:  Formatted the schedule table using Markdown.
+*   **Test Cases**: Added a basic test case structure, including:
+    *   `Acceptance ID`: A unique identifier for each test case.
+    *   `Tester`: Who is performing the test.
+    *   `Test Date/Time`: When the test was executed.
+    *   `Functionality`: A brief description of what's being tested.
+    *   `Success or Fail`: The outcome of the test.
+*   **Test Case Details**: Included `Test Data Input`, `Test Case` (steps), and `Expected Result` for each test case.  The test cases are directly derived from the functional requirements in `urs_a1.md`.  I've used a placeholder `<valid password>`, `<invalid username>`, etc.  These should be replaced with actual test data.
+*   **Mobile Interface**: Added high-level test cases for mobile responsiveness, document management, and security features.
+*   **Test Results**: Included tables for summarizing test execution and defect information.
+*   **Sign-off**: Added a sign-off section for formal acceptance.
+*   **Table Formatting**: Ensured all tables are correctly formatted in Markdown.
+*   **Requirements Coverage**: The test cases are designed to cover the functional requirements outlined in `urs_a1.md`.  Each test case relates to one or more requirements.
+*   **Code Integration**: The `code.txt` file was used to understand the system's components and how they relate to the requirements.  This helped in designing more effective test cases.  For example, knowing about the different models (`Application`, `User`, etc.) helps to formulate test data and expected results.
+*   **Removed Question Marks**: Ensured no question marks are present in the document.
 
-#### 2.1 Application Submission - Normal Scenario
+This revised `uatp_i1.md` provides a solid foundation for conducting User Acceptance Testing of the Self-Certification System.  Remember to fill in the missing details (test data, actual results, signatures) as you execute the tests.
 
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.1.1 | Registered User | 2025-02-01 11:15 | Submit a new application with valid data |  
-```
-
-*   **Test Data Input:**
-    *   Application Type: NEWSCH
-    *   All required fields in the application form.
-*   **Test Case Steps:**
-    1.  Log in to the system.
-    2.  Navigate to the "Submit Application" page.
-    3.  Select "NEWSCH" as the application type.
-    4.  Fill in all required fields with valid data.
-    5.  Upload necessary documents.
-    6.  Click the "Submit" button.
-*   **Expected Results:**
-    *   The system should create a new application with the provided data.
-    *   The system should generate a unique Application Number.
-    *   The user should receive a confirmation message.
-
-#### 2.2 Application Submission - Edge Cases
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.2.1 | Registered User | 2025-02-01 11:30 | Submit an application with missing required fields |  
-```
-
-*   **Test Data Input:**
-    *   Application Type: NEWSCH
-    *   Missing one or more required fields in the application form.
-*   **Test Case Steps:**
-    1.  Log in to the system.
-    2.  Navigate to the "Submit Application" page.
-    3.  Select "NEWSCH" as the application type.
-    4.  Fill in the application form, leaving one or more required fields blank.
-    5.  Click the "Submit" button.
-*   **Expected Results:**
-    *   The system should display error messages indicating the missing required fields.
-    *   The application should not be submitted.
-
-#### 2.3 Application Submission - Error Conditions
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-2.3.1 | Registered User | 2025-02-01 11:45 | Submit an application with an invalid file format |  
-```
-
-*   **Test Data Input:**
-    *   Application Type: NEWSCH
-    *   All required fields in the application form.
-    *   Upload a document with an invalid file format (e.g., .exe).
-*   **Test Case Steps:**
-    1.  Log in to the system.
-    2.  Navigate to the "Submit Application" page.
-    3.  Select "NEWSCH" as the application type.
-    4.  Fill in all required fields with valid data.
-    5.  Attempt to upload a document with an invalid file format.
-    6.  Click the "Submit" button.
-*   **Expected Results:**
-    *   The system should display an error message indicating that the file format is invalid.
-    *   The application should not be submitted.
-
-### Web Application Tests - Document Management
-
-#### 3.1 Document Upload - Normal Scenario
-
-```
-Acceptance ID | Tester | Test Date Time | Functionality | Success or Fail
----|---|---|---|---
-3.1.1 | Authorized User | 2025-02-01 12:00 |
+Now, I'll process the document to identify and correct any table formatting issues.
