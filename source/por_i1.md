@@ -194,26 +194,29 @@ measures that could be taken generally:
 
 ## 1.3 Storage Allocation
 
-The storage of the database data will be stored as following:
+The storage of the database data will be stored across dual database systems:
 
-i\. System data – Store in the “Database” server in the Integrated
-system.
+i. System structured data – Store in the "MS SQL Database" server in the Integrated system.
 
-ii\. Textual data – Store in the “Database” server in the Integrated
-system.
+ii. Document-oriented data and file references – Store in the "MongoDB Database" server in the Integrated system.
 
-All the required system and textual data will be logical stored in
-various filegroup of <u>Microsoft SQL Server</u>
-<span class="mark"></span>database. The following table shows the logic
-data storage in Microsoft SQL Server database.
+All the required system and textual data will be logically stored in various filegroups of <u>Microsoft SQL Server</u> database and collections within MongoDB. The following tables show the logic data storage in both database systems.
 
-| FileGroup | TableName | TableSize |
-|-----------|-----------|-----------|
-|           |           |           |
-|           |           |           |
-|           |           |           |
-|           |           |           |
-|           |           |           |
+### 1.3.1 SQL Server Database (bd_scs)
+
+The following table shows the key tables and their estimated sizes for the MS SQL Server database:
+
+| FileGroup | TableName | TableSize (Estimated) | Primary Purpose |
+|-----------|-----------|-----------|-------------|
+| PRIMARY | SchoolApp_Infos | 0.5 GB | Stores school application information and metadata |
+| PRIMARY | SchoolApp_Submissions | 0.3 GB | Tracks submission records for school applications |
+| PRIMARY | ApplicationCases | 0.2 GB | Manages application case records |
+| PRIMARY | ApplicationFiles | 1.0 GB | Stores file metadata for application attachments |
+| PRIMARY | AdrBlk | 0.7 GB | Stores address block information |
+| PRIMARY | AdrBlk_T | 0.5 GB | Contains temporary address block data |
+| PRIMARY | ApRse | 0.1 GB | Registered structural engineer information |
+| PRIMARY | Attachment | 0.4 GB | General attachments for all application types |
+| INDEXES | Indexes for primary tables | 0.8 GB | Optimized search capabilities |
 
 The filegroup growth size has set to meet the recommendation for below
 256 MB for data files.
