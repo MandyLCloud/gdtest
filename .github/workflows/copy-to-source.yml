@@ -1,54 +1,50 @@
-name: Copy Generated Files to Source
+name: Copy Specific Generated Files to Source
 
 on:
   push:
     branches:
-      - main
+      - main # or your main branch name
     paths:
-      - 'generated/computer_operation_procedure_manual.md'
-      - 'generated/data_catalogue.md'
-      - 'generated/program_spec.md'
-      - 'generated/program_manual.md'
+      - 'generated/**' # Trigger only when files in 'generated' folder are changed
 
 jobs:
   copy_files:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-      
-      - name: Copy specific files from generated to source
+
+      - name: Identify and Copy Specific Files
         run: |
-          # Create source directory if it doesn't exist
-          mkdir -p source
-          
-          # List all files in generated directory for debugging
-          echo "Files in generated directory:"
-          ls -la generated/
-          
-          # Check if each file exists in generated folder and copy to source
-          for file in computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md; do
-            if [ -f "generated/$file" ]; then
-              echo "Copying $file to source folder"
-              cp "generated/$file" "source/$file"
-            else
-              echo "Warning: $file not found in generated folder"
-            fi
-          done
-          
-          # List all files in source directory after copying
-          echo "Files in source directory after copying:"
-          ls -la source/
-      
-      - name: Commit and push changes
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.REPO_TOKEN }}
-          message: "Automatically copy files from generated to source"
-          branch: main
+          TARGET_FILES="computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md"
+          GENERATED_FOLDER="generated"
+          SOURCE_FOLDER="source"
+
+          # Ensure source folder exists
+          mkdir -p "$SOURCE_FOLDER"
+
+          # Get the list of changed files in the 'generated' folder during the push
+          CHANGED_FILES=$(git diff --name-only --diff-filter=AMR HEAD~1 HEAD -- "$GENERATED_FOLDER")
+
+          if [[ -n "$CHANGED_FILES" ]]; then # Check if there are any changed files in 'generated'
+            while IFS= read -r file; do
+              filename=$(basename "$file") # Extract filename from path
+
+              # Check if the filename is in the target list
+              if [[ " $TARGET_FILES " =~ " $filename " ]]; then
+                echo "Detected target file: $filename in $GENERATED_FOLDER"
+
+                # Construct source and destination paths
+                source_path="$GENERATED_FOLDER/$filename"
+                destination_path="$SOURCE_FOLDER/$filename"
+
+                # Copy the file
+                echo "Copying $source_path to $destination_path"
+                cp "$source_path" "$destination_path"
+                echo "File copied successfully."
+              fi
+            done < <(echo "$CHANGED_FILES")
+          else
+            echo "No files changed in '$GENERATED_FOLDER' or no relevant files found."
+          fi
