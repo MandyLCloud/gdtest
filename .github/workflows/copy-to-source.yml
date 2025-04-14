@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'generated/computer_operation_procedure_manual.md'
+      - 'generated/computer_operation_procedures_manual.md'
       - 'generated/data_catalogue.md'
       - 'generated/program_spec.md'
       - 'generated/program_manual.md'
