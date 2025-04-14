@@ -1,61 +1,68 @@
-name: Copy Specific Generated Files to Source
+name: Copy Generated Files to Source
 
 on:
   push:
     branches:
-      - main # or your main branch name
+      - main
     paths:
-      - 'generated/**' # Trigger only when files in 'generated' folder are changed
-
-permissions:
-  contents: write # Grant write permission to the repository contents
+      - 'generated/computer_operation_procedure_manual.md'
+      - 'generated/data_catalogue.md'
+      - 'generated/program_spec.md'
+      - 'generated/program_manual.md'
 
 jobs:
   copy_files:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+    
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Identify and Copy Specific Files
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Git user
         run: |
-          TARGET_FILES="computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md"
-          GENERATED_FOLDER="generated"
-          SOURCE_FOLDER="source"
-
-          # Ensure source folder exists
-          mkdir -p "$SOURCE_FOLDER"
-
-          # Get the list of changed files in the 'generated' folder during the push
-          CHANGED_FILES=$(git diff --name-only --diff-filter=AMR HEAD~1 HEAD -- "$GENERATED_FOLDER")
-
-          if [[ -n "$CHANGED_FILES" ]]; then # Check if there are any changed files in 'generated'
-            while IFS= read -r file; do
-              filename=$(basename "$file") # Extract filename from path
-
-              # Check if the filename is in the target list
-              if [[ " $TARGET_FILES " =~ " $filename " ]]; then
-                echo "Detected target file: $filename in $GENERATED_FOLDER"
-
-                # Construct source and destination paths
-                source_path="$GENERATED_FOLDER/$filename"
-                destination_path="$SOURCE_FOLDER/$filename"
-
-                # Copy the file
-                echo "Copying $source_path to $destination_path"
-                cp "$source_path" "$destination_path"
-                echo "File copied successfully."
-              fi
-            done < <(echo "$CHANGED_FILES")
-          else
-            echo "No files changed in '$GENERATED_FOLDER' or no relevant files found."
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+      
+      - name: Copy specific files from generated to source
+        run: |
+          # Create source directory if it doesn't exist
+          mkdir -p source
+          
+          # List all files in generated directory for debugging
+          echo "Files in generated directory:"
+          ls -la generated/
+          
+          # Check if each file exists in generated folder and copy to source
+          for file in computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md; do
+            if [ -f "generated/$file" ]; then
+              echo "Copying $file to source folder"
+              cp "generated/$file" "source/$file"
+            else
+              echo "Warning: $file not found in generated folder"
+            fi
+          done
+          
+          # List all files in source directory after copying
+          echo "Files in source directory after copying:"
+          ls -la source/
+      
+      - name: Commit and push changes
+        run: |
+          # Force add all files in source directory (including new files)
+          git add -f source/
+          
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
           fi
-
-      - name: Commit and Push changes
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add source/* # Add all files in the source folder
+          
+          # Commit changes
           git commit -m "Automatically copy files from generated to source"
-          git push origin HEAD:${GITHUB_REF##refs/heads/} # Push to the branch that triggered the workflow
+          
+          # Push changes (uses the permissions from the job)
+          git push origin main
