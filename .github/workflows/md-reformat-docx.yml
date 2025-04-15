@@ -480,7 +480,7 @@ jobs:
 
           if git status | grep -q "Changes to be committed"; then
             git commit -m "Convert Markdown to DOCX"
-            git push
+            git push --force origin main
           else
             echo "No changes to commit"
           fi
