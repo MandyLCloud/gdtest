@@ -590,7 +590,6 @@ All core functionalities are working as expected. Further testing is required fo
 ```
 
 Here's the output file (uatp_i1.md) with the tables correctly formatted and the content from the input files incorporated.
-```markdown
 # User Acceptance Test Plan
 # For Self-Certification System (SCS)
 
