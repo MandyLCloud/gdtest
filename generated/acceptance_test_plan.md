@@ -587,7 +587,7 @@ All core functionalities are working as expected. Further testing is required fo
 | Test Manager | John Doe |  | 2025-04-19 |
 | BD Representative | Jane Smith |  | 2025-04-19 |
 | System Owner | David Lee |  | 2025-04-19 |
-```
+
 
 Here's the output file (uatp_i1.md) with the tables correctly formatted and the content from the input files incorporated.
 # User Acceptance Test Plan
