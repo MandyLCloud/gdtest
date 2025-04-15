@@ -34,7 +34,7 @@ jobs:
           ls -la generated/
           
           # Check if each file exists in generated folder and copy to source
-          for file in computer_operation_procedure_manual.md data_catalogue.md program_spec.md program_manual.md; do
+          for file in computer_operation_procedures_manual.md data_catalogue.md program_spec.md program_manual.md; do
             if [ -f "generated/$file" ]; then
               echo "Copying $file to source folder"
               cp "generated/$file" "source/$file"
