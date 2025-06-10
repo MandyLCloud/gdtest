@@ -14,45 +14,42 @@ This PDI focuses on the physical design and integration of the LSCP with other s
 
 ## 2. System Data Process Interface
 
-This section describes the physical data design and components of the physical process within the LSCP. The interface makes the database, implemented using the physical environment, appear as the Required System Logical Data Model to the processing components. This design aims to simplify system implementation and future maintenance.
+This section describes the physical data design and components of the physical process within the LSCP. The interface ensures that the database, implemented using the physical environment, aligns with the required system logical data model. This approach aims to simplify system implementation and future maintenance.
 
 For each incoming process request, the system function handles the input, updates the database, and performs necessary queries.
 
 **In/Out Data Process Flow Diagram:**
 
 ```
-[Insert Diagram Here - Referencing media/image2.png from ced_a1.md]
+[See image2.png in the provided files]
 ```
 
-(Note: The actual image from `ced_a1.md` needs to be inserted here.  Since I cannot access local files, I'm indicating where it should go.)
+The diagram illustrates the flow of data into and out of the system during processing.
 
 ## 3. External Interfaces
 
-This section details the LSCP's integration with external systems, providing interface specifications for each.
+This section details the LSCP's integration with external systems, providing specifications for each interface.
 
 ### 3.1 List of External Interface Specifications
 
 The following table summarizes the external interfaces:
 
-| System Scope | Interfacing Party/ System | Interface Spec. ID | Name                         | Interface Type           | In / Out | Authentication / Encryption | N/A | :----------- | :------------------------ | :----------------- | :----------------------------- | :----------------------- | :------- | :-------------------------- | N/A |---|---|---|---|---|---|---| N/A | External     | SMIS                      | INT-SMIS-01        | Data Import from SMIS        | Stored Procedure         | In       | *To be determined*          | N/A |---|---|---|---|---|---|---| N/A | External     | OSDP                      | INT-OSDP-01        | Single Sign-On through OSDP  | HTTP Request Redirection | In       | TLS 1.2 over HTTPS          | N/A |---|---|---|---|---|---|---| N/A | External     | MWMS2                     | INT-MWMS2-01       | Data Import from MWMS2       | SFTP and Excel           | In       | SFTP                        | N/A |---|---|---|---|---|---|---| N/A | External     | ESH                       | INT-ESH-01         | Data Import from ESH         | SFTP                     | In       | SFTP                        | N/A |---|---|---|---|---|---|---| N/A | External     | ERKS                      | INT-ERKS-01        | Data Import from ERKS        | *To be confirmed*        | In       | *To be confirmed*          | N/A |---|---|---|---|---|---|---| N/A | External     | BRAVO                     | INT-BRAVO-01       | Data Import from BRAVO       | HTTP Request Redirection | In       | *To be confirmed*          | N/A |---|---|---|---|---|---|---|
-**Note:** Some authentication and encryption methods are marked "To be determined" or left blank. These will need to be clarified and confirmed based on the specific requirements and capabilities of each external system.
+| System Scope | Interfacing Party/ System | Interface Spec. ID | Name                         | Interface Type             | In / Out | Authentication / Encryption | N/A | :----------- | :---------------------- | :----------------- | :--------------------------- | :------------------------- | :------- | :-------------------------- | N/A |---|---|---|---|---|---|---| N/A | External     | SMIS                    | INT-SMIS-01        | Data Import from SMIS        | Stored Procedure           | In       | *To be determined*          | N/A |---|---|---|---|---|---|---| N/A | External     | OSDP                    | INT-OSDP-01        | Single Sign-On through OSDP  | HTTP Request Redirection   | In       | TLS 1.2 over HTTPS          | N/A |---|---|---|---|---|---|---| N/A | External     | MWMS2                   | INT-MWMS2-01       | Data Import from MWMS2       | SFTP and Excel             | In       | SFTP                        | N/A |---|---|---|---|---|---|---| N/A | External     | ESH                     | INT-ESH-01         | Data Import from ESH         | SFTP                       | In       | SFTP                        | N/A |---|---|---|---|---|---|---| N/A | External     | ERKS                    | INT-ERKS-01        | Data Import from ERKS        | *To be confirmed*          | In       | *To be confirmed*          | N/A |---|---|---|---|---|---|---| N/A | External     | BRAVO                   | INT-BRAVO-01       | Data Import from BRAVO       | HTTP Request Redirection   | In       | *To be confirmed*          | N/A |---|---|---|---|---|---|---|
+**Note:** Authentication and encryption methods marked "To be determined" or left blank require further clarification based on the specific requirements of each external system.
 
-The following table lists the abbreviations used for the external systems:
-
-| Abbreviation | Other External System                   | Host                                    | N/A | :----------- | :-------------------------------------- | :-------------------------------------- | N/A |---|---|---| N/A | SMIS         | Statutory Management Information System | *To be confirmed*                       | N/A |---|---|---| N/A | OSDP         | Open Source Departmental Portal         | *To be confirmed* (likely CCGO Gateway) | N/A |---|---|---| N/A | MWMS2        | Minor Works Management System 2.0       | *To be confirmed*                       | N/A |---|---|---| N/A | ESH          | *Unknown*                               | *To be confirmed*                       | N/A |---|---|---| N/A | ERKS         | *Unknown*                               | *To be confirmed*                       | N/A |---|---|---| N/A | BRAVO        | *Unknown*                               | *To be confirmed*                       | N/A |---|---|---|
 ### 3.2 Interface Specification
 
 #### 3.2.1 INT-SMIS-01 - Data Import from SMIS
 
-*   **Target System:** SMIS
+*   **Target System:** Statutory Management Information System (SMIS)
 *   **Interface Type:** Stored Procedure
 *   **In / Out:** In
 *   **Frequency:** Daily
 
-*   **Description:** The LSCP system will call stored procedures in the SMIS database to import the necessary data. The exact data fields to be imported will need to be defined in the detailed design phase.
-*   **Data Exchange:** The data will be transferred directly between the databases via the stored procedures.
-*   **Authentication:** The authentication method for accessing the SMIS database will need to be determined (e.g., database user credentials, API keys).
-*   **Error Handling:** The stored procedures should include error handling to manage potential issues during data transfer and logging.
+*   **Description:** The LSCP system will call stored procedures in the SMIS database to import necessary data. The specific data fields will be defined during the detailed design phase.
+*   **Data Exchange:** Data will be transferred directly between databases via stored procedures.
+*   **Authentication:** The authentication method for accessing the SMIS database needs to be determined (e.g., database user credentials, API keys).
+*   **Error Handling:** Stored procedures should include error handling for data transfer issues and logging.
 *   **Data Mapping:**
 
     | **SMIS Data Item** | **LSCP Data Item** | **Data Type** | **Description** | N/A |---|---|---|---| N/A | :---------------- | :---------------- | :----------- | :-------------- | N/A |---|---|---|---| N/A | *To be defined*  | *To be defined*  | *To be defined*  | *To be defined*  | N/A |---|---|---|---| N/A | ...             | ...             | ...          | ...             | N/A |---|---|---|---|
@@ -64,12 +61,12 @@ The following table lists the abbreviations used for the external systems:
 
 #### 3.2.2 INT-OSDP-01 - Single Sign-On through OSDP
 
-*   **Target System:** OSDP
+*   **Target System:** Open Source Departmental Portal (OSDP)
 *   **Interface Type:** URL redirection with departmental portal
 *   **In / Out:** In
 *   **Frequency:** Per user request
 
-*   **Description:** Users from BD and other B/Ds will access the LSCP by logging into their respective departmental portals (OSDP). A link to redirect to the LSCP will be provided in the BD Departmental Portal and other B/Ds Departmental Portal. The connection between the other B/Ds departmental portal and the LSCP is SSL secured.
+*   **Description:** Users from BD and other B/Ds will access the LSCP by logging into their respective OSDP. A link to redirect to the LSCP will be provided in the BD Departmental Portal and other B/Ds Departmental Portal. The connection between the other B/Ds departmental portal and the LSCP is SSL secured.
 *   **Access from Buildings Departments (BD) Departmental Portal:**
 
     *   The link to access the LSCP will be: `https://lscp.bd.gov.hk`
@@ -90,17 +87,15 @@ The following table lists the abbreviations used for the external systems:
     *   The departmental portal has to forward the ?UID? and ?Dpdeptid? to LSCP in the HTTP response header.
     *   The UID and Dpdeptid should contain information of departmental portal user ID and department code.
 
-**In/Out data process flow diagram**
+*   **In/Out data process flow diagram:**
 
-```
-[Insert Diagram Here - Referencing media/image4.png from ced_a1.md]
-```
-
-(Note: The actual image from `ced_a1.md` needs to be inserted here.  Since I cannot access local files, I'm indicating where it should go.)
+    ```
+    [See image4.png in the provided files]
+    ```
 
 #### 3.2.3 INT-MWMS2-01 - Data Import from MWMS2
 
-*   **Target System:** MWMS2
+*   **Target System:** Minor Works Management System 2.0 (MWMS2)
 *   **Interface Type:** SFTP and Excel
 *   **In / Out:** In
 *   **Frequency:** Daily
@@ -115,7 +110,7 @@ The following table lists the abbreviations used for the external systems:
 *   **Error Handling:** The system should handle potential errors during file transfer, parsing, and database import, with appropriate logging and retry mechanisms.
 *   **Excel File Format:**
 
-    | Field Name  | Description                                                                   | Data Type | Format/Example | N/A |---|---|---|---| N/A | :---------- | :---------------------------------------------------------------------------- | :-------- | :------------- | N/A |---|---|---|---| N/A | AP\_ID      | Unique identifier for the Authorized Person                                  | Number    | 12345          | N/A |---|---|---|---| N/A | AP\_NAME    | Name of the Authorized Person                                                | Text      | John Doe       | N/A |---|---|---|---| N/A | AP\_REG\_NO | Registration number of the Authorized Person                               | Text      | AP-98765       | N/A |---|---|---|---| N/A | RSE\_ID     | Unique identifier for the Registered Structural Engineer                    | Number    | 67890          | N/A |---|---|---|---| N/A | RSE\_NAME   | Name of the Registered Structural Engineer                                   | Text      | Jane Smith     | N/A |---|---|---|---| N/A | RSE\_REG\_NO| Registration number of the Registered Structural Engineer                   | Text      | RSE-54321      | N/A |---|---|---|---| N/A | ...         | ...                                                                           | ...       | ...            | N/A |---|---|---|---|
+    | Field Name | Description                                                                   | Data Type | Format/Example | N/A |---|---|---|---| N/A | :--------- | :---------------------------------------------------------------------------- | :-------- | :------------- | N/A |---|---|---|---| N/A | AP\_ID     | Unique identifier for the Authorized Person                                  | Number    | 12345          | N/A |---|---|---|---| N/A | AP\_NAME   | Name of the Authorized Person                                                | Text      | John Doe       | N/A |---|---|---|---| N/A | AP\_REG\_NO | Registration number of the Authorized Person                               | Text      | AP-98765       | N/A |---|---|---|---| N/A | RSE\_ID    | Unique identifier for the Registered Structural Engineer                    | Number    | 67890          | N/A |---|---|---|---| N/A | RSE\_NAME  | Name of the Registered Structural Engineer                                   | Text      | Jane Smith     | N/A |---|---|---|---| N/A | RSE\_REG\_NO| Registration number of the Registered Structural Engineer                   | Text      | RSE-54321      | N/A |---|---|---|---| N/A | ...        | ...                                                                           | ...       | ...            | N/A |---|---|---|---|
     (Note: The exact format and content of the Excel file will need to be confirmed with the MWMS2 system owners.)
 
 #### 3.2.4 INT-ESH-01 - Data Import from ESH
@@ -136,7 +131,7 @@ The following table lists the abbreviations used for the external systems:
 *   **File Format:** The format needs to be confirmed. The file could be excel, csv or json.
 *   **Data Mapping:**
 
-    | ESH Data Item        | LSCP Data Item        | Data Type | Description                                              | N/A |---|---|---|---| N/A | :------------------- | :-------------------- | :-------- | :------------------------------------------------------- | N/A |---|---|---|---| N/A | File Reference       | File Reference       | string    | BD Reference Number of the site project                  | N/A |---|---|---|---| N/A | Site Address         | Site Address         | string    | address of the site project                              | N/A |---|---|---|---| N/A | AP Registration Number | AP Registration Number | string    | Registration number of the AP that involve in the related site project | N/A |---|---|---|---| N/A | RSE Registration Number| RSE Registration Number | string    | Registration number of the RSE that involve in the related site project | N/A |---|---|---|---| N/A | RGE Registration Number| RGE Registration Number | string    | Registration number of the RGE that involve in the related site project | N/A |---|---|---|---| N/A | RC Registration Number | RC Registration Number | string    | Registration number of the RC that involve in the related site project | N/A |---|---|---|---|
+    | ESH Data Item        | LSCP Data Item        | Data Type | Description                                                     | N/A |---|---|---|---| N/A | :------------------- | :------------------- | :---: | :-------------------------------------------------------------- | N/A |---|---|---|---| N/A | File Reference       | File Reference       | string | BD Reference Number of the site project                         | N/A |---|---|---|---| N/A | Site Address         | Site Address         | string | address of the site project                                     | N/A |---|---|---|---| N/A | AP Registration Number | AP Registration Number | string | Registration number of the AP that involve in the related site project | N/A |---|---|---|---| N/A | RSE Registration Number | RSE Registration Number | string | Registration number of the RSE that involve in the related site project | N/A |---|---|---|---| N/A | RGE Registration Number | RGE Registration Number | string | Registration number of the RGE that involve in the related site project | N/A |---|---|---|---| N/A | RC Registration Number | RC Registration Number | string | Registration number of the RC that involve in the related site project | N/A |---|---|---|---|
 #### 3.2.5 INT-ERKS-01 - Data Import from ERKS
 
 *   **Target System:** ERKS
@@ -172,5 +167,3 @@ The following table lists the abbreviations used for the external systems:
 
     (Note: The exact URL syntax and parameter names need to be confirmed with the BRAVO system owners.)
 *   **Data Mapping:** (This section will need to be filled in with the specific data elements that need to be mapped between LSCP and BRAVO.)
-
-***End of document***
